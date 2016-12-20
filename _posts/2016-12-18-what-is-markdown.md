@@ -13,10 +13,8 @@ I don't know markdown syntax but it seems easy enough. This page is intended to 
 
 This is the format for my post titles. Markup will usually be md for markdown, but maybe I'll get fancy one day.
 
-
-``` YEAR-MONTH-DAY-title.MARKUP ```
-
-
+    ``` YEAR-MONTH-DAY-title.md ```
+    
 To create a link, use ``` \[Text\]\(http\(s\)://site\.com\) ```
 
 You can add a excerpt_separator: line to your _config.yml file to set a preview in your post. I haven't gotten it to work yet...
