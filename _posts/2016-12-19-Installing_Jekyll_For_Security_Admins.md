@@ -34,6 +34,7 @@ If you're working out of a new VM or environment, you'll need to repeat steps 1,
 1. Install and prep your environment. 
 	* I used ubuntu 16.04. You can use whatever you want, but you're on your own. 
 	* Run the following:
+
 	    sudo apt-get install ruby ruby-dev make gcc git
 	    
 	    bundle install
