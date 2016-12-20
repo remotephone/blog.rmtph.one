@@ -7,7 +7,6 @@ categories: installing jekyll
 
 I found Jekyll to be pretty well documented, but some I'm somewhat impatient with documentation. [This](https://www.smashingmagazine.com/2014/08/build-blog-jekyll-github-pages/) site was the first guide I followed, but you take their layout and then I was unable to make themes happen cleanly. 
 
-From what I can tell, the _layouts and other custom bits override any theme you want to apply. I didn't really figure it out, so I've wiped this repository a few times. 
 
 I'm pretty comfortable on the command line, so next I tired Github's documentation [here.](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/) That worked a lot better, but the layout was super basic. 
 
@@ -19,4 +18,4 @@ There are a few things you need to do.
 	* I used ubuntu 16.04. You can use whatever you want, but you're on your own. 
 	* Run the following:
 	    sudo apt-get install ruby ruby-dev make gcc git
-	* Create a new repository manually using the github documentation - also [linked](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/) above
+	* Create a new repository manually using the [github documentation](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/)
