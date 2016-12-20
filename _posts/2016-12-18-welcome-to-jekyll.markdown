@@ -5,17 +5,8 @@ date:   2016-12-18 20:49:55 -0600
 categories: welcome hello info 
 ---
 
-I've edited the about page, but will be leaving this for the time being because I have a feeling I'll be using it. 
-Jekyll also offers powerful support for code snippets:
-
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
-
+Thanks for visiting my page. Hopefully you're here because you've run into some of the same problems I've run into and are looking for an answer. Maybe I can be that answer. Maybe. 
+ 
 
 [jekyll-docs]: http://jekyllrb.com/docs/home
 [jekyll-gh]:   https://github.com/jekyll/jekyll
