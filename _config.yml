@@ -43,4 +43,4 @@ paginate_path: "page:num"
 #create excerpts in site http://www.seanbuscay.com/blog/jekyll-teaser-pager-and-read-more/
 #excerpt_separator: <!--more-->
 
-avatar: 
+avatar: https://remotephone.github.io/images/52774.png 
