@@ -18,5 +18,5 @@ There are a few things you need to do.
 1. Install your environment. 
 	* I used ubuntu 16.04. You can use whatever you want, but you're on your own. 
 	* Run the following:
-		sudo apt-get install ruby ruby-dev make gcc git
+	    sudo apt-get install ruby ruby-dev make gcc git
 	* Create a new repository manually using the github documentation \(also [linked]https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/ above\)
