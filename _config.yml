@@ -1,1 +1,45 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+title: My digital scratch pad
+email: remotephone@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  This site will be a collection of notes, thoughts, and things
+  I figured out and didn't want to forget. Hopefully you won't 
+  have to google as hard for some of the things I was trying to
+  do.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://remotephone.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: remotephone
+github_username:  remotephone
+
+# Build settings
+markdown: kramdown
 theme: jekyll-theme-tactile
+gems:
+  - jekyll-feed
+  - jekyll-paginate
+exclude:
+  - Gemfile
+  - Gemfile.lock
+
+#Paginate this thing - http://www.seanbuscay.com/blog/jekyll-teaser-pager-and-read-more/
+
+paginate: 10
+paginate_path: "page:num"
+
+#create excerpts in site http://www.seanbuscay.com/blog/jekyll-teaser-pager-and-read-more/
+excerpt_separator: <!--more-->
+
