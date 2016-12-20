@@ -29,7 +29,7 @@ github_username:  remotephone
 
 # Build settings
 markdown: kramdown
-theme: jekyll-theme-tactile
+theme: minima
 gems:
  - jekyll-feed
  - jekyll-paginate
