@@ -11,7 +11,7 @@ Jekyll lets you create static pages easily. I'm a security person, not a website
 
 One advantage of this style is learning how to interact with github. Even simple pulls and commits are things I never really had to do, so its nice to least know what's happening when trying to speak to DevOps teams. 
 
-The most obvious advantage is security. Lots of the WYSIWYG CMS's get interesting once you add plugins and that's when you add vulnerabilities. Static pages are just that, static pages. You can get "dynamic" enough with the features i Jekyll and that's good enough for me. Besides, how embarassing would it be to have my security notes webpage spamming people because it was compromised?
+The most obvious advantage is security. Lots of the WYSIWYG CMS's get interesting once you add plugins and that's when you add vulnerabilities. Static pages are just that, static pages. You can get "dynamic" enough with the features i Jekyll and that's good enough for me. Besides, how embarrassing would it be to have my security notes webpage spamming people because it was compromised?
 
 ## Why Jekyll?
 
@@ -19,7 +19,7 @@ I found Jekyll to be pretty well documented with plenty of templates and site ex
 
 I'm pretty comfortable on the command line, so next I tired Github's documentation [here.](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/) That worked a lot better, but the layout was super basic. 
 
-Ultimately I mashed a few different templates and guides together. This is risky if you're commiting large changes together all at once, so I have been making changes slowly one at a time. This approach is much easier when you're just figuring this out and you're trying to learn github and jekyll and markdown at the same time. 
+Ultimately I mashed a few different templates and guides together. This is risky if you're committing large changes together all at once, so I have been making changes slowly one at a time. This approach is much easier when you're just figuring this out and you're trying to learn github and jekyll and markdown at the same time. 
 
 ## Getting Started - locally and remotely
 
@@ -30,3 +30,7 @@ There are a few things you need to do.
 	* Run the following:
 	    sudo apt-get install ruby ruby-dev make gcc git
 	* Create a new repository manually using the [github documentation](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/)
+	* I also turn on a color scheme in VIM \(shine until it fails me\) and enable spellchecking. Add this to your \~\/.vimrc file
+		* set spell spelllang=en_us
+		* colorscheme shine
+

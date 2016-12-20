@@ -1,17 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-20T13:30:00-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">My digital scratch pad</title><subtitle>Putting stuff together so you don't have to google as hard as I did.
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-20T13:56:53-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">My digital scratch pad</title><subtitle>Putting stuff together so you don't have to google as hard as I did.
 </subtitle><entry><title type="html">Maintaining a Productive Workflow</title><link href="http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow.html" rel="alternate" type="text/html" title="Maintaining a Productive Workflow" /><published>2016-12-19T17:05:15-06:00</published><updated>2016-12-19T17:05:15-06:00</updated><id>http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow</id><content type="html" xml:base="http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow.html">&lt;p&gt;I work much better with a simple standardized work flow. If you followed my post on Installing Jekyll and getting ready, you’re ready to just use my workflow if you like it. Otherwise, tweak where necessary.&lt;/p&gt;
 
 &lt;p&gt;This workflow assumes you have a local (ubuntu maybe\?) environment for development, use vim to edit text, git on the command line to push most updates, occassionally change things on the github console, have an SSH key set up to authenticate you, and don’t mind being methodical about it.&lt;/p&gt;
 
 &lt;h3 id=&quot;in-a-nutshell&quot;&gt;In a nutshell..&lt;/h3&gt;
 
-&lt;p&gt;I found it easier to work with Chrome and 2 tabs open, one for the repository itself and one for the page to refresh and watch changes live. I use a bash console to make my changes on the site, commit and push them to the master branch (because I haven’t figured out forks yet) and occassionally run a local jekyll server to do tests that I think might break my site.&lt;/p&gt;</content><summary type="html">I work much better with a simple standardized work flow. If you followed my post on Installing Jekyll and getting ready, you’re ready to just use my workflow if you like it. Otherwise, tweak where necessary.</summary></entry><entry><title type="html">Installing Jekyll for Security Professionals - or “I don’t know what I’m doing”</title><link href="http://0.0.0.0:4000/installing/jekyll/2016/12/19/Installing_Jekyll_For_Security_Admins.html" rel="alternate" type="text/html" title="Installing Jekyll for Security Professionals - or &quot;I don't know what I'm doing&quot;" /><published>2016-12-19T17:05:15-06:00</published><updated>2016-12-19T17:05:15-06:00</updated><id>http://0.0.0.0:4000/installing/jekyll/2016/12/19/Installing_Jekyll_For_Security_Admins</id><content type="html" xml:base="http://0.0.0.0:4000/installing/jekyll/2016/12/19/Installing_Jekyll_For_Security_Admins.html">&lt;h2 id=&quot;why-are-we-here-anyway&quot;&gt;Why are we here anyway?&lt;/h2&gt;
+&lt;p&gt;I found it easier to work with Chrome and 2 tabs open, one for the repository itself and one for the page to refresh and watch changes live. I use a bash console to make my changes on the site, commit and push them to the master branch (because I haven’t figured out forks yet) and occassionally run a local jekyll server to do tests that I think might break my site. Otherwise, I’m pretty fast and loose and commit half pages occassionally (as you may be able to tell…) and it really doesn’t matter as long as you come back and clean it up in a reasonable amount of time.&lt;/p&gt;
+
+&lt;p&gt;These items were important in order to have an easy workflow&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Make sure wherever you develop matches production
+    &lt;ul&gt;
+      &lt;li&gt;Don’t use unsupported themes in development, for example&lt;/li&gt;
+      &lt;li&gt;Don’t make changes in the web console without pulling them back locally
+ ** git pull 
+ ** git submodule update&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Don’t make multiple huge changes at once. I feel pretty comfortable creating a full post page one at a time. I don’t feel comfortable changing my default.html layout without first testing it and changing one part at a time. It’s much harder to work backwards and troubleshoot if you’ve done a few different things&lt;/li&gt;
+&lt;/ol&gt;</content><summary type="html">I work much better with a simple standardized work flow. If you followed my post on Installing Jekyll and getting ready, you’re ready to just use my workflow if you like it. Otherwise, tweak where necessary.</summary></entry><entry><title type="html">Installing Jekyll for Security Professionals - or “I don’t know what I’m doing”</title><link href="http://0.0.0.0:4000/installing/jekyll/2016/12/19/Installing_Jekyll_For_Security_Admins.html" rel="alternate" type="text/html" title="Installing Jekyll for Security Professionals - or &quot;I don't know what I'm doing&quot;" /><published>2016-12-19T17:05:15-06:00</published><updated>2016-12-19T17:05:15-06:00</updated><id>http://0.0.0.0:4000/installing/jekyll/2016/12/19/Installing_Jekyll_For_Security_Admins</id><content type="html" xml:base="http://0.0.0.0:4000/installing/jekyll/2016/12/19/Installing_Jekyll_For_Security_Admins.html">&lt;h2 id=&quot;why-are-we-here-anyway&quot;&gt;Why are we here anyway?&lt;/h2&gt;
 
 &lt;p&gt;Jekyll lets you create static pages easily. I’m a security person, not a website admin and I really didn’t want to spend the time learn while also generating content for the site. Maybe one day I’ll move this to something more formal, but this really seems to do well enough for now.&lt;/p&gt;
 
 &lt;p&gt;One advantage of this style is learning how to interact with github. Even simple pulls and commits are things I never really had to do, so its nice to least know what’s happening when trying to speak to DevOps teams.&lt;/p&gt;
 
-&lt;p&gt;The most obvious advantage is security. Lots of the WYSIWYG CMS’s get interesting once you add plugins and that’s when you add vulnerabilities. Static pages are just that, static pages. You can get “dynamic” enough with the features i Jekyll and that’s good enough for me. Besides, how embarassing would it be to have my security notes webpage spamming people because it was compromised?&lt;/p&gt;
+&lt;p&gt;The most obvious advantage is security. Lots of the WYSIWYG CMS’s get interesting once you add plugins and that’s when you add vulnerabilities. Static pages are just that, static pages. You can get “dynamic” enough with the features i Jekyll and that’s good enough for me. Besides, how embarrassing would it be to have my security notes webpage spamming people because it was compromised?&lt;/p&gt;
 
 &lt;h2 id=&quot;why-jekyll&quot;&gt;Why Jekyll?&lt;/h2&gt;
 
@@ -19,7 +33,7 @@
 
 &lt;p&gt;I’m pretty comfortable on the command line, so next I tired Github’s documentation &lt;a href=&quot;https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/&quot;&gt;here.&lt;/a&gt; That worked a lot better, but the layout was super basic.&lt;/p&gt;
 
-&lt;p&gt;Ultimately I mashed a few different templates and guides together. This is risky if you’re commiting large changes together all at once, so I have been making changes slowly one at a time. This approach is much easier when you’re just figuring this out and you’re trying to learn github and jekyll and markdown at the same time.&lt;/p&gt;
+&lt;p&gt;Ultimately I mashed a few different templates and guides together. This is risky if you’re committing large changes together all at once, so I have been making changes slowly one at a time. This approach is much easier when you’re just figuring this out and you’re trying to learn github and jekyll and markdown at the same time.&lt;/p&gt;
 
 &lt;h2 id=&quot;getting-started---locally-and-remotely&quot;&gt;Getting Started - locally and remotely&lt;/h2&gt;
 
@@ -32,6 +46,12 @@
       &lt;li&gt;Run the following:
   sudo apt-get install ruby ruby-dev make gcc git&lt;/li&gt;
       &lt;li&gt;Create a new repository manually using the &lt;a href=&quot;https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/&quot;&gt;github documentation&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;I also turn on a color scheme in VIM (shine until it fails me) and enable spellchecking. Add this to your ~\/.vimrc file
+        &lt;ul&gt;
+          &lt;li&gt;set spell spelllang=en_us&lt;/li&gt;
+          &lt;li&gt;colorscheme shine&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ol&gt;</content><summary type="html">Why are we here anyway?</summary></entry><entry><title type="html">What is Markdown anyway?</title><link href="http://0.0.0.0:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown.html" rel="alternate" type="text/html" title="What is Markdown anyway?" /><published>2016-12-18T21:14:55-06:00</published><updated>2016-12-18T21:14:55-06:00</updated><id>http://0.0.0.0:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown</id><content type="html" xml:base="http://0.0.0.0:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown.html">&lt;p&gt;I don’t know markdown syntax but it seems easy enough. This page is intended to be a quick reference for the 5-10 things I will no doubt do over and over and over.&lt;/p&gt;
@@ -86,12 +106,4 @@
 
 &lt;h3 id=&quot;support-or-contact&quot;&gt;Support or Contact&lt;/h3&gt;
 
-&lt;p&gt;Having trouble with Pages? Check out our &lt;a href=&quot;https://help.github.com/categories/github-pages-basics/&quot;&gt;documentation&lt;/a&gt; or &lt;a href=&quot;https://github.com/contact&quot;&gt;contact support&lt;/a&gt; and we’ll help you sort it out.&lt;/p&gt;</content><summary type="html">I don’t know markdown syntax but it seems easy enough. This page is intended to be a quick reference for the 5-10 things I will no doubt do over and over and over.</summary></entry><entry><title type="html">Welcome to My Scratchpad</title><link href="http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to My Scratchpad" /><published>2016-12-18T20:49:55-06:00</published><updated>2016-12-18T20:49:55-06:00</updated><id>http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll</id><content type="html" xml:base="http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll.html">&lt;p&gt;I’ve edited the about page, but will be leaving this for the time being because I have a feeling I’ll be using it. 
-Jekyll also offers powerful support for code snippets:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;</content><summary type="html">I’ve edited the about page, but will be leaving this for the time being because I have a feeling I’ll be using it. 
-Jekyll also offers powerful support for code snippets:</summary></entry></feed>
+&lt;p&gt;Having trouble with Pages? Check out our &lt;a href=&quot;https://help.github.com/categories/github-pages-basics/&quot;&gt;documentation&lt;/a&gt; or &lt;a href=&quot;https://github.com/contact&quot;&gt;contact support&lt;/a&gt; and we’ll help you sort it out.&lt;/p&gt;</content><summary type="html">I don’t know markdown syntax but it seems easy enough. This page is intended to be a quick reference for the 5-10 things I will no doubt do over and over and over.</summary></entry><entry><title type="html">Welcome to My Scratchpad</title><link href="http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to My Scratchpad" /><published>2016-12-18T20:49:55-06:00</published><updated>2016-12-18T20:49:55-06:00</updated><id>http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll</id><content type="html" xml:base="http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll.html">&lt;p&gt;Thanks for visiting my page. Hopefully you’re here because you’ve run into some of the same problems I’ve run into and are looking for an answer. Maybe I can be that answer. Maybe.&lt;/p&gt;</content><summary type="html">Thanks for visiting my page. Hopefully you’re here because you’ve run into some of the same problems I’ve run into and are looking for an answer. Maybe I can be that answer. Maybe.</summary></entry></feed>

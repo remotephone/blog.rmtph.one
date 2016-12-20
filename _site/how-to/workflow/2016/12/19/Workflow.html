@@ -65,7 +65,22 @@
 
 <h3 id="in-a-nutshell">In a nutshell..</h3>
 
-<p>I found it easier to work with Chrome and 2 tabs open, one for the repository itself and one for the page to refresh and watch changes live. I use a bash console to make my changes on the site, commit and push them to the master branch (because I haven’t figured out forks yet) and occassionally run a local jekyll server to do tests that I think might break my site.</p>
+<p>I found it easier to work with Chrome and 2 tabs open, one for the repository itself and one for the page to refresh and watch changes live. I use a bash console to make my changes on the site, commit and push them to the master branch (because I haven’t figured out forks yet) and occassionally run a local jekyll server to do tests that I think might break my site. Otherwise, I’m pretty fast and loose and commit half pages occassionally (as you may be able to tell…) and it really doesn’t matter as long as you come back and clean it up in a reasonable amount of time.</p>
+
+<p>These items were important in order to have an easy workflow</p>
+
+<ol>
+  <li>Make sure wherever you develop matches production
+    <ul>
+      <li>Don’t use unsupported themes in development, for example</li>
+      <li>Don’t make changes in the web console without pulling them back locally
+ ** git pull 
+ ** git submodule update</li>
+    </ul>
+  </li>
+  <li>Don’t make multiple huge changes at once. I feel pretty comfortable creating a full post page one at a time. I don’t feel comfortable changing my default.html layout without first testing it and changing one part at a time. It’s much harder to work backwards and troubleshoot if you’ve done a few different things</li>
+</ol>
+
 
   </div>
 
