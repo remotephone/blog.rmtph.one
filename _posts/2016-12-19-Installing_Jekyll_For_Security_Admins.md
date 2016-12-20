@@ -38,6 +38,6 @@ There are a few things you need to do.
 	* I tried doing it manually and this was just easier.
 3. Make sure you SSH keys are set up to allow you to push commits quickly. I have a crazy password and its a pain to type it and my username all the time instead of just unlocking my ssh key.  
 4. Find the sites you want to copy pages to template from, cd into the directory you'll use them and wget the raw github file instead of trying to copy and paste it into vim.
-	* Be nice and credit them.
+	* Be nice and credit them - See my About page for the people I owe for this
 5. Build a single post and make sure you have the basics you want in there. This includes the header at the top that outlines the formatting. 
  
