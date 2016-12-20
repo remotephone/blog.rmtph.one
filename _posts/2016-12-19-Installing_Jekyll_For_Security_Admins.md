@@ -1,5 +1,5 @@
 ---
-layout: post
+layout:	post
 title:  "Installing Jekyll for Security Professionals - or \"I don\'t know what I\'m doing\""
 date:   2016-12-19 17:05:15 -0600
 categories: installing jekyll 
