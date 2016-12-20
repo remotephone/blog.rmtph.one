@@ -32,21 +32,37 @@ Since I'm in the web console anyway, it's easy to delete unneeded keys. You'll a
 If you're working out of a new VM or environment, you'll need to repeat steps 1, 2, and 3 each time. Once your site is initially set up, you should be able to just install the environment, clone your repo, build it, make changes, test, commit them, and then throw it all away. Fun, no? 
 
 1. Install and prep your environment. 
+
 	* I used ubuntu 16.04. You can use whatever you want, but you're on your own. 
 	* Run the following:
 
 	    sudo apt-get install ruby ruby-dev make gcc git
 	    
 	    bundle install
+
 	* Create a new repository manually using the [github documentation](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/) if this is your first time creating one. 
+
 	* I also turn on a color scheme in VIM \(shine until it fails me\) and enable spellchecking. Add this to your \~/.vimrc file
 		* set spell spelllang=en_us
 		* colorscheme shine
+
 	* I keep a directory of repositories in my home directory to minimize clutter called gits and do all my work out of there
+
 2. Create your repository through the web console and clone it locally or create it locally and push it out.
+
 	* I tried doing it manually and this was just easier.
+
 3. Make sure you SSH keys are set up to allow you to push commits quickly. I have a crazy password and its a pain to type it and my username all the time instead of just unlocking my ssh key.  
+
 4. Find the sites you want to copy pages to template from, cd into the directory you'll use them and wget the raw github file instead of trying to copy and paste it into vim.
+
 	* Be nice and credit them - See my About page for the people I owe for this
+
 5. Build a single post and make sure you have the basics you want in there. This includes the header at the top that outlines the formatting. 
 
+6. Commit your changes and make a local backup! I've wiped out this repository half a dozen times because I made a change I didn't remember or understand. Once you have something basic that works, BACK IT UP. 
+
+	* You can unzip your backup, delete the repo, and repush it back out to github instead of messing with any other silliness. If youre like me and don't know what you're doing, you will mess it up. Save yourself some trouble.
+
+
+That's really all I got so far. Build something very basic that works, back it up, know how to rebuild it quickly, and you'll handle half the trouble you will inevitably run into very quickly. 
