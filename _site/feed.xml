@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-20T13:56:53-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">My digital scratch pad</title><subtitle>Putting stuff together so you don't have to google as hard as I did.
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-20T14:18:24-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">My digital scratch pad</title><subtitle>Putting stuff together so you don't have to google as hard as I did.
 </subtitle><entry><title type="html">Maintaining a Productive Workflow</title><link href="http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow.html" rel="alternate" type="text/html" title="Maintaining a Productive Workflow" /><published>2016-12-19T17:05:15-06:00</published><updated>2016-12-19T17:05:15-06:00</updated><id>http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow</id><content type="html" xml:base="http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow.html">&lt;p&gt;I work much better with a simple standardized work flow. If you followed my post on Installing Jekyll and getting ready, you’re ready to just use my workflow if you like it. Otherwise, tweak where necessary.&lt;/p&gt;
 
 &lt;p&gt;This workflow assumes you have a local (ubuntu maybe\?) environment for development, use vim to edit text, git on the command line to push most updates, occassionally change things on the github console, have an SSH key set up to authenticate you, and don’t mind being methodical about it.&lt;/p&gt;
@@ -40,7 +40,7 @@
 &lt;p&gt;There are a few things you need to do.&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;Install your environment.
+  &lt;li&gt;Install and prep your environment.
     &lt;ul&gt;
       &lt;li&gt;I used ubuntu 16.04. You can use whatever you want, but you’re on your own.&lt;/li&gt;
       &lt;li&gt;Run the following:
@@ -52,8 +52,20 @@
           &lt;li&gt;colorscheme shine&lt;/li&gt;
         &lt;/ul&gt;
       &lt;/li&gt;
+      &lt;li&gt;I keep a directory of repositories in my home directory to minimize clutter called gits and do all my work out of there&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
+  &lt;li&gt;Create your repository through the web console
+    &lt;ul&gt;
+      &lt;li&gt;I tried doing it manually and this was just easier.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Find the sites you want to copy pages to template from, cd into the directory you’ll use them and wget the raw github file instead of trying to copy and paste it into vim.
+    &lt;ul&gt;
+      &lt;li&gt;Be nice and credit them.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Build a single post and make sure you have the basics you want in there. This includes the header at the top that outlines the formatting.&lt;/li&gt;
 &lt;/ol&gt;</content><summary type="html">Why are we here anyway?</summary></entry><entry><title type="html">What is Markdown anyway?</title><link href="http://0.0.0.0:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown.html" rel="alternate" type="text/html" title="What is Markdown anyway?" /><published>2016-12-18T21:14:55-06:00</published><updated>2016-12-18T21:14:55-06:00</updated><id>http://0.0.0.0:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown</id><content type="html" xml:base="http://0.0.0.0:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown.html">&lt;p&gt;I don’t know markdown syntax but it seems easy enough. This page is intended to be a quick reference for the 5-10 things I will no doubt do over and over and over.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://kramdown.gettalong.org/quickref.html&quot;&gt;This page&lt;/a&gt; seems pretty interesting, it has a lot of the syntax I’ll be using.&lt;/p&gt;

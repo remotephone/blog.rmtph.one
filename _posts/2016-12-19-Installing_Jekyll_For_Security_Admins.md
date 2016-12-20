@@ -25,7 +25,7 @@ Ultimately I mashed a few different templates and guides together. This is risky
 
 There are a few things you need to do. 
 
-1. Install your environment. 
+1. Install and prep your environment. 
 	* I used ubuntu 16.04. You can use whatever you want, but you're on your own. 
 	* Run the following:
 	    sudo apt-get install ruby ruby-dev make gcc git
@@ -33,4 +33,11 @@ There are a few things you need to do.
 	* I also turn on a color scheme in VIM \(shine until it fails me\) and enable spellchecking. Add this to your \~\/.vimrc file
 		* set spell spelllang=en_us
 		* colorscheme shine
-
+	* I keep a directory of repositories in my home directory to minimize clutter called gits and do all my work out of there
+2. Create your repository through the web console and clone it locally or create it locally and push it out.
+	* I tried doing it manually and this was just easier.
+3. Make sure you SSH keys are set up to allow you to push commits quickly. I have a crazy password and its a pain to type it and my username all the time instead of just unlocking my ssh key.  
+4. Find the sites you want to copy pages to template from, cd into the directory you'll use them and wget the raw github file instead of trying to copy and paste it into vim.
+	* Be nice and credit them.
+5. Build a single post and make sure you have the basics you want in there. This includes the header at the top that outlines the formatting. 
+ 
