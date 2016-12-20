@@ -22,7 +22,7 @@ description: > # this means to ignore newlines until "baseurl:"
   have to google as hard for some of the things I was trying to
   do.
   
-baseurl: "/" # the subpath of your site, e.g. /blog
+baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://remotephone.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: remotephone
 github_username:  remotephone
@@ -32,10 +32,10 @@ markdown: kramdown
 theme: jekyll-theme-tactile
 gems:
  - jekyll-feed
-  - jekyll-paginate
+ - jekyll-paginate
 exclude:
-  - Gemfile
-  - Gemfile.lock
+ - Gemfile
+ - Gemfile.lock
 
 #Paginate this thing - http://www.seanbuscay.com/blog/jekyll-teaser-pager-and-read-more/
 
