@@ -11,6 +11,8 @@ Jekyll lets you create static pages easily. I'm a security person, not a website
 
 One advantage of this style is learning how to interact with github. Even simple pulls and commits are things I never really had to do, so its nice to least know what's happening when trying to speak to DevOps teams. 
 
+The most obvious advantage is security. Lots of the WYSIWYG CMS's get interesting once you add plugins and that's when you add vulnerabilities. Static pages are just that, static pages. You can get "dynamic" enough with the features i Jekyll and that's good enough for me. Besides, how embarassing would it be to have my security notes webpage spamming people because it was compromised?
+
 ## Why Jekyll?
 
 I found Jekyll to be pretty well documented with plenty of templates and site examples to copy and choose from. [This](https://www.smashingmagazine.com/2014/08/build-blog-jekyll-github-pages/) site was the first guide I followed, but you take pretty much their entire site layout and then I found it difficult to add and change things without breaking the template \(this may be entirely my fault\). 
