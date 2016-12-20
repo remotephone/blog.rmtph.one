@@ -44,3 +44,21 @@ paginate_path: "page:num"
 #excerpt_separator: <!--more-->
 
 avatar: https://remotephone.github.io/images/52774.png 
+
+
+#includes links in foot - from Barry Clark again
+
+footer-links:
+  dribbble:
+  email:
+  facebook:
+  flickr:
+  github: remotephone/remotephone.github.io
+  instagram:
+  linkedin:
+  pinterest:
+  rss: ahhhhhhh # just type anything here for a working RSS icon
+  twitter: remotephone 
+  stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
+  youtube: # channel/<your_long_string> or user/<user-name>
+  googleplus: # anything in your profile username that comes after plus.google.com/
