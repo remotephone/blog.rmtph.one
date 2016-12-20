@@ -39,7 +39,7 @@
       <div class="container">
         <header class="masthead clearfix">
           <a href="/" class="site-avatar"><img src="https://remotephone.github.io/images/52774.png" /></a>
-
+	  <!-- credit for avatar: http://image.flaticon.com/icons/png/512/52/52774.png-->
           <div class="site-info">
             <h1 class="site-name"><a href="/">My Digital Scratch Pad</a></h1>
             <p class="site-description">Putting stuff together so you don't have to google as hard as I did.
@@ -77,7 +77,11 @@
 
 <h2 id="getting-started---locally-and-remotely">Getting Started - locally and remotely</h2>
 
-<p>There are a few things you need to do.</p>
+<p>There are a few things you need to do. I don’t do this stuff on my desktop, I use a VM (even working in an Ubuntu variant), clone the repository there, do my work, and then throw away the VM. It means I have to manually add SSH keys to my github account each time depending on where I’m working from, but you can make this easy with the following:</p>
+
+<p><code class="highlighter-rouge">curl -u "username" --data '{"title":"KEYNAME","key":"ssh-rsa AAA..."}' https://api.github.com/user/keys</code></p>
+
+<p>Since I’m in the web console anyway, it’s easy to delete unneeded keys. You’ll also have to edit your ssh config file.</p>
 
 <ol>
   <li>Install and prep your environment.

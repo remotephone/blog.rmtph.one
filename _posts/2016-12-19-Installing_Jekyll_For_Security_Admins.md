@@ -23,13 +23,21 @@ Ultimately I mashed a few different templates and guides together. This is risky
 
 ## Getting Started - locally and remotely
 
-There are a few things you need to do. 
+There are a few things you need to do. I don't do this stuff on my desktop, I use a VM \(even working in an Ubuntu variant\), clone the repository there, do my work, and then throw away the VM or restore a snapshot. It means I have to manually add SSH keys to my github account each time depending on where I'm working from, but you can make this easy with the following:
+
+```curl -u "username" --data '{"title":"KEYNAME","key":"ssh-rsa AAA..."}' https://api.github.com/user/keys ``` 
+
+Since I'm in the web console anyway, it's easy to delete unneeded keys. You'll also have to edit your ssh config file but you can avoid all that work if you just do it from your desktop. I'd rather not for reasons I'm still working out.  
+
+If you're working out of a new VM or environment, you'll need to repeat steps 1, 2, and 3 each time. Once your site is initially set up, you should be able to just install the environment, clone your repo, build it, make changes, test, commit them, and then throw it all away. Fun, no? 
 
 1. Install and prep your environment. 
 	* I used ubuntu 16.04. You can use whatever you want, but you're on your own. 
 	* Run the following:
 	    sudo apt-get install ruby ruby-dev make gcc git
-	* Create a new repository manually using the [github documentation](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/)
+	    
+	    bundle install
+	* Create a new repository manually using the [github documentation](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/) if this is your first time creating one. 
 	* I also turn on a color scheme in VIM \(shine until it fails me\) and enable spellchecking. Add this to your \~/.vimrc file
 		* set spell spelllang=en_us
 		* colorscheme shine
@@ -40,4 +48,4 @@ There are a few things you need to do.
 4. Find the sites you want to copy pages to template from, cd into the directory you'll use them and wget the raw github file instead of trying to copy and paste it into vim.
 	* Be nice and credit them - See my About page for the people I owe for this
 5. Build a single post and make sure you have the basics you want in there. This includes the header at the top that outlines the formatting. 
- 
+
