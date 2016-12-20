@@ -30,7 +30,7 @@ There are a few things you need to do.
 	* Run the following:
 	    sudo apt-get install ruby ruby-dev make gcc git
 	* Create a new repository manually using the [github documentation](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/)
-	* I also turn on a color scheme in VIM \(shine until it fails me\) and enable spellchecking. Add this to your \~\/.vimrc file
+	* I also turn on a color scheme in VIM \(shine until it fails me\) and enable spellchecking. Add this to your \~/.vimrc file
 		* set spell spelllang=en_us
 		* colorscheme shine
 	* I keep a directory of repositories in my home directory to minimize clutter called gits and do all my work out of there
