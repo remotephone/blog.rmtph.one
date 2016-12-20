@@ -17,10 +17,7 @@ title: My digital scratch pad
 email: remotephone@gmail.com
 
 description: > # this means to ignore newlines until "baseurl:"
-  This site will be a collection of notes, thoughts, and things
-  I figured out and don't want to forget. Hopefully you won't 
-  have to google as hard for some of the things I was trying to
-  do.
+  Putting stuff together so you don't have to google as hard as I did.
   
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://remotephone.github.io" # the base hostname & protocol for your site, e.g. http://example.com
