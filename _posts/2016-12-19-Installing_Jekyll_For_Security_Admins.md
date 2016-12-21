@@ -2,7 +2,6 @@
 layout:	post
 title:  "Installing Jekyll for Security Professionals - or \"I don\'t know what I\'m doing\""
 date:   2016-12-19 17:05:15 -0600
-categories: installing jekyll 
 ---
 
 ## Why are we here anyway?
@@ -63,6 +62,7 @@ If you're working out of a new VM or environment, you'll need to repeat steps 1,
 6. Commit your changes and make a local backup! I've wiped out this repository half a dozen times because I made a change I didn't remember or understand. Once you have something basic that works, BACK IT UP. 
 
 	* You can unzip your backup, delete the repo, and repush it back out to github instead of messing with any other silliness. If youre like me and don't know what you're doing, you will mess it up. Save yourself some trouble.
+	* I learned github let's you restore to an older version, but I can't find a way to go from a restored older version to a newer one. If bad comes to worse or you completely change themes, at least you can always just dump your posts folder into your new repository and bam, you're back
 
 
 That's really all I got so far. Build something very basic that works, back it up, know how to rebuild it quickly, and you'll handle half the trouble you will inevitably run into very quickly. 
