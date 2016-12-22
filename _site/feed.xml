@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://192.168.1.23:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://192.168.1.23:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://192.168.1.23:4000/" rel="alternate" type="text/html" /><updated>2016-12-21T21:26:09-06:00</updated><id>http://192.168.1.23:4000//</id><title type="html">My digital scratch pad</title><subtitle>Putting stuff together so you don't have to google as hard as I did.
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://192.168.1.23:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://192.168.1.23:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://192.168.1.23:4000/" rel="alternate" type="text/html" /><updated>2016-12-21T21:28:07-06:00</updated><id>http://192.168.1.23:4000//</id><title type="html">My digital scratch pad</title><subtitle>Putting stuff together so you don't have to google as hard as I did.
 </subtitle><entry><title type="html">Security Labs on a (no) budget</title><link href="http://192.168.1.23:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html" rel="alternate" type="text/html" title="Security Labs on a (no) budget" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://192.168.1.23:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget</id><content type="html" xml:base="http://192.168.1.23:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html">&lt;h2 id=&quot;so-you-want-a-lab&quot;&gt;So you want a lab?&lt;/h2&gt;
 
 &lt;p&gt;It’s going to cost money. You can’t do this for free. Luckily, you’ve probably spent most of it already. I do everything I need to do on my desktop which does triple duty as a workstation and gaming machine. You don’t need as much storage as I have, but it comes in handy.&lt;/p&gt;
@@ -25,6 +25,8 @@
 
 &lt;p&gt;I’m not a fancy man, so I don’t pay for things if I can avoid it. I highly recommend Virtualbox for most of your virtualization. There’s some machines I’ve gotten (for the OSCP for example) that require VMWare Player, but the free copy does well enough for those 1 offs. Virtualbox supports snapshotting for free which makes a world of difference if you need to turn your computer off or want to quickly wipe a workstation to defaults.&lt;/p&gt;
 
+&lt;p&gt;&lt;img src=&quot;http://192.168.1.23:4000/images/vboxconsole.png&quot; alt=&quot;VBox Console&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
 &lt;h3 id=&quot;oses-and-where-to-get-them&quot;&gt;OSes and where to get them&lt;/h3&gt;
 
 &lt;p&gt;Glad you asked. The linux ones are easy enough to find, go to distro watch or go to a download repository and just navigate backwards through the directories till you find old versions. There’s also handy things like the &lt;a href=&quot;http://vault.centos.org/&quot;&gt;Centos Vaults&lt;/a&gt; where you can get any old version you want. These come in handy if you’re testing specific exploits or versions of something.&lt;/p&gt;
@@ -45,7 +47,7 @@
 
 &lt;p&gt;I use notedpad ++ a lot. This is a screenshot of me figuring out some Jekyll stuff. It’s real jot it down as I go kinda stuff, but it works. I want to write another article about notepad++ and other tools because I really think it’s one of the most useful things out there.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://192.168.1.23:4000/images/vboxconsole.png&quot; alt=&quot;VBox Console&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://192.168.1.23:4000/images/notepadnotes.png&quot; alt=&quot;notepadnotes&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;some-thoughts-and-links&quot;&gt;Some thoughts and links&lt;/h3&gt;
 

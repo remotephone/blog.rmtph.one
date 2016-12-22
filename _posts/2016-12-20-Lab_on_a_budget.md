@@ -31,6 +31,8 @@ I also have two monitors. I don't know how people got along before dual monitor 
 
 I'm not a fancy man, so I don't pay for things if I can avoid it. I highly recommend Virtualbox for most of your virtualization. There's some machines I've gotten (for the OSCP for example) that require VMWare Player, but the free copy does well enough for those 1 offs. Virtualbox supports snapshotting for free which makes a world of difference if you need to turn your computer off or want to quickly wipe a workstation to defaults.
 
+![VBox Console]({{ site.url }}/images/vboxconsole.png){: .center-image }
+
 ### OSes and where to get them
 
 Glad you asked. The linux ones are easy enough to find, go to distro watch or go to a download repository and just navigate backwards through the directories till you find old versions. There's also handy things like the [Centos Vaults](http://vault.centos.org/) where you can get any old version you want. These come in handy if you're testing specific exploits or versions of something. 
@@ -53,7 +55,9 @@ I take notes of a lot of what I do. I keep OneNote documents for all sorts of st
 
 I use notedpad ++ a lot. This is a screenshot of me figuring out some Jekyll stuff. It's real jot it down as I go kinda stuff, but it works. I want to write another article about notepad++ and other tools because I really think it's one of the most useful things out there. 
 
-![VBox Console]({{ site.url }}/images/vboxconsole.png){: .center-image }
+![notepadnotes]({{ site.url }}/images/notepadnotes.png){: .center-image }
+
+It might look like scratch, but this is what I go back to when I redocument what I'm doing later. 
 
 ### Some thoughts and links
 
