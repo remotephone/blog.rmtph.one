@@ -40,3 +40,27 @@ Windows is trickier, but there's some real nuggets of gold out there. Microsoft 
 More interestingly, for consumer OSes from Windows 7 - 10, you can download VHD files that run neatly in Virtualbox. They are free to try and likely expire sometime. They used to offer Windows XP images, but those no longer work. Check em out [here](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/).
 
 
+### Save your work
+
+I can't emphasize how much good stuff I lost because I didn't save it. My recommended approach to your VMs is to build them and then create a snapshot before you break anything serious. If you're going to install a bunch of applications or test an exploit, make sure you save your work.
+
+There's a lot of guides and how-to's out there that I've run into that work only part way and then I'm forced to back up a few steps and do something differently or maybe I need to install a certain version of something or the distro package doesn't work and I need to install from source or whatever, but you're going to run into problems and you need to have a state where you can revert back to and not lose everything.
+
+
+### Take Notes
+
+I take notes of a lot of what I do. I keep OneNote documents for all sorts of stuff, and they're great, but they're limited in how I can share them. With the new versions of Office, everything has to go into OneDrive and that's just lame and the new interface sucks and just no. 
+
+I use notedpad ++ a lot. This is a screenshot of me figuring out some Jekyll stuff. It's real jot it down as I go kinda stuff, but it works. I want to write another article about notepad++ and other tools because I really think it's one of the most useful things out there. 
+
+![VBox Console]({{ site.url }}/images/vboxconsole.png){: .center-image }
+
+### Some thoughts and links
+
+Write stuff down. Have enough saves so you can throw it away and be back to a fresh start quickly. Don't spend all your money to do this. These are some links to get some great stuff.
+
+* [Virtualbox](https://www.virtualbox.org/wiki/Downloads)
+* [VMWare Player](http://www.vmware.com/products/player/playerpro-evaluation.html) - The free one
+* [Microsoft Technet Evaluation Center](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2012-r2)
+* [Windows IE VMs for Developers](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)
+* [PC Part Picker](https://pcpartpicker.com/) In case you need stuff
