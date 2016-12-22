@@ -1,5 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-20T16:26:15-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">My digital scratch pad</title><subtitle>Putting stuff together so you don't have to google as hard as I did.
-</subtitle><entry><title type="html">Maintaining a Productive Workflow</title><link href="http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow.html" rel="alternate" type="text/html" title="Maintaining a Productive Workflow" /><published>2016-12-19T17:05:15-06:00</published><updated>2016-12-19T17:05:15-06:00</updated><id>http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow</id><content type="html" xml:base="http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow.html">&lt;p&gt;I work much better with a simple standardized work flow. If you followed my post on Installing Jekyll and getting ready, you’re ready to just use my workflow if you like it. Otherwise, tweak where necessary.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-20T23:44:55-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">My digital scratch pad</title><subtitle>Putting stuff together so you don't have to google as hard as I did.
+</subtitle><entry><title type="html">Security Labs on a (no) budget</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html" rel="alternate" type="text/html" title="Security Labs on a (no) budget" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html">&lt;h2 id=&quot;so-you-want-a-lab&quot;&gt;So you want a lab?&lt;/h2&gt;
+
+&lt;p&gt;It’s going to cost money. You can’t do this for free. Luckily, you’ve probably spent most of it already. I do everything I need to do on my desktop which does triple duty as a workstation and gaming machine. You don’t need as much storage as I have, but it comes in handy.&lt;/p&gt;
+
+&lt;p&gt;Here’s my desktop configuration:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;AMD FX-6350 - overclocked and Hyper212 Evo knockoff Cooler&lt;/li&gt;
+  &lt;li&gt;16GB of ram&lt;/li&gt;
+  &lt;li&gt;2 SSD’s - 120GB for Windows Install &amp;amp; 256 GB drive split 30GB for Linux install and 220GB for VM drives&lt;/li&gt;
+  &lt;li&gt;2TB internal storage drive - Windows image backups, media, other stuff&lt;/li&gt;
+  &lt;li&gt;750 GB drive - 500GB for games, 250 GB for random backups&lt;/li&gt;
+  &lt;li&gt;AMD RX-480 8GB&lt;/li&gt;
+  &lt;li&gt;External 2TB drive for backing up everything important&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The logic here is I have enough cores to run multiple VMs at once and enough storage to keep them all. Other processors are better and I’d upgrade if I needed to, but my processor does pretty well overclocked, I think I’m at 4.5ghz.&lt;/p&gt;</content><summary type="html">So you want a lab?</summary></entry><entry><title type="html">Maintaining a Productive Workflow</title><link href="http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow.html" rel="alternate" type="text/html" title="Maintaining a Productive Workflow" /><published>2016-12-19T17:05:15-06:00</published><updated>2016-12-19T17:05:15-06:00</updated><id>http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow</id><content type="html" xml:base="http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow.html">&lt;p&gt;I work much better with a simple standardized work flow. If you followed my post on Installing Jekyll and getting ready, you’re ready to just use my workflow if you like it. Otherwise, tweak where necessary.&lt;/p&gt;
 
 &lt;p&gt;This workflow assumes you have a local (ubuntu maybe\?) environment for development, use vim to edit text, git on the command line to push most updates, occassionally change things on the github console, have an SSH key set up to authenticate you, and don’t mind being methodical about it.&lt;/p&gt;
 
