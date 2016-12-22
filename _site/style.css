@@ -105,7 +105,7 @@ nav a { margin-left: 20px; color: #333; text-align: right; font-weight: 300; let
 .post .center-image { margin: 0 auto; display: block; }
 .post .read-more { text-transform: uppercase; font-size: 15px; }
 
-.wrapper-footer { margin-top: 50px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; background-color: #eee; }
+.wrapper-footer { margin-top: 50px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; background-color: #eee; position: absolute; width: 100%; }
 
 footer { padding: 20px 0; text-align: center; }
 
