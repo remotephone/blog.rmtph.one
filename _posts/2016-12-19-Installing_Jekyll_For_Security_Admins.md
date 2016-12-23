@@ -36,9 +36,11 @@ If you're working out of a new VM or environment, you'll need to repeat steps 1,
 kyll-as-a-static-site-generator-with-github-pages/) if this is your first time creating one.
 
 	* I used ubuntu 16.04. You can use whatever you want, but you're on your own. 
+
 	* Run the following:
 
-	    sudo apt-get install ruby ruby-dev make gcc git
+	```sudo apt-get install ruby ruby-dev make gcc git```
+	```sudo gem install bundle```
 
 	* I also turn on a color scheme in VIM \(shine until it fails me\) and enable spellchecking. Add this to your \~/.vimrc file
 		* set spell spelllang=en_us
@@ -49,6 +51,7 @@ kyll-as-a-static-site-generator-with-github-pages/) if this is your first time c
 2. Create your repository through the web console and clone it locally or create it locally and push it out.
 
 	* I tried doing it manually and this was just easier.
+	* Create a Gemfile in this repository like [this](https://help.github.com/articles/setting-up-your-github-pages-site-locally-with-jekyll/) and run "bundle install"
 
 3. Make sure you SSH keys are set up to allow you to push commits quickly. I have a crazy password and its a pain to type it and my username all the time instead of just unlocking my ssh key.  
 

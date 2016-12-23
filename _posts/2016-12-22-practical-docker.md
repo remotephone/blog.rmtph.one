@@ -16,3 +16,22 @@ Docker is a really handy way to run things temporarily. There's an excellent imp
 One of my favorites is [Splunk](https://www.splunk.com/). Sometimes, I'll get a large amount of logs or data I need to go through quickly. If you've never used Splunk, it really is an amazing tool. It indexes data quickly and lets you run very complex searches. The problem is the full version is expensive and the free version has limits. There's this happy in-between trial enterprise version. You can index a certain amount of data until it warns you, but it won't stop you. You can injest several gigabytes of data into a single splunk index, do what you need to do, and then get rid of it. If you're snapshotting or pausing the container, you can get that data right back without reindexing it. If you forget, just spin up a new container and you're ready to restart. 
 
 There's another really interesting project called [CyberChef](https://github.com/gchq/CyberChef.git). Some nice fellow at GCHQ spent their free time building it. I'll write a post on it later, but the short of it is you can take data, encrypt, decrypt, encode, decode, alter, arrange, whatever it until you have what you want. It's really an amazing tool.  
+
+This post will go into some examples of how to use Docker and cover some pitfalls I've run into.
+
+### Installation
+
+There are some pretty good guides to installing Docker out there. There's the [official documentation](https://docs.docker.com/engine/installation/linux/ubuntulinux/#/install-the-latest-version) and [plenty](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) of [others](https://www.howtoforge.com/tutorial/docker-installation-and-usage-on-ubuntu-16.04/). This is the setup that worked for me in November 2016 and still works last I checked a week ago. 
+
+	1. Install necessary packaages
+		```sudo apt-get install docker.io linux-image-extra-$(uname -r) linux-image-extra-virtual```
+	
+	2. Add yourself to the appropriate group
+		```sudo usermod -aG docker $USER```
+
+	3. Reboot to make sure everything sticks and force you to log back in so group permissions take
+
+	4. Log back in and enable the service
+		```systemctl start docker```
+		```systemctl enable docker```
+
