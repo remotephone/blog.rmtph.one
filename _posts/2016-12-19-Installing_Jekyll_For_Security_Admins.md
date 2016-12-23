@@ -51,7 +51,6 @@ kyll-as-a-static-site-generator-with-github-pages/) if this is your first time c
 2. Create your repository through the web console and clone it locally or create it locally and push it out.
 
 	* I tried doing it manually and this was just easier.
-	* Create a Gemfile in this repository like [this](https://help.github.com/articles/setting-up-your-github-pages-site-locally-with-jekyll/) and run "bundle install"
 
 3. Make sure you SSH keys are set up to allow you to push commits quickly. I have a crazy password and its a pain to type it and my username all the time instead of just unlocking my ssh key.  
 
@@ -65,6 +64,9 @@ kyll-as-a-static-site-generator-with-github-pages/) if this is your first time c
 
 	* You can unzip your backup, delete the repo, and repush it back out to github instead of messing with any other silliness. If youre like me and don't know what you're doing, you will mess it up. Save yourself some trouble.
 	* I learned github let's you restore to an older version, but I can't find a way to go from a restored older version to a newer one. If bad comes to worse or you completely change themes, at least you can always just dump your posts folder into your new repository and bam, you're back
+	*Before you commit, you need to run 
+		```git config --global user.email "you@example.com"```
+  		```git config --global user.name "Your Name"```
 
 7. If you want to test it locally, you need to make a Gemfile according to the instructions [here](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/). Then, from the root of your repo: 
 
