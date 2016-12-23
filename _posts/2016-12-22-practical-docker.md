@@ -24,14 +24,14 @@ This post will go into some examples of how to use Docker and cover some pitfall
 There are some pretty good guides to installing Docker out there. There's the [official documentation](https://docs.docker.com/engine/installation/linux/ubuntulinux/#/install-the-latest-version) and [plenty](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) of [others](https://www.howtoforge.com/tutorial/docker-installation-and-usage-on-ubuntu-16.04/). This is the setup that worked for me in November 2016 and still works last I checked a week ago. 
 
 	1. Install necessary packaages
-		```sudo apt-get install docker.io linux-image-extra-$(uname -r) linux-image-extra-virtual```
+	   ```sudo apt-get install docker.io linux-image-extra-$(uname -r) linux-image-extra-virtual```
 	
 	2. Add yourself to the appropriate group
-		```sudo usermod -aG docker $USER```
+	   ```sudo usermod -aG docker $USER```
 
 	3. Reboot to make sure everything sticks and force you to log back in so group permissions take
 
 	4. Log back in and enable the service
-		```systemctl start docker```
-		```systemctl enable docker```
+	   ```systemctl start docker```
+	   ```systemctl enable docker```
 
