@@ -41,15 +41,16 @@ kyll-as-a-static-site-generator-with-github-pages/) if this is your first time c
 
 	* Run the following:
 
-```bash 
-sudo apt-get install ruby ruby-dev make gcc git
-sudo gem install bundle
-```
+		```bash 
+		sudo apt-get install ruby ruby-dev make gcc git
+		sudo gem install bundle
+		```
 
-	* I also turn on a color scheme in VIM \(shine until it fails me\) and enable spellchecking. Add this to your \~/.vimrc file
-		* set spell spelllang=en_us
-		* colorscheme shine
-
+	* I also turn on a color scheme in VIM \(shine until it fails me\) and enable spellchecking. Add this to your ~/.vimrc file
+		```bash
+		set spell spelllang=en_us
+		colorscheme shine
+		```
 	* I keep a directory of repositories in my home directory to minimize clutter called gits and do all my work out of there
 
 2. Create your repository through the web console and clone it locally or create it locally and push it out.
@@ -79,10 +80,10 @@ sudo gem install bundle
 
 7. If you want to test it locally, you need to make a Gemfile according to the instructions [here](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/). Then, from the root of your repo: 
 
-	```bash
-	bundle install
-	bundle exec jekyll serve --host=0.0.0.0
-	```
+		```bash
+		bundle install
+		bundle exec jekyll serve --host=0.0.0.0
+		```
 
 Using that host=0.0.0.0 means you can do this from a VM and still have it accessible from your host OS, assuming NATing or bridging or whatever you're doing is in order. 
 
