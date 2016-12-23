@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Practical Docker for Testing"
+title: "Practical Docker for Security Admins - Part 1"
 date:   2016-12-20 16:29:15 -0600
 categories: lab homelab budget testing
 ---
@@ -68,5 +68,9 @@ If you did it right, you'll have a container available at your VM IP on port 800
 ![Splunk Start Screen]({{ site.url }}/images/splunkstart.png){: .center-image }
 
  
+If we check our settings page, we can see our sed we did in the Dockerfile took place before execution, so we don't need to restart the Splunk service, it booted up with our changes in place. This is important because if you do your changes as part of the entrypoint.sh script or elsewhere that's not in the Dockerfile, your container can start up services before changes are made, making you restart them to get where you wanted to be to begin with.
+
+![Splunk Settings]({{ site.url }}/images/splunksettings.png){: .center-image }
 
 
+I think that's all I want to go over for now. I'll do a part 2 on this soon and go over Cyberchef. 
