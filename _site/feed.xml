@@ -1,5 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-22T14:41:00-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">My digital scratch pad</title><subtitle>Putting stuff together so you don't have to google as hard as I did.
-</subtitle><entry><title type="html">Security Labs on a (no) budget</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html" rel="alternate" type="text/html" title="Security Labs on a (no) budget" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html">&lt;h2 id=&quot;so-you-want-a-lab&quot;&gt;So you want a lab?&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-23T00:40:43-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">Notepad+++  - </title><subtitle>Putting stuff together so you don't have to google as hard as I did.
+</subtitle><entry><title type="html">Practical Docker for Testing</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html" rel="alternate" type="text/html" title="Practical Docker for Testing" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html">&lt;p&gt;&lt;a href=&quot;https://www.docker.com/&quot;&gt;Docker&lt;/a&gt; is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.&lt;/p&gt;
+
+&lt;p&gt;I won’t pretend I’m getting the most possible out of docker, but the learning curve required to get a whole lot of functionality out of it is really shallow. I have Docker installed in a VM. Like I described earlier, I got it working well enough and then snapshotted it. If you’re not paying attention to what you’re doing, you can run into a lot of errors and annoyances you don’t see coming.&lt;/p&gt;
+
+&lt;h2 id=&quot;some-use-cases-and-ideas&quot;&gt;Some Use Cases and Ideas&lt;/h2&gt;
+
+&lt;p&gt;Docker is a really handy way to run things temporarily. There’s an excellent implementation of &lt;a href=&quot;https://github.com/citizen-stig/dockermutillidae&quot;&gt;Mutillidae&lt;/a&gt; that makes for a good test range, base Ubuntu Images, and on and on and on.&lt;/p&gt;
+
+&lt;p&gt;One of my favorites is &lt;a href=&quot;https://www.splunk.com/&quot;&gt;Splunk&lt;/a&gt;. Sometimes, I’ll get a large amount of logs or data I need to go through quickly. If you’ve never used Splunk, it really is an amazing tool. It indexes data quickly and lets you run very complex searches. The problem is the full version is expensive and the free version has limits. There’s this happy in-between trial enterprise version. You can index a certain amount of data until it warns you, but it won’t stop you. You can injest several gigabytes of data into a single splunk index, do what you need to do, and then get rid of it. If you’re snapshotting or pausing the container, you can get that data right back without reindexing it. If you forget, just spin up a new container and you’re ready to restart.&lt;/p&gt;
+
+&lt;p&gt;There’s another really interesting project called &lt;a href=&quot;https://github.com/gchq/CyberChef.git&quot;&gt;CyberChef&lt;/a&gt;. Some nice fellow at GCHQ spent their free time building it. I’ll write a post on it later, but the short of it is you can take data, encrypt, decrypt, encode, decode, alter, arrange, whatever it until you have what you want. It’s really an amazing tool.&lt;/p&gt;</content><summary type="html">Docker is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.</summary></entry><entry><title type="html">Security Labs on a (no) budget</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html" rel="alternate" type="text/html" title="Security Labs on a (no) budget" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html">&lt;h2 id=&quot;so-you-want-a-lab&quot;&gt;So you want a lab?&lt;/h2&gt;
 
 &lt;p&gt;It’s going to cost money. You can’t do this for free. Luckily, you’ve probably spent most of it already. I do everything I need to do on my desktop which does triple duty as a workstation and gaming machine. You don’t need as much storage as I have, but it comes in handy.&lt;/p&gt;
 
@@ -130,17 +140,16 @@
   &lt;li&gt;
     &lt;p&gt;Install and prep your environment.&lt;/p&gt;
 
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; * Create a new repository manually using the [github documentation](https://help.github.com/articles/using-je kyll-as-a-static-site-generator-with-github-pages/) if this is your first time creating one.
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+
     &lt;ul&gt;
       &lt;li&gt;I used ubuntu 16.04. You can use whatever you want, but you’re on your own.&lt;/li&gt;
       &lt;li&gt;
         &lt;p&gt;Run the following:&lt;/p&gt;
 
         &lt;p&gt;sudo apt-get install ruby ruby-dev make gcc git&lt;/p&gt;
-
-        &lt;p&gt;bundle install&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;Create a new repository manually using the &lt;a href=&quot;https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/&quot;&gt;github documentation&lt;/a&gt; if this is your first time creating one.&lt;/p&gt;
       &lt;/li&gt;
       &lt;li&gt;I also turn on a color scheme in VIM (shine until it fails me) and enable spellchecking. Add this to your ~/.vimrc file
         &lt;ul&gt;
@@ -179,7 +188,17 @@
       &lt;li&gt;I learned github let’s you restore to an older version, but I can’t find a way to go from a restored older version to a newer one. If bad comes to worse or you completely change themes, at least you can always just dump your posts folder into your new repository and bam, you’re back&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;If you want to test it locally, you need to make a Gemfile according to the instructions &lt;a href=&quot;https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/&quot;&gt;here&lt;/a&gt;. Then, from the root of your repo:&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;bundle install&lt;/li&gt;
+      &lt;li&gt;bundle exec jekyll serve –host=0.0.0.0&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;p&gt;Using that host=0.0.0.0 means you can do this from a VM and still have it accessible from your host OS, assuming NATing or bridging or whatever you’re doing is in order.&lt;/p&gt;
 
 &lt;p&gt;That’s really all I got so far. Build something very basic that works, back it up, know how to rebuild it quickly, and you’ll handle half the trouble you will inevitably run into very quickly.&lt;/p&gt;</content><summary type="html">Why are we here anyway?</summary></entry><entry><title type="html">What is Markdown anyway?</title><link href="http://0.0.0.0:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown.html" rel="alternate" type="text/html" title="What is Markdown anyway?" /><published>2016-12-18T21:14:55-06:00</published><updated>2016-12-18T21:14:55-06:00</updated><id>http://0.0.0.0:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown</id><content type="html" xml:base="http://0.0.0.0:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown.html">&lt;p&gt;I don’t know markdown syntax but it seems easy enough. This page is intended to be a quick reference for the 5-10 things I will no doubt do over and over and over.&lt;/p&gt;
 

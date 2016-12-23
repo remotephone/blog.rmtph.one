@@ -7,7 +7,7 @@
       href="https://remotephone.github.io/images/52774.png">
     <!--title>Installing Jekyll for Security Professionals - or "I don't know what I'm doing" - Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
 </title-->
-    <title>My digital scratch padBreak it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
+    <title>Notepad+++  - Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
 </title>
     
         <meta charset="utf-8" />
@@ -93,17 +93,16 @@
   <li>
     <p>Install and prep your environment.</p>
 
+    <div class="highlighter-rouge"><pre class="highlight"><code> * Create a new repository manually using the [github documentation](https://help.github.com/articles/using-je kyll-as-a-static-site-generator-with-github-pages/) if this is your first time creating one.
+</code></pre>
+    </div>
+
     <ul>
       <li>I used ubuntu 16.04. You can use whatever you want, but you’re on your own.</li>
       <li>
         <p>Run the following:</p>
 
         <p>sudo apt-get install ruby ruby-dev make gcc git</p>
-
-        <p>bundle install</p>
-      </li>
-      <li>
-        <p>Create a new repository manually using the <a href="https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/">github documentation</a> if this is your first time creating one.</p>
       </li>
       <li>I also turn on a color scheme in VIM (shine until it fails me) and enable spellchecking. Add this to your ~/.vimrc file
         <ul>
@@ -142,7 +141,17 @@
       <li>I learned github let’s you restore to an older version, but I can’t find a way to go from a restored older version to a newer one. If bad comes to worse or you completely change themes, at least you can always just dump your posts folder into your new repository and bam, you’re back</li>
     </ul>
   </li>
+  <li>
+    <p>If you want to test it locally, you need to make a Gemfile according to the instructions <a href="https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/">here</a>. Then, from the root of your repo:</p>
+
+    <ul>
+      <li>bundle install</li>
+      <li>bundle exec jekyll serve –host=0.0.0.0</li>
+    </ul>
+  </li>
 </ol>
+
+<p>Using that host=0.0.0.0 means you can do this from a VM and still have it accessible from your host OS, assuming NATing or bridging or whatever you’re doing is in order.</p>
 
 <p>That’s really all I got so far. Build something very basic that works, back it up, know how to rebuild it quickly, and you’ll handle half the trouble you will inevitably run into very quickly.</p>
 
