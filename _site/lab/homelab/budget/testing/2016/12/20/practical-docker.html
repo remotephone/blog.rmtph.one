@@ -81,20 +81,33 @@
 
 <p>There are some pretty good guides to installing Docker out there. There’s the <a href="https://docs.docker.com/engine/installation/linux/ubuntulinux/#/install-the-latest-version">official documentation</a> and <a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04">plenty</a> of <a href="https://www.howtoforge.com/tutorial/docker-installation-and-usage-on-ubuntu-16.04/">others</a>. This is the setup that worked for me in November 2016 and still works last I checked a week ago.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>1. Install necessary packaages
-	```sudo apt-get install docker.io linux-image-extra-$(uname -r) linux-image-extra-virtual```
+<ol>
+  <li>
+    <p>Install necessary packaages</p>
 
-2. Add yourself to the appropriate group
-	```sudo usermod -aG docker $USER```
-
-3. Reboot to make sure everything sticks and force you to log back in so group permissions take
-
-4. Log back in and enable the service
-	```systemctl start docker```
-	```systemctl enable docker```
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo apt-get install docker.io linux-image-extra-<span class="k">$(</span>uname -r<span class="k">)</span> linux-image-extra-virtual
 </code></pre>
-</div>
+    </div>
+  </li>
+  <li>
+    <p>Add yourself to the appropriate group</p>
 
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo usermod -aG docker <span class="nv">$USER</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Reboot to make sure everything sticks and force you to log back in so group permissions take</p>
+  </li>
+  <li>
+    <p>Log back in and enable the service</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>systemctl start docker
+systemctl <span class="nb">enable </span>docker
+</code></pre>
+    </div>
+  </li>
+</ol>
 
   </div>
 

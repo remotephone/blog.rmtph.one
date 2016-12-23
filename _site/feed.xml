@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-23T10:23:57-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">Notepad+++  - </title><subtitle>Putting stuff together so you don't have to google as hard as I did.
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-23T10:40:11-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">Notepad+++  - </title><subtitle>Putting stuff together so you don't have to google as hard as I did.
 </subtitle><entry><title type="html">Practical Docker for Testing</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html" rel="alternate" type="text/html" title="Practical Docker for Testing" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html">&lt;p&gt;&lt;a href=&quot;https://www.docker.com/&quot;&gt;Docker&lt;/a&gt; is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.&lt;/p&gt;
 
 &lt;p&gt;I won’t pretend I’m getting the most possible out of docker, but the learning curve required to get a whole lot of functionality out of it is really shallow. I have Docker installed in a VM. Like I described earlier, I got it working well enough and then snapshotted it. If you’re not paying attention to what you’re doing, you can run into a lot of errors and annoyances you don’t see coming.&lt;/p&gt;
@@ -17,19 +17,33 @@
 
 &lt;p&gt;There are some pretty good guides to installing Docker out there. There’s the &lt;a href=&quot;https://docs.docker.com/engine/installation/linux/ubuntulinux/#/install-the-latest-version&quot;&gt;official documentation&lt;/a&gt; and &lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04&quot;&gt;plenty&lt;/a&gt; of &lt;a href=&quot;https://www.howtoforge.com/tutorial/docker-installation-and-usage-on-ubuntu-16.04/&quot;&gt;others&lt;/a&gt;. This is the setup that worked for me in November 2016 and still works last I checked a week ago.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. Install necessary packaages
-	```sudo apt-get install docker.io linux-image-extra-$(uname -r) linux-image-extra-virtual```
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Install necessary packaages&lt;/p&gt;
 
-2. Add yourself to the appropriate group
-	```sudo usermod -aG docker $USER```
-
-3. Reboot to make sure everything sticks and force you to log back in so group permissions take
-
-4. Log back in and enable the service
-	```systemctl start docker```
-	```systemctl enable docker```
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install docker.io linux-image-extra-&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;uname -r&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; linux-image-extra-virtual
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><summary type="html">Docker is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.</summary></entry><entry><title type="html">Security Labs on a (no) budget</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html" rel="alternate" type="text/html" title="Security Labs on a (no) budget" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html">&lt;h2 id=&quot;so-you-want-a-lab&quot;&gt;So you want a lab?&lt;/h2&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Add yourself to the appropriate group&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo usermod -aG docker &lt;span class=&quot;nv&quot;&gt;$USER&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Reboot to make sure everything sticks and force you to log back in so group permissions take&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Log back in and enable the service&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start docker
+systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;docker
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</content><summary type="html">Docker is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.</summary></entry><entry><title type="html">Security Labs on a (no) budget</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html" rel="alternate" type="text/html" title="Security Labs on a (no) budget" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html">&lt;h2 id=&quot;so-you-want-a-lab&quot;&gt;So you want a lab?&lt;/h2&gt;
 
 &lt;p&gt;It’s going to cost money. You can’t do this for free. Luckily, you’ve probably spent most of it already. I do everything I need to do on my desktop which does triple duty as a workstation and gaming machine. You don’t need as much storage as I have, but it comes in handy.&lt;/p&gt;
 
