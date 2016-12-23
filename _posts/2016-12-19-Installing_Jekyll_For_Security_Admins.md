@@ -24,7 +24,9 @@ Ultimately I mashed a few different templates and guides together. This is risky
 
 There are a few things you need to do. I don't do this stuff on my desktop, I use a VM \(even working in an Ubuntu variant\), clone the repository there, do my work, and then throw away the VM or restore a snapshot. It means I have to manually add SSH keys to my github account each time depending on where I'm working from, but you can make this easy with the following:
 
-```curl -u "username" --data '{"title":"KEYNAME","key":"ssh-rsa AAA..."}' https://api.github.com/user/keys ``` 
+```bash
+curl -u "username" --data '{"title":"KEYNAME","key":"ssh-rsa AAA..."}' https://api.github.com/user/keys 
+``` 
 
 Since I'm in the web console anyway, it's easy to delete unneeded keys. You'll also have to edit your ssh config file but you can avoid all that work if you just do it from your desktop. I'd rather not for reasons I'm still working out.  
 
@@ -39,10 +41,10 @@ kyll-as-a-static-site-generator-with-github-pages/) if this is your first time c
 
 	* Run the following:
 
-	```bash
-	sudo apt-get install ruby ruby-dev make gcc git
-	sudo gem install bundle
-	```
+```bash 
+sudo apt-get install ruby ruby-dev make gcc git
+sudo gem install bundle
+```
 
 	* I also turn on a color scheme in VIM \(shine until it fails me\) and enable spellchecking. Add this to your \~/.vimrc file
 		* set spell spelllang=en_us
@@ -67,8 +69,10 @@ kyll-as-a-static-site-generator-with-github-pages/) if this is your first time c
 	* You can unzip your backup, delete the repo, and repush it back out to github instead of messing with any other silliness. If youre like me and don't know what you're doing, you will mess it up. Save yourself some trouble.
 	* I learned github let's you restore to an older version, but I can't find a way to go from a restored older version to a newer one. If bad comes to worse or you completely change themes, at least you can always just dump your posts folder into your new repository and bam, you're back
 	*Before you commit, you need to run 
-		```git config --global user.email "you@example.com"```
-  		```git config --global user.name "Your Name"```
+		```bash
+		git config --global user.email "you@example.com"
+  		git config --global user.name "Your Name"
+		```
 
 7. If you want to test it locally, you need to make a Gemfile according to the instructions [here](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/). Then, from the root of your repo: 
 
