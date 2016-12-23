@@ -34,7 +34,7 @@ If you're working out of a new VM or environment, you'll need to repeat steps 1,
 
 1. Install and prep your environment. 
 
-        * Create a new repository manually using the [github documentation](https://help.github.com/articles/using-je
+	* Create a new repository manually using the [github documentation](https://help.github.com/articles/using-je
 kyll-as-a-static-site-generator-with-github-pages/) if this is your first time creating one.
 
 	* I used ubuntu 16.04. You can use whatever you want, but you're on your own. 
