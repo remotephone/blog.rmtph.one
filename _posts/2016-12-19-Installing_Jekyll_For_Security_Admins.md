@@ -39,8 +39,10 @@ kyll-as-a-static-site-generator-with-github-pages/) if this is your first time c
 
 	* Run the following:
 
-	```sudo apt-get install ruby ruby-dev make gcc git```
-	```sudo gem install bundle```
+	```bash
+	sudo apt-get install ruby ruby-dev make gcc git
+	sudo gem install bundle
+	```
 
 	* I also turn on a color scheme in VIM \(shine until it fails me\) and enable spellchecking. Add this to your \~/.vimrc file
 		* set spell spelllang=en_us
