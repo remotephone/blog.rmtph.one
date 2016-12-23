@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-23T10:16:01-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">Notepad+++  - </title><subtitle>Putting stuff together so you don't have to google as hard as I did.
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-23T10:23:57-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">Notepad+++  - </title><subtitle>Putting stuff together so you don't have to google as hard as I did.
 </subtitle><entry><title type="html">Practical Docker for Testing</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html" rel="alternate" type="text/html" title="Practical Docker for Testing" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html">&lt;p&gt;&lt;a href=&quot;https://www.docker.com/&quot;&gt;Docker&lt;/a&gt; is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.&lt;/p&gt;
 
 &lt;p&gt;I won’t pretend I’m getting the most possible out of docker, but the learning curve required to get a whole lot of functionality out of it is really shallow. I have Docker installed in a VM. Like I described earlier, I got it working well enough and then snapshotted it. If you’re not paying attention to what you’re doing, you can run into a lot of errors and annoyances you don’t see coming.&lt;/p&gt;
@@ -289,10 +289,28 @@ bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll serve --host&lt
 
 &lt;p&gt;For more details see &lt;a href=&quot;https://guides.github.com/features/mastering-markdown/&quot;&gt;GitHub Flavored Markdown&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h3 id=&quot;jekyll-themes&quot;&gt;Jekyll Themes&lt;/h3&gt;
+&lt;h3 id=&quot;kramdown-code-blocks-in-lists&quot;&gt;Kramdown Code Blocks in Lists&lt;/h3&gt;
 
-&lt;p&gt;Your Pages site will use the layout and styles from the Jekyll theme you have selected in your &lt;a href=&quot;https://github.com/remotephone/remotephone.github.io/settings&quot;&gt;repository settings&lt;/a&gt;. The name of this theme is saved in the Jekyll &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt; configuration file.&lt;/p&gt;
+&lt;p&gt;This was throwing me for a loop, but if you want code blocks in a list, you need to make the beginning of the code block match the indent of the list with spaces. See &lt;a href=&quot;https://planetjekyll.github.io/sandbox-syntax-highlighter/lists.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h3 id=&quot;support-or-contact&quot;&gt;Support or Contact&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Does not display cleanly when everything starts on the first space of each new line:&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;Having trouble with Pages? Check out our &lt;a href=&quot;https://help.github.com/categories/github-pages-basics/&quot;&gt;documentation&lt;/a&gt; or &lt;a href=&quot;https://github.com/contact&quot;&gt;contact support&lt;/a&gt; and we’ll help you sort it out.&lt;/p&gt;</content><summary type="html">I don’t know markdown syntax but it seems easy enough. This page is intended to be a quick reference for the 5-10 things I will no doubt do over and over and over.</summary></entry><entry><title type="html">Welcome to My Scratchpad</title><link href="http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to My Scratchpad" /><published>2016-12-18T20:49:55-06:00</published><updated>2016-12-18T20:49:55-06:00</updated><id>http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll</id><content type="html" xml:base="http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll.html">&lt;p&gt;Thanks for visiting my page. Hopefully you’re here because you’ve run into some of the same problems I’ve run into and are looking for an answer. Maybe I can be that answer. Maybe.&lt;/p&gt;</content><summary type="html">Thanks for visiting my page. Hopefully you’re here because you’ve run into some of the same problems I’ve run into and are looking for an answer. Maybe I can be that answer. Maybe.</summary></entry></feed>
+&lt;ul&gt;
+  &lt;li&gt;List&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hello&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Nice and clean:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;List&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hello&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><summary type="html">I don’t know markdown syntax but it seems easy enough. This page is intended to be a quick reference for the 5-10 things I will no doubt do over and over and over.</summary></entry><entry><title type="html">Welcome to My Scratchpad</title><link href="http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to My Scratchpad" /><published>2016-12-18T20:49:55-06:00</published><updated>2016-12-18T20:49:55-06:00</updated><id>http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll</id><content type="html" xml:base="http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll.html">&lt;p&gt;Thanks for visiting my page. Hopefully you’re here because you’ve run into some of the same problems I’ve run into and are looking for an answer. Maybe I can be that answer. Maybe.&lt;/p&gt;</content><summary type="html">Thanks for visiting my page. Hopefully you’re here because you’ve run into some of the same problems I’ve run into and are looking for an answer. Maybe I can be that answer. Maybe.</summary></entry></feed>

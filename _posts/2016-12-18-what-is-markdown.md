@@ -58,9 +58,19 @@ For more details see [GitHub Flavored Markdown](https://guides.github.com/featur
 
 This was throwing me for a loop, but if you want code blocks in a list, you need to make the beginning of the code block match the indent of the list with spaces. See [here](https://planetjekyll.github.io/sandbox-syntax-highlighter/lists.html).
 
-Does not work:
+**Does not display cleanly when everything starts on the first space of each new line:**
 
-\* List 
-\~\~\~bash
+* List 
+
+~~~bash
 echo "hello"
-\~\~\~
+~~~
+
+
+**Nice and clean:**
+
+* List
+
+  ~~~bash
+  echo "hello"
+  ~~~

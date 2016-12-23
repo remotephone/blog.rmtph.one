@@ -109,13 +109,31 @@
 
 <p>For more details see <a href="https://guides.github.com/features/mastering-markdown/">GitHub Flavored Markdown</a>.</p>
 
-<h3 id="jekyll-themes">Jekyll Themes</h3>
+<h3 id="kramdown-code-blocks-in-lists">Kramdown Code Blocks in Lists</h3>
 
-<p>Your Pages site will use the layout and styles from the Jekyll theme you have selected in your <a href="https://github.com/remotephone/remotephone.github.io/settings">repository settings</a>. The name of this theme is saved in the Jekyll <code class="highlighter-rouge">_config.yml</code> configuration file.</p>
+<p>This was throwing me for a loop, but if you want code blocks in a list, you need to make the beginning of the code block match the indent of the list with spaces. See <a href="https://planetjekyll.github.io/sandbox-syntax-highlighter/lists.html">here</a>.</p>
 
-<h3 id="support-or-contact">Support or Contact</h3>
+<p><strong>Does not display cleanly when everything starts on the first space of each new line:</strong></p>
 
-<p>Having trouble with Pages? Check out our <a href="https://help.github.com/categories/github-pages-basics/">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
+<ul>
+  <li>List</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">echo</span> <span class="s2">"hello"</span>
+</code></pre>
+</div>
+
+<p><strong>Nice and clean:</strong></p>
+
+<ul>
+  <li>
+    <p>List</p>
+
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">echo</span> <span class="s2">"hello"</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
 
   </div>
 
