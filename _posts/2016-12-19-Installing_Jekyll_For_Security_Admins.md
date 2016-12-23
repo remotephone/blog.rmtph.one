@@ -43,14 +43,18 @@ kyll-as-a-static-site-generator-with-github-pages/) if this is your first time c
 
 		```bash 
 		sudo apt-get install ruby ruby-dev make gcc git
+		
 		sudo gem install bundle
 		```
 
 	* I also turn on a color scheme in VIM \(shine until it fails me\) and enable spellchecking. Add this to your ~/.vimrc file
+
 		```bash
 		set spell spelllang=en_us
+
 		colorscheme shine
 		```
+
 	* I keep a directory of repositories in my home directory to minimize clutter called gits and do all my work out of there
 
 2. Create your repository through the web console and clone it locally or create it locally and push it out.
@@ -75,6 +79,7 @@ kyll-as-a-static-site-generator-with-github-pages/) if this is your first time c
 	
 		```bash
 		git config --global user.email "you@example.com"
+
   		git config --global user.name "Your Name"
 		```
 
@@ -82,6 +87,7 @@ kyll-as-a-static-site-generator-with-github-pages/) if this is your first time c
 
 		```bash
 		bundle install
+
 		bundle exec jekyll serve --host=0.0.0.0
 		```
 
