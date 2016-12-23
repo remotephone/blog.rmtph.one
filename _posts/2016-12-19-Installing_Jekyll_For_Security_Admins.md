@@ -67,8 +67,11 @@ sudo gem install bundle
 6. Commit your changes and make a local backup! I've wiped out this repository half a dozen times because I made a change I didn't remember or understand. Once you have something basic that works, BACK IT UP. 
 
 	* You can unzip your backup, delete the repo, and repush it back out to github instead of messing with any other silliness. If youre like me and don't know what you're doing, you will mess it up. Save yourself some trouble.
+	
 	* I learned github let's you restore to an older version, but I can't find a way to go from a restored older version to a newer one. If bad comes to worse or you completely change themes, at least you can always just dump your posts folder into your new repository and bam, you're back
-	*Before you commit, you need to run 
+	
+	* Before you commit, you need to run 
+	
 		```bash
 		git config --global user.email "you@example.com"
   		git config --global user.name "Your Name"
@@ -76,8 +79,10 @@ sudo gem install bundle
 
 7. If you want to test it locally, you need to make a Gemfile according to the instructions [here](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/). Then, from the root of your repo: 
 
-	* bundle install
-	* bundle exec jekyll serve --host=0.0.0.0
+	```bash
+	bundle install
+	bundle exec jekyll serve --host=0.0.0.0
+	```
 
 Using that host=0.0.0.0 means you can do this from a VM and still have it accessible from your host OS, assuming NATing or bridging or whatever you're doing is in order. 
 
