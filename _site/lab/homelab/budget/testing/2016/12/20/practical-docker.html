@@ -109,6 +109,30 @@ systemctl <span class="nb">enable </span>docker
   </li>
 </ol>
 
+<h3 id="splunk">Splunk</h3>
+
+<p>Splunk is great. Running it in a docker container is greater. I tend to run cheap with VMs and not provision huge drives or anything, so it’s important for me to run them lean. I changed up the Dockerfile on the <a href="https://github.com/splunk/docker-splunk">official Splunk repo</a> to require a minimum of 500MB free in my <a href="https://github.com/remotephone/docker-splunk">forked version</a>. I literally changed only one line, so you can just clone the original repo and edit it yourself or just fork mine. The change was on line 42 and 43 of docker-splunk/enterprise/Dockerfile.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>42 &amp;&amp; rm -rf /var/lib/apt/lists/* \
+43 &amp;&amp; sed -i -e 's/minFreeSpace = 5000/minFreeSpace = 500/' /var/opt/splunk/etc/system/default/server.conf
+</code></pre>
+</div>
+
+<p>Replacing the server.conf minFreeSpace variable means indexing will keep running until you have only 500mb free, which is easier to swing than 5GB. If you need to change it further, you can, but at that point its probably better just to make a bigger disk.</p>
+
+<p>To run the image, clone the repo, cd into the enterprise directory and do:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>docker build -t splunkminfree .
+&lt;<span class="nb">let </span>it run and build&gt;
+docker run -d -e <span class="s2">"SPLUNK_START_ARGS=--accept-license"</span> -e <span class="s2">"SPLUNK_USER=root"</span> -p <span class="s2">"8000:8000"</span>  -v /data:/root/ splunkminfree
+</code></pre>
+</div>
+
+<p>If you did it right, you’ll have a container available at your VM IP on port 8000. It takes a minute or two to start up and you may have to enable port forwarding if your VM is NATed and not bridged. Once you update the default password, you’re at the start screen!</p>
+
+<p><img src="/http://0.0.0.0:4000/images/splunkstart.png" alt="Splunk Start Screen" /></p>
+
+
   </div>
 
   <div class="date">

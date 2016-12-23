@@ -43,3 +43,30 @@ There are some pretty good guides to installing Docker out there. There's the [o
    systemctl start docker
    systemctl enable docker
    ~~~
+
+### Splunk
+
+Splunk is great. Running it in a docker container is greater. I tend to run cheap with VMs and not provision huge drives or anything, so it's important for me to run them lean. I changed up the Dockerfile on the [official Splunk repo](https://github.com/splunk/docker-splunk) to require a minimum of 500MB free in my [forked version](https://github.com/remotephone/docker-splunk). I literally changed only one line, so you can just clone the original repo and edit it yourself or just fork mine. The change was on line 42 and 43 of docker-splunk/enterprise/Dockerfile.
+
+~~~
+42 && rm -rf /var/lib/apt/lists/* \
+43 && sed -i -e 's/minFreeSpace = 5000/minFreeSpace = 500/' /var/opt/splunk/etc/system/default/server.conf
+~~~
+
+Replacing the server.conf minFreeSpace variable means indexing will keep running until you have only 500mb free, which is easier to swing than 5GB. If you need to change it further, you can, but at that point its probably better just to make a bigger disk. 
+
+To run the image, clone the repo, cd into the enterprise directory and do:
+
+~~~bash    
+docker build -t splunkminfree .
+<let it run and build>
+docker run -d -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_USER=root" -p "8000:8000"  -v /data:/root/ splunkminfree
+~~~
+
+If you did it right, you'll have a container available at your VM IP on port 8000. It takes a minute or two to start up and you may have to enable port forwarding if your VM is NATed and not bridged. Once you update the default password, you're at the start screen!
+
+![Splunk Start Screen](/{{ site.url }}/images/splunkstart.png)
+
+ 
+
+
