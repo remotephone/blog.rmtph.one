@@ -32,14 +32,13 @@ If you're working out of a new VM or environment, you'll need to repeat steps 1,
 
 1. Install and prep your environment. 
 
+        * Create a new repository manually using the [github documentation](https://help.github.com/articles/using-je
+kyll-as-a-static-site-generator-with-github-pages/) if this is your first time creating one.
+
 	* I used ubuntu 16.04. You can use whatever you want, but you're on your own. 
 	* Run the following:
 
 	    sudo apt-get install ruby ruby-dev make gcc git
-	    
-	    bundle install
-
-	* Create a new repository manually using the [github documentation](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/) if this is your first time creating one. 
 
 	* I also turn on a color scheme in VIM \(shine until it fails me\) and enable spellchecking. Add this to your \~/.vimrc file
 		* set spell spelllang=en_us
@@ -64,5 +63,11 @@ If you're working out of a new VM or environment, you'll need to repeat steps 1,
 	* You can unzip your backup, delete the repo, and repush it back out to github instead of messing with any other silliness. If youre like me and don't know what you're doing, you will mess it up. Save yourself some trouble.
 	* I learned github let's you restore to an older version, but I can't find a way to go from a restored older version to a newer one. If bad comes to worse or you completely change themes, at least you can always just dump your posts folder into your new repository and bam, you're back
 
+7. If you want to test it locally, you need to make a Gemfile according to the instructions [here](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/). Then, from the root of your repo: 
+
+	* bundle install
+	* bundle exec jekyll serve --host=0.0.0.0
+
+Using that host=0.0.0.0 means you can do this from a VM and still have it accessible from your host OS, assuming NATing or bridging or whatever you're doing is in order. 
 
 That's really all I got so far. Build something very basic that works, back it up, know how to rebuild it quickly, and you'll handle half the trouble you will inevitably run into very quickly. 
