@@ -65,7 +65,7 @@ docker run -d -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_USER=root" -p "
 
 If you did it right, you'll have a container available at your VM IP on port 8000. It takes a minute or two to start up and you may have to enable port forwarding if your VM is NATed and not bridged. Once you update the default password, you're at the start screen!
 
-![Splunk Start Screen](/{{ site.url }}/images/splunkstart.png)
+![Splunk Start Screen]({{ site.url }}/images/splunkstart.png){: .center-image }
 
  
 
