@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-23T00:40:43-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">Notepad+++  - </title><subtitle>Putting stuff together so you don't have to google as hard as I did.
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-23T10:16:01-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">Notepad+++  - </title><subtitle>Putting stuff together so you don't have to google as hard as I did.
 </subtitle><entry><title type="html">Practical Docker for Testing</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html" rel="alternate" type="text/html" title="Practical Docker for Testing" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html">&lt;p&gt;&lt;a href=&quot;https://www.docker.com/&quot;&gt;Docker&lt;/a&gt; is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.&lt;/p&gt;
 
 &lt;p&gt;I won’t pretend I’m getting the most possible out of docker, but the learning curve required to get a whole lot of functionality out of it is really shallow. I have Docker installed in a VM. Like I described earlier, I got it working well enough and then snapshotted it. If you’re not paying attention to what you’re doing, you can run into a lot of errors and annoyances you don’t see coming.&lt;/p&gt;
@@ -9,7 +9,27 @@
 
 &lt;p&gt;One of my favorites is &lt;a href=&quot;https://www.splunk.com/&quot;&gt;Splunk&lt;/a&gt;. Sometimes, I’ll get a large amount of logs or data I need to go through quickly. If you’ve never used Splunk, it really is an amazing tool. It indexes data quickly and lets you run very complex searches. The problem is the full version is expensive and the free version has limits. There’s this happy in-between trial enterprise version. You can index a certain amount of data until it warns you, but it won’t stop you. You can injest several gigabytes of data into a single splunk index, do what you need to do, and then get rid of it. If you’re snapshotting or pausing the container, you can get that data right back without reindexing it. If you forget, just spin up a new container and you’re ready to restart.&lt;/p&gt;
 
-&lt;p&gt;There’s another really interesting project called &lt;a href=&quot;https://github.com/gchq/CyberChef.git&quot;&gt;CyberChef&lt;/a&gt;. Some nice fellow at GCHQ spent their free time building it. I’ll write a post on it later, but the short of it is you can take data, encrypt, decrypt, encode, decode, alter, arrange, whatever it until you have what you want. It’s really an amazing tool.&lt;/p&gt;</content><summary type="html">Docker is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.</summary></entry><entry><title type="html">Security Labs on a (no) budget</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html" rel="alternate" type="text/html" title="Security Labs on a (no) budget" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html">&lt;h2 id=&quot;so-you-want-a-lab&quot;&gt;So you want a lab?&lt;/h2&gt;
+&lt;p&gt;There’s another really interesting project called &lt;a href=&quot;https://github.com/gchq/CyberChef.git&quot;&gt;CyberChef&lt;/a&gt;. Some nice fellow at GCHQ spent their free time building it. I’ll write a post on it later, but the short of it is you can take data, encrypt, decrypt, encode, decode, alter, arrange, whatever it until you have what you want. It’s really an amazing tool.&lt;/p&gt;
+
+&lt;p&gt;This post will go into some examples of how to use Docker and cover some pitfalls I’ve run into.&lt;/p&gt;
+
+&lt;h3 id=&quot;installation&quot;&gt;Installation&lt;/h3&gt;
+
+&lt;p&gt;There are some pretty good guides to installing Docker out there. There’s the &lt;a href=&quot;https://docs.docker.com/engine/installation/linux/ubuntulinux/#/install-the-latest-version&quot;&gt;official documentation&lt;/a&gt; and &lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04&quot;&gt;plenty&lt;/a&gt; of &lt;a href=&quot;https://www.howtoforge.com/tutorial/docker-installation-and-usage-on-ubuntu-16.04/&quot;&gt;others&lt;/a&gt;. This is the setup that worked for me in November 2016 and still works last I checked a week ago.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. Install necessary packaages
+	```sudo apt-get install docker.io linux-image-extra-$(uname -r) linux-image-extra-virtual```
+
+2. Add yourself to the appropriate group
+	```sudo usermod -aG docker $USER```
+
+3. Reboot to make sure everything sticks and force you to log back in so group permissions take
+
+4. Log back in and enable the service
+	```systemctl start docker```
+	```systemctl enable docker```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><summary type="html">Docker is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.</summary></entry><entry><title type="html">Security Labs on a (no) budget</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html" rel="alternate" type="text/html" title="Security Labs on a (no) budget" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html">&lt;h2 id=&quot;so-you-want-a-lab&quot;&gt;So you want a lab?&lt;/h2&gt;
 
 &lt;p&gt;It’s going to cost money. You can’t do this for free. Luckily, you’ve probably spent most of it already. I do everything I need to do on my desktop which does triple duty as a workstation and gaming machine. You don’t need as much storage as I have, but it comes in handy.&lt;/p&gt;
 
@@ -130,7 +150,9 @@
 
 &lt;p&gt;There are a few things you need to do. I don’t do this stuff on my desktop, I use a VM (even working in an Ubuntu variant), clone the repository there, do my work, and then throw away the VM or restore a snapshot. It means I have to manually add SSH keys to my github account each time depending on where I’m working from, but you can make this easy with the following:&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;curl -u &quot;username&quot; --data '{&quot;title&quot;:&quot;KEYNAME&quot;,&quot;key&quot;:&quot;ssh-rsa AAA...&quot;}' https://api.github.com/user/keys&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -u &lt;span class=&quot;s2&quot;&gt;&quot;username&quot;&lt;/span&gt; --data &lt;span class=&quot;s1&quot;&gt;'{&quot;title&quot;:&quot;KEYNAME&quot;,&quot;key&quot;:&quot;ssh-rsa AAA...&quot;}'&lt;/span&gt; https://api.github.com/user/keys 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Since I’m in the web console anyway, it’s easy to delete unneeded keys. You’ll also have to edit your ssh config file but you can avoid all that work if you just do it from your desktop. I’d rather not for reasons I’m still working out.&lt;/p&gt;
 
@@ -140,24 +162,33 @@
   &lt;li&gt;
     &lt;p&gt;Install and prep your environment.&lt;/p&gt;
 
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; * Create a new repository manually using the [github documentation](https://help.github.com/articles/using-je kyll-as-a-static-site-generator-with-github-pages/) if this is your first time creating one.
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-
     &lt;ul&gt;
-      &lt;li&gt;I used ubuntu 16.04. You can use whatever you want, but you’re on your own.&lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;Create a new repository manually using the &lt;a href=&quot;https://help.github.com/articles/using-je
+kyll-as-a-static-site-generator-with-github-pages/&quot;&gt;github documentation&lt;/a&gt; if this is your first time creating one.&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;I used ubuntu 16.04. You can use whatever you want, but you’re on your own.&lt;/p&gt;
+      &lt;/li&gt;
       &lt;li&gt;
         &lt;p&gt;Run the following:&lt;/p&gt;
 
-        &lt;p&gt;sudo apt-get install ruby ruby-dev make gcc git&lt;/p&gt;
+        &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install ruby ruby-dev make gcc git
+sudo gem install bundle
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
       &lt;/li&gt;
-      &lt;li&gt;I also turn on a color scheme in VIM (shine until it fails me) and enable spellchecking. Add this to your ~/.vimrc file
-        &lt;ul&gt;
-          &lt;li&gt;set spell spelllang=en_us&lt;/li&gt;
-          &lt;li&gt;colorscheme shine&lt;/li&gt;
-        &lt;/ul&gt;
+      &lt;li&gt;
+        &lt;p&gt;I also turn on a color scheme in VIM (shine until it fails me) and enable spellchecking. Add this to your ~/.vimrc file&lt;/p&gt;
+
+        &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;spell &lt;span class=&quot;nv&quot;&gt;spelllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;en_us
+ colorscheme shine
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
       &lt;/li&gt;
-      &lt;li&gt;I keep a directory of repositories in my home directory to minimize clutter called gits and do all my work out of there&lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;I keep a directory of repositories in my home directory to minimize clutter called gits and do all my work out of there&lt;/p&gt;
+      &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;
@@ -184,17 +215,29 @@
     &lt;p&gt;Commit your changes and make a local backup! I’ve wiped out this repository half a dozen times because I made a change I didn’t remember or understand. Once you have something basic that works, BACK IT UP.&lt;/p&gt;
 
     &lt;ul&gt;
-      &lt;li&gt;You can unzip your backup, delete the repo, and repush it back out to github instead of messing with any other silliness. If youre like me and don’t know what you’re doing, you will mess it up. Save yourself some trouble.&lt;/li&gt;
-      &lt;li&gt;I learned github let’s you restore to an older version, but I can’t find a way to go from a restored older version to a newer one. If bad comes to worse or you completely change themes, at least you can always just dump your posts folder into your new repository and bam, you’re back&lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;You can unzip your backup, delete the repo, and repush it back out to github instead of messing with any other silliness. If youre like me and don’t know what you’re doing, you will mess it up. Save yourself some trouble.&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;I learned github let’s you restore to an older version, but I can’t find a way to go from a restored older version to a newer one. If bad comes to worse or you completely change themes, at least you can always just dump your posts folder into your new repository and bam, you’re back&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;Before you commit, you need to run&lt;/p&gt;
+
+        &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git config --global user.email &lt;span class=&quot;s2&quot;&gt;&quot;you@example.com&quot;&lt;/span&gt;
+ 	  git config --global user.name &lt;span class=&quot;s2&quot;&gt;&quot;Your Name&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;If you want to test it locally, you need to make a Gemfile according to the instructions &lt;a href=&quot;https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/&quot;&gt;here&lt;/a&gt;. Then, from the root of your repo:&lt;/p&gt;
 
-    &lt;ul&gt;
-      &lt;li&gt;bundle install&lt;/li&gt;
-      &lt;li&gt;bundle exec jekyll serve –host=0.0.0.0&lt;/li&gt;
-    &lt;/ul&gt;
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bundle install
+bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll serve --host&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.0.0.0
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 

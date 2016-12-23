@@ -83,7 +83,9 @@
 
 <p>There are a few things you need to do. I don’t do this stuff on my desktop, I use a VM (even working in an Ubuntu variant), clone the repository there, do my work, and then throw away the VM or restore a snapshot. It means I have to manually add SSH keys to my github account each time depending on where I’m working from, but you can make this easy with the following:</p>
 
-<p><code class="highlighter-rouge">curl -u "username" --data '{"title":"KEYNAME","key":"ssh-rsa AAA..."}' https://api.github.com/user/keys</code></p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -u <span class="s2">"username"</span> --data <span class="s1">'{"title":"KEYNAME","key":"ssh-rsa AAA..."}'</span> https://api.github.com/user/keys 
+</code></pre>
+</div>
 
 <p>Since I’m in the web console anyway, it’s easy to delete unneeded keys. You’ll also have to edit your ssh config file but you can avoid all that work if you just do it from your desktop. I’d rather not for reasons I’m still working out.</p>
 
@@ -93,24 +95,33 @@
   <li>
     <p>Install and prep your environment.</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> * Create a new repository manually using the [github documentation](https://help.github.com/articles/using-je kyll-as-a-static-site-generator-with-github-pages/) if this is your first time creating one.
-</code></pre>
-    </div>
-
     <ul>
-      <li>I used ubuntu 16.04. You can use whatever you want, but you’re on your own.</li>
+      <li>
+        <p>Create a new repository manually using the <a href="https://help.github.com/articles/using-je
+kyll-as-a-static-site-generator-with-github-pages/">github documentation</a> if this is your first time creating one.</p>
+      </li>
+      <li>
+        <p>I used ubuntu 16.04. You can use whatever you want, but you’re on your own.</p>
+      </li>
       <li>
         <p>Run the following:</p>
 
-        <p>sudo apt-get install ruby ruby-dev make gcc git</p>
+        <div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo apt-get install ruby ruby-dev make gcc git
+sudo gem install bundle
+</code></pre>
+        </div>
       </li>
-      <li>I also turn on a color scheme in VIM (shine until it fails me) and enable spellchecking. Add this to your ~/.vimrc file
-        <ul>
-          <li>set spell spelllang=en_us</li>
-          <li>colorscheme shine</li>
-        </ul>
+      <li>
+        <p>I also turn on a color scheme in VIM (shine until it fails me) and enable spellchecking. Add this to your ~/.vimrc file</p>
+
+        <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nb">set </span>spell <span class="nv">spelllang</span><span class="o">=</span>en_us
+ colorscheme shine
+</code></pre>
+        </div>
       </li>
-      <li>I keep a directory of repositories in my home directory to minimize clutter called gits and do all my work out of there</li>
+      <li>
+        <p>I keep a directory of repositories in my home directory to minimize clutter called gits and do all my work out of there</p>
+      </li>
     </ul>
   </li>
   <li>
@@ -137,17 +148,29 @@
     <p>Commit your changes and make a local backup! I’ve wiped out this repository half a dozen times because I made a change I didn’t remember or understand. Once you have something basic that works, BACK IT UP.</p>
 
     <ul>
-      <li>You can unzip your backup, delete the repo, and repush it back out to github instead of messing with any other silliness. If youre like me and don’t know what you’re doing, you will mess it up. Save yourself some trouble.</li>
-      <li>I learned github let’s you restore to an older version, but I can’t find a way to go from a restored older version to a newer one. If bad comes to worse or you completely change themes, at least you can always just dump your posts folder into your new repository and bam, you’re back</li>
+      <li>
+        <p>You can unzip your backup, delete the repo, and repush it back out to github instead of messing with any other silliness. If youre like me and don’t know what you’re doing, you will mess it up. Save yourself some trouble.</p>
+      </li>
+      <li>
+        <p>I learned github let’s you restore to an older version, but I can’t find a way to go from a restored older version to a newer one. If bad comes to worse or you completely change themes, at least you can always just dump your posts folder into your new repository and bam, you’re back</p>
+      </li>
+      <li>
+        <p>Before you commit, you need to run</p>
+
+        <div class="language-bash highlighter-rouge"><pre class="highlight"><code>git config --global user.email <span class="s2">"you@example.com"</span>
+ 	  git config --global user.name <span class="s2">"Your Name"</span>
+</code></pre>
+        </div>
+      </li>
     </ul>
   </li>
   <li>
     <p>If you want to test it locally, you need to make a Gemfile according to the instructions <a href="https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/">here</a>. Then, from the root of your repo:</p>
 
-    <ul>
-      <li>bundle install</li>
-      <li>bundle exec jekyll serve –host=0.0.0.0</li>
-    </ul>
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>bundle install
+bundle <span class="nb">exec </span>jekyll serve --host<span class="o">=</span>0.0.0.0
+</code></pre>
+    </div>
   </li>
 </ol>
 

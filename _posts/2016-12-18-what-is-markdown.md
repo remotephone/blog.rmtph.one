@@ -53,10 +53,14 @@ Syntax highlighted code block
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/remotephone/remotephone.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Kramdown Code Blocks in Lists
 
-### Support or Contact
+This was throwing me for a loop, but if you want code blocks in a list, you need to make the beginning of the code block match the indent of the list with spaces. See [here](https://planetjekyll.github.io/sandbox-syntax-highlighter/lists.html).
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Does not work:
+
+\* List 
+\~\~\~bash
+echo "hello"
+\~\~\~
