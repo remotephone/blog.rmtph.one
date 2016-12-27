@@ -5,7 +5,7 @@
     <link rel="icon" 
       type="image/png" 
       href="https://remotephone.github.io/images/52774.png">
-    <!--title>Practical Docker for Testing - Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
+    <!--title>Practical Docker for Security Admins - Part 1 - Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
 </title-->
     <title>Notepad+++  - Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
 </title>
@@ -26,8 +26,8 @@
     <meta name="author" content="Break it, Fix it, Write It Down" />
 
     
-    <meta property="og:title" content="Practical Docker for Testing" />
-    <meta property="twitter:title" content="Practical Docker for Testing" />
+    <meta property="og:title" content="Practical Docker for Security Admins - Part 1" />
+    <meta property="twitter:title" content="Practical Docker for Security Admins - Part 1" />
     
 
 
@@ -60,7 +60,7 @@
 
     <div id="main" role="main" class="container">
       <article class="post">
-  <h1>Practical Docker for Testing</h1>
+  <h1>Practical Docker for Security Admins - Part 1</h1>
 
   <div class="entry">
     <p><a href="https://www.docker.com/">Docker</a> is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.</p>
@@ -111,7 +111,7 @@ systemctl <span class="nb">enable </span>docker
 
 <h3 id="splunk">Splunk</h3>
 
-<p>Splunk is great. Running it in a docker container is greater. I tend to run cheap with VMs and not provision huge drives or anything, so it’s important for me to run them lean. I changed up the Dockerfile on the <a href="https://github.com/splunk/docker-splunk">official Splunk repo</a> to require a minimum of 500MB free in my <a href="https://github.com/remotephone/docker-splunk">forked version</a>. I literally changed only one line, so you can just clone the original repo and edit it yourself or just fork mine. The change was on line 42 and 43 of docker-splunk/enterprise/Dockerfile.</p>
+<p>Splunk is great Running it in a docker container is greater. I tend to run cheap with VMs and not provision huge drives or anything, so it’s important for me to run them lean. Since my VMs are small and disk space is at a premium, the default minimum free space settign splunk has before it stops indexing of 5GB is pretty greedy for my tastes. I changed up the Dockerfile on the <a href="https://github.com/splunk/docker-splunk">official Splunk repo</a> to require a minimum of 500MB free in my <a href="https://github.com/remotephone/docker-splunk">forked version</a>. I literally changed only one line, so you can just clone the original repo and edit it yourself or just fork mine. The change was on line 42 and 43 of docker-splunk/enterprise/Dockerfile.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>42 &amp;&amp; rm -rf /var/lib/apt/lists/* \
 43 &amp;&amp; sed -i -e 's/minFreeSpace = 5000/minFreeSpace = 500/' /var/opt/splunk/etc/system/default/server.conf
@@ -128,10 +128,21 @@ docker run -d -e <span class="s2">"SPLUNK_START_ARGS=--accept-license"</span> -e
 </code></pre>
 </div>
 
+<p>If you watch the build happen, you can see where docker replaced the config file as it was building the image.</p>
+
+<p><img src="http://0.0.0.0:4000/images/splunksed.png" alt="Splunk Sed Disk Size" class="center-image" /></p>
+
 <p>If you did it right, you’ll have a container available at your VM IP on port 8000. It takes a minute or two to start up and you may have to enable port forwarding if your VM is NATed and not bridged. Once you update the default password, you’re at the start screen!</p>
 
-<p><img src="/http://0.0.0.0:4000/images/splunkstart.png" alt="Splunk Start Screen" /></p>
+<p><img src="http://0.0.0.0:4000/images/splunkstart.png" alt="Splunk Start Screen" class="center-image" /></p>
 
+<p>If we check our settings page, we can see our sed we did in the Dockerfile took place before execution, so we don’t need to restart the Splunk service, it booted up with our changes in place. This is important because if you do your changes as part of the entrypoint.sh script or elsewhere that’s not in the Dockerfile, your container can start up services before changes are made, making you restart them to get where you wanted to be to begin with.</p>
+
+<p><img src="http://0.0.0.0:4000/images/splunksettings.png" alt="Splunk Settings" class="center-image" /></p>
+
+<p>So now we have a working splunk iunstance, it loaded data at /data, and we can search it.</p>
+
+<p>I think that’s all I want to go over for now. I’ll do a part 2 on this soon and go over Cyberchef.</p>
 
   </div>
 
