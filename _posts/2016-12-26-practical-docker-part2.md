@@ -22,3 +22,19 @@ Ok, nothing too crazy. The first command was verbose, showing us all the contain
 Speaking of didn't clean up after us, remember that container we built? If you watched the build process, you'll remember it spun up some intermediate containers. Let's see if they left anything behind. I saved myself some trouble here by piping it to xargs and cleaning up at once.
 
 ![docker danglers]({{ site.url }}/images/dockerdanglers.png){: .center-image }
+
+Ok wow, so that's quite a few volumes we cleaned up. These were the residual images from the intermediate containers that were built. None of this stuff goes away on it's own, so just keep an eye on your disk space as you're building and throwing things away, it will catch up to you eventually.
+
+Here's what I run to completely clean up, courtsey of [this site](http://blog.yohanliyanage.com/2015/05/docker-clean-up-after-yourself/) and [this one](https://lebkowski.name/docker-volumes/) and some tinkering:
+
+~~~
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+docker volume ls -qf dangling=true | xargs -r docker volume rm
+~~~
+
+This string of commands stops all running containers, removes the container images and then removes associated volumes. You can also just run the second one if you just want to delet all currently stopped containers.
+
+Furthermore, you could have container images left on your disk taking up space. To see what images you have, use docker images -qa. That will list them all. Then, you can use docker rmi to remove unnecessary images. You can always rebuild this stuff if you delete it, so consider whether you prefer disk space or download time and make your choices accordingly. 
+
+
