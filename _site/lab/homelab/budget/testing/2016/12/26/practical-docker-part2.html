@@ -110,6 +110,33 @@ docker run -dit -p 8888:80 -v /home/ubuntu/gits/CyberChef/:/usr/local/apache2/ht
 </code></pre>
 </div>
 
+<p>Of course, replace directories as appropriate. If you go to your forwarded (or not) port in your browser and the build/prod/ directory, you have a working instance of cyberchef! Let’s pull a random sample from the internet and see if we can decode it. I first chose the sample from this <a href="https://isc.sans.edu/forums/diary/Obfuscated+SQL+Injection+attacks/9397/">page</a>. This sample will be good because we can check our work against their results.</p>
+
+<p>We’re looking at this as though our IDS alert or packet capture of malicious traffic came to our desk for analysis. First, let’s clean up the code a little bit using Generic Code Beautify and URL Decode.</p>
+
+<p><img src="http://0.0.0.0:4000/images/cyberchefdeob1.PNG" alt="Debofus 1" class="center-image" /></p>
+
+<p>So that’s a bit clearer, let’s decode the hex.</p>
+
+<p><img src="http://0.0.0.0:4000/images/cyberchefdeob2.PNG" alt="Deobfus2" class="center-image" /></p>
+
+<p>Well that broke the rest of the syntax, but that’s why we take notes right? As I’m decoding something like this, I create a step by step log of what I’ve changed so I can retrace why what I did worked.</p>
+
+<p><img src="http://0.0.0.0:4000/images/cyberchefdeobnotes.PNG" alt="Deobfus Notes" class="center-image" /></p>
+
+<p>If we decode the final string, we see the malicious URL that was being injected into the database. I had to run two hex decodes before it decoded everything, but depending on how packed the payload is, you may have to run any number of operations.</p>
+
+<p><img src="http://0.0.0.0:4000/images/cyberchefdeob3.PNG" alt="Deobfus3" class="center-image" /></p>
+
+<p>There is a Flow Control section in CyberChef that I think might help eliminate the need to take notes as you go and do it all in one operation, but I haven’t figured it out. If anyone reading this knows how to maek that happen, I’d love to hear it.</p>
+
+<h2 id="so-now-what">So now what?</h2>
+
+<p>Now that we have our malicious payload decoded, we can determine our next moves. Since this began as SQL injection, let’s see if this string is anywhere in the database. If this infected an internal site, we probably need to figure out what that URL does, how we can update IDS/IPS signatures to help with that, and examine DNS and firewall records for any evidence of users or systems visiting that URL. If it’s customer facing, it’s probably time to work with the lawyers and find out what this means.</p>
+
+<p>Of course, there’s tons of ways to do this. You could actually do all of what I did with notepad++ add ons, you could do it with command line decoders, or you could do it all manually. CyberChef is one tool that might not work all the time, but looks like it has a lot of potential.</p>
+
+
   </div>
 
   <div class="date">
