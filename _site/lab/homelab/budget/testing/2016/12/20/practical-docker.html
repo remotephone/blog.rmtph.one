@@ -73,6 +73,8 @@
 
 <p>One of my favorites is <a href="https://www.splunk.com/">Splunk</a>. Sometimes, I’ll get a large amount of logs or data I need to go through quickly. If you’ve never used Splunk, it really is an amazing tool. It indexes data quickly and lets you run very complex searches. The problem is the full version is expensive and the free version has limits. There’s this happy in-between trial enterprise version. You can index a certain amount of data until it warns you, but it won’t stop you. You can injest several gigabytes of data into a single splunk index, do what you need to do, and then get rid of it. If you’re snapshotting or pausing the container, you can get that data right back without reindexing it. If you forget, just spin up a new container and you’re ready to restart.</p>
 
+<p>Another test case I’m sure has never happened to any incident responder anywhere is that a server becomes ground zero for an incident but it wasn’t logging to a central logging server. Now you have gigabytes of data you need to go through quickly and no way to do it. Splunk can be really useful for situations like these (which probably never happen).</p>
+
 <p>There’s another really interesting project called <a href="https://github.com/gchq/CyberChef.git">CyberChef</a>. Some nice fellow at GCHQ spent their free time building it. I’ll write a post on it later, but the short of it is you can take data, encrypt, decrypt, encode, decode, alter, arrange, whatever it until you have what you want. It’s really an amazing tool.</p>
 
 <p>This post will go into some examples of how to use Docker and cover some pitfalls I’ve run into.</p>
@@ -140,7 +142,11 @@ docker run -d -e <span class="s2">"SPLUNK_START_ARGS=--accept-license"</span> -e
 
 <p><img src="http://0.0.0.0:4000/images/splunksettings.png" alt="Splunk Settings" class="center-image" /></p>
 
-<p>So now we have a working splunk iunstance, it loaded data at /data, and we can search it.</p>
+<p>So now we have a working splunk instance, it loaded data at /data, and we can search it. You can change the destination mount directory to whatever you want, but since I sent it to the root user’s home folder, I need to find it  there.</p>
+
+<p><img src="http://0.0.0.0:4000/images/splunkdatadirs.png" alt="Splunk Settings" class="center-image" /></p>
+
+<p>Indexing will take a little bit depending on how much data you have, but there it is! You can now do all the wonderful things you can usually do in Splunk.</p>
 
 <p>I think that’s all I want to go over for now. I’ll do a part 2 on this soon and go over Cyberchef.</p>
 

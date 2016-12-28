@@ -1,5 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-26T22:23:57-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">Notepad+++  - </title><subtitle>Putting stuff together so you don't have to google as hard as I did.
-</subtitle><entry><title type="html">Practical Docker for Security Admins - Part 1</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html" rel="alternate" type="text/html" title="Practical Docker for Security Admins - Part 1" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html">&lt;p&gt;&lt;a href=&quot;https://www.docker.com/&quot;&gt;Docker&lt;/a&gt; is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2016-12-27T02:02:27-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">Notepad+++  - </title><subtitle>Putting stuff together so you don't have to google as hard as I did.
+</subtitle><entry><title type="html">Practical Docker for Security Admins - Part 2</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/26/practical-docker-part2.html" rel="alternate" type="text/html" title="Practical Docker for Security Admins - Part 2" /><published>2016-12-26T22:15:33-06:00</published><updated>2016-12-26T22:15:33-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/26/practical-docker-part2</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/26/practical-docker-part2.html">&lt;h2 id=&quot;more-test-cases-but-first-some-housekeeping&quot;&gt;More test cases, but first, some housekeeping&lt;/h2&gt;
+
+&lt;p&gt;Docker will fill up disk space quickly if you’re not managing it actively or planning for it. Since I use throw away VMs for my docker containers, I don’t give them a lot of disk space to fill up. When your splunking through large indexes of data, you can very quickly fill up a virtual disk. There’s a few ways I’ve found to manage the data.&lt;/p&gt;
+
+&lt;h3 id=&quot;clean-up-after-yourself&quot;&gt;Clean up after yourself&lt;/h3&gt;
+
+&lt;p&gt;Similar to how you run something with docker run, docker has it’s own utilities to manage and inspect containers. Docker ps allows you to view running containers on your system. docker ps -qa gives you a quick view of just the container names. So far, on this VM, I’ve built my splunk docker image from the last page, I’ve created a container with splunk, and added some data to it.&lt;/p&gt;
+
+&lt;p&gt;Let’s see what docker ps and some related commands show us:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/dockerps.png&quot; alt=&quot;docker ps&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ok, nothing too crazy. The first command was verbose, showing us all the container data, like ports forwarded, the name, etc etc. The next one was just a quick oneliner of the container ID. Then we killed that container and started up a new one. If we look at running containers again, we only see a single container. The next command is where stuff get’s interesting, because docker ps -qa shows us 2 containers, one of which matches the terminated container! It didn’t clean up after us, so we need to do that ourselves.&lt;/p&gt;
+
+&lt;p&gt;Speaking of didn’t clean up after us, remember that container we built? If you watched the build process, you’ll remember it spun up some intermediate containers. Let’s see if they left anything behind. I saved myself some trouble here by piping it to xargs and cleaning up at once.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/dockerdanglers.png&quot; alt=&quot;docker danglers&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Ok wow, so that’s quite a few volumes we cleaned up. These were the residual images from the intermediate containers that were built. None of this stuff goes away on it’s own, so just keep an eye on your disk space as you’re building and throwing things away, it will catch up to you eventually.&lt;/p&gt;
+
+&lt;p&gt;Here’s what I run to completely clean up, courtsey of &lt;a href=&quot;http://blog.yohanliyanage.com/2015/05/docker-clean-up-after-yourself/&quot;&gt;this site&lt;/a&gt; and &lt;a href=&quot;https://lebkowski.name/docker-volumes/&quot;&gt;this one&lt;/a&gt; and some tinkering:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+docker volume ls -qf dangling=true | xargs -r docker volume rm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This string of commands stops all running containers, removes the container images and then removes associated volumes. You can also just run the second one if you just want to delet all currently stopped containers.&lt;/p&gt;
+
+&lt;p&gt;Furthermore, you could have container images left on your disk taking up space. To see what images you have, use docker images -qa. That will list them all. Then, you can use docker rmi to remove unnecessary images. You can always rebuild this stuff if you delete it, so consider whether you prefer disk space or download time and make your choices accordingly.&lt;/p&gt;
+
+&lt;h3 id=&quot;cyberchef&quot;&gt;CyberChef&lt;/h3&gt;
+
+&lt;p&gt;This tool is pretty exciting. Most everything Cyberchef can do has been possible one way or another, but I’ve never seen anything combine so many features in one single tool. You can encrypt, decrypt, encode, decode, deobfuscate and blah blah blah all day. It’s really pretty impressive.&lt;/p&gt;
+
+&lt;p&gt;First you need to install CyberChef locally. I understand any concerns about installing something from GCHQ, but if you’re worried, do it in a VM and restore a snapshot when youre done. If you’re really really worried, maybe reevaluate what you’re doing on your computer. To install on Ubuntu 16.04, fully updated as of Dec 2016,&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install git nodejs npm
+npm install -g grunt-cli
+git clone https://github.com/gchq/CyberChef.git
+cd CyberChef
+npm install
+docker run -dit -p 8888:80 -v /home/ubuntu/gits/CyberChef/:/usr/local/apache2/htdocs httpd
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><summary type="html">More test cases, but first, some housekeeping</summary></entry><entry><title type="html">Practical Docker for Security Admins - Part 1</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html" rel="alternate" type="text/html" title="Practical Docker for Security Admins - Part 1" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html">&lt;p&gt;&lt;a href=&quot;https://www.docker.com/&quot;&gt;Docker&lt;/a&gt; is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.&lt;/p&gt;
 
 &lt;p&gt;I won’t pretend I’m getting the most possible out of docker, but the learning curve required to get a whole lot of functionality out of it is really shallow. I have Docker installed in a VM. Like I described earlier, I got it working well enough and then snapshotted it. If you’re not paying attention to what you’re doing, you can run into a lot of errors and annoyances you don’t see coming.&lt;/p&gt;
 
@@ -8,6 +53,8 @@
 &lt;p&gt;Docker is a really handy way to run things temporarily. There’s an excellent implementation of &lt;a href=&quot;https://github.com/citizen-stig/dockermutillidae&quot;&gt;Mutillidae&lt;/a&gt; that makes for a good test range, base Ubuntu Images, and on and on and on.&lt;/p&gt;
 
 &lt;p&gt;One of my favorites is &lt;a href=&quot;https://www.splunk.com/&quot;&gt;Splunk&lt;/a&gt;. Sometimes, I’ll get a large amount of logs or data I need to go through quickly. If you’ve never used Splunk, it really is an amazing tool. It indexes data quickly and lets you run very complex searches. The problem is the full version is expensive and the free version has limits. There’s this happy in-between trial enterprise version. You can index a certain amount of data until it warns you, but it won’t stop you. You can injest several gigabytes of data into a single splunk index, do what you need to do, and then get rid of it. If you’re snapshotting or pausing the container, you can get that data right back without reindexing it. If you forget, just spin up a new container and you’re ready to restart.&lt;/p&gt;
+
+&lt;p&gt;Another test case I’m sure has never happened to any incident responder anywhere is that a server becomes ground zero for an incident but it wasn’t logging to a central logging server. Now you have gigabytes of data you need to go through quickly and no way to do it. Splunk can be really useful for situations like these (which probably never happen).&lt;/p&gt;
 
 &lt;p&gt;There’s another really interesting project called &lt;a href=&quot;https://github.com/gchq/CyberChef.git&quot;&gt;CyberChef&lt;/a&gt;. Some nice fellow at GCHQ spent their free time building it. I’ll write a post on it later, but the short of it is you can take data, encrypt, decrypt, encode, decode, alter, arrange, whatever it until you have what you want. It’s really an amazing tool.&lt;/p&gt;
 
@@ -76,7 +123,11 @@ docker run -d -e &lt;span class=&quot;s2&quot;&gt;&quot;SPLUNK_START_ARGS=--acce
 
 &lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/splunksettings.png&quot; alt=&quot;Splunk Settings&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;So now we have a working splunk iunstance, it loaded data at /data, and we can search it.&lt;/p&gt;
+&lt;p&gt;So now we have a working splunk instance, it loaded data at /data, and we can search it. You can change the destination mount directory to whatever you want, but since I sent it to the root user’s home folder, I need to find it  there.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/splunkdatadirs.png&quot; alt=&quot;Splunk Settings&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Indexing will take a little bit depending on how much data you have, but there it is! You can now do all the wonderful things you can usually do in Splunk.&lt;/p&gt;
 
 &lt;p&gt;I think that’s all I want to go over for now. I’ll do a part 2 on this soon and go over Cyberchef.&lt;/p&gt;</content><summary type="html">Docker is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.</summary></entry><entry><title type="html">Security Labs on a (no) budget</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html" rel="alternate" type="text/html" title="Security Labs on a (no) budget" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html">&lt;h2 id=&quot;so-you-want-a-lab&quot;&gt;So you want a lab?&lt;/h2&gt;
 

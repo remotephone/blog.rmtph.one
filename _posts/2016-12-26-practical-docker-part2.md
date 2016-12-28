@@ -37,4 +37,38 @@ This string of commands stops all running containers, removes the container imag
 
 Furthermore, you could have container images left on your disk taking up space. To see what images you have, use docker images -qa. That will list them all. Then, you can use docker rmi to remove unnecessary images. You can always rebuild this stuff if you delete it, so consider whether you prefer disk space or download time and make your choices accordingly. 
 
+### CyberChef
 
+This tool is pretty exciting. Most everything Cyberchef can do has been possible one way or another, but I've never seen anything combine so many features in one single tool. You can encrypt, decrypt, encode, decode, deobfuscate and blah blah blah all day. It's really pretty impressive.
+
+First you need to install CyberChef locally. I understand any concerns about installing something from GCHQ, but if you're worried, do it in a VM and restore a snapshot when youre done. If you're really really worried, maybe reevaluate what you're doing on your computer. To install on Ubuntu 16.04, fully updated as of Dec 2016,
+
+~~~
+sudo apt-get install git nodejs npm
+npm install -g grunt-cli
+git clone https://github.com/gchq/CyberChef.git
+cd CyberChef
+npm install
+docker run -dit -p 8888:80 -v /home/ubuntu/gits/CyberChef/:/usr/local/apache2/htdocs httpd
+~~~ 
+
+Of course, replace directories as appropriate. If you go to your forwarded (or not) port in your browser and the build/prod/ directory, you have a working instance of cyberchef! Let's pull a random sample from the internet and see if we can decode it. I first chose the sample from this [page](https://isc.sans.edu/forums/diary/Obfuscated+SQL+Injection+attacks/9397/). This sample will be good because we can check our work against their results. First, let's clean up the code a little bit using Generic Code Beautify and URL Decode. 
+
+![Debofus 1]({{ site.url }}/images/cyberchefdeob1.PNG){: .center-image }
+
+So that's a bit clearer, let's decode the hex. 
+
+![Deobfus2]({{ site.url }}/images/cyberchefdeob2.PNG){: .center-image }
+
+Well that broke the rest of the syntax, but that's why we take notes right? As I'm decoding something like this, I create a step by step log of what I've changed so I can retrace why what I did worked. 
+
+![Deobfus Notes]({{ site.url }}/images/cyberchefdeobnotes.PNG){: .center-image }
+
+
+If we decode the final string, we see the malicious URL that was being injected into the database. I had to run two hex decodes before it decoded everything, but depending on how packed the payload is, you may have to run any number of operations.
+
+![Deobfus3]({{ site.url }}/images/cyberchefdeob3.PNG){: .center-image } 
+
+
+
+ 

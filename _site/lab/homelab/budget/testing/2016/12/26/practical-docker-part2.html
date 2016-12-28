@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+    <html lang="en-US">
+    <head profile="http://www.w3.org/2005/10/profile">
+    <link rel="icon" 
+      type="image/png" 
+      href="https://remotephone.github.io/images/52774.png">
+    <!--title>Practical Docker for Security Admins - Part 2 - Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
+</title-->
+    <title>Notepad+++  - Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
+</title>
+    
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="More test cases, but first, some housekeeping
+
+" />
+    <meta property="og:description" content="More test cases, but first, some housekeeping
+
+" />
+    
+    <meta name="author" content="Break it, Fix it, Write It Down" />
+
+    
+    <meta property="og:title" content="Practical Docker for Security Admins - Part 2" />
+    <meta property="twitter:title" content="Practical Docker for Security Admins - Part 2" />
+    
+
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
+" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://remotephone.github.io/images/52774.png" /></a>
+	  <!-- credit for avatar: http://image.flaticon.com/icons/png/512/52/52774.png-->
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Break it, Fix it, Write It Down</a></h1>
+            <p class="site-description">Putting stuff together so you don't have to google as hard as I did.
+</p>
+          </div>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Practical Docker for Security Admins - Part 2</h1>
+
+  <div class="entry">
+    <h2 id="more-test-cases-but-first-some-housekeeping">More test cases, but first, some housekeeping</h2>
+
+<p>Docker will fill up disk space quickly if you’re not managing it actively or planning for it. Since I use throw away VMs for my docker containers, I don’t give them a lot of disk space to fill up. When your splunking through large indexes of data, you can very quickly fill up a virtual disk. There’s a few ways I’ve found to manage the data.</p>
+
+<h3 id="clean-up-after-yourself">Clean up after yourself</h3>
+
+<p>Similar to how you run something with docker run, docker has it’s own utilities to manage and inspect containers. Docker ps allows you to view running containers on your system. docker ps -qa gives you a quick view of just the container names. So far, on this VM, I’ve built my splunk docker image from the last page, I’ve created a container with splunk, and added some data to it.</p>
+
+<p>Let’s see what docker ps and some related commands show us:</p>
+
+<p><img src="http://0.0.0.0:4000/images/dockerps.png" alt="docker ps" class="center-image" /></p>
+
+<p>Ok, nothing too crazy. The first command was verbose, showing us all the container data, like ports forwarded, the name, etc etc. The next one was just a quick oneliner of the container ID. Then we killed that container and started up a new one. If we look at running containers again, we only see a single container. The next command is where stuff get’s interesting, because docker ps -qa shows us 2 containers, one of which matches the terminated container! It didn’t clean up after us, so we need to do that ourselves.</p>
+
+<p>Speaking of didn’t clean up after us, remember that container we built? If you watched the build process, you’ll remember it spun up some intermediate containers. Let’s see if they left anything behind. I saved myself some trouble here by piping it to xargs and cleaning up at once.</p>
+
+<p><img src="http://0.0.0.0:4000/images/dockerdanglers.png" alt="docker danglers" class="center-image" /></p>
+
+<p>Ok wow, so that’s quite a few volumes we cleaned up. These were the residual images from the intermediate containers that were built. None of this stuff goes away on it’s own, so just keep an eye on your disk space as you’re building and throwing things away, it will catch up to you eventually.</p>
+
+<p>Here’s what I run to completely clean up, courtsey of <a href="http://blog.yohanliyanage.com/2015/05/docker-clean-up-after-yourself/">this site</a> and <a href="https://lebkowski.name/docker-volumes/">this one</a> and some tinkering:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+docker volume ls -qf dangling=true | xargs -r docker volume rm
+</code></pre>
+</div>
+
+<p>This string of commands stops all running containers, removes the container images and then removes associated volumes. You can also just run the second one if you just want to delet all currently stopped containers.</p>
+
+<p>Furthermore, you could have container images left on your disk taking up space. To see what images you have, use docker images -qa. That will list them all. Then, you can use docker rmi to remove unnecessary images. You can always rebuild this stuff if you delete it, so consider whether you prefer disk space or download time and make your choices accordingly.</p>
+
+<h3 id="cyberchef">CyberChef</h3>
+
+<p>This tool is pretty exciting. Most everything Cyberchef can do has been possible one way or another, but I’ve never seen anything combine so many features in one single tool. You can encrypt, decrypt, encode, decode, deobfuscate and blah blah blah all day. It’s really pretty impressive.</p>
+
+<p>First you need to install CyberChef locally. I understand any concerns about installing something from GCHQ, but if you’re worried, do it in a VM and restore a snapshot when youre done. If you’re really really worried, maybe reevaluate what you’re doing on your computer. To install on Ubuntu 16.04, fully updated as of Dec 2016,</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install git nodejs npm
+npm install -g grunt-cli
+git clone https://github.com/gchq/CyberChef.git
+cd CyberChef
+npm install
+docker run -dit -p 8888:80 -v /home/ubuntu/gits/CyberChef/:/usr/local/apache2/htdocs httpd
+</code></pre>
+</div>
+
+  </div>
+
+  <div class="date">
+    Written on December 26, 2016
+  </div>
+
+    <div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//remotephone-github-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    <script id="dsq-count-scr" src="//remotephone-github-io.disqus.com/count.js" async></script>
+
+
+</article>
+
+    </div>
+
+
+
+
+
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/remotephone/remotephone.github.io"><i class="svg-icon github"></i></a>
+
+
+
+<a href="/feed.xml"><i class="svg-icon rss"></i></a>
+<a href="https://www.twitter.com/remotephone"><i class="svg-icon twitter"></i></a>
+
+
+
+
+        </footer>
+      </div>
+    </div>
+
+  </body>
+</html>
