@@ -52,7 +52,10 @@ npm install
 docker run -dit -p 8888:80 -v /home/ubuntu/gits/CyberChef/:/usr/local/apache2/htdocs httpd
 ~~~ 
 
-Of course, replace directories as appropriate. If you go to your forwarded (or not) port in your browser and the build/prod/ directory, you have a working instance of cyberchef! Let's pull a random sample from the internet and see if we can decode it. I first chose the sample from this [page](https://isc.sans.edu/forums/diary/Obfuscated+SQL+Injection+attacks/9397/). This sample will be good because we can check our work against their results. First, let's clean up the code a little bit using Generic Code Beautify and URL Decode. 
+Of course, replace directories as appropriate. If you go to your forwarded (or not) port in your browser and the build/prod/ directory, you have a working instance of cyberchef! Let's pull a random sample from the internet and see if we can decode it. I first chose the sample from this [page](https://isc.sans.edu/forums/diary/Obfuscated+SQL+Injection+attacks/9397/). This sample will be good because we can check our work against their results. 
+
+
+We're looking at this as though our IDS alert or packet capture of malicious traffic came to our desk for analysis. First, let's clean up the code a little bit using Generic Code Beautify and URL Decode. 
 
 ![Debofus 1]({{ site.url }}/images/cyberchefdeob1.PNG){: .center-image }
 
@@ -69,6 +72,11 @@ If we decode the final string, we see the malicious URL that was being injected 
 
 ![Deobfus3]({{ site.url }}/images/cyberchefdeob3.PNG){: .center-image } 
 
+There is a Flow Control section in CyberChef that I think might help eliminate the need to take notes as you go and do it all in one operation, but I haven't figured it out. If anyone reading this knows how to maek that happen, I'd love to hear it. 
 
+## So now what?
 
+Now that we have our malicious payload decoded, we can determine our next moves. Since this began as SQL injection, let's see if this string is anywhere in the database. If this infected an internal site, we probably need to figure out what that URL does, how we can update IDS/IPS signatures to help with that, and examine DNS and firewall records for any evidence of users or systems visiting that URL. If it's customer facing, it's probably time to work with the lawyers and find out what this means. 
+
+Of course, there's tons of ways to do this. You could actually do all of what I did with notepad++ add ons, you could do it with command line decoders, or you could do it all manually. CyberChef is one tool that might not work all the time, but looks like it has a lot of potential.
  
