@@ -16,4 +16,17 @@ If you're doing this on a budget, you have a few ways to go about this. You can 
 
 For this lab, I'm using a docker container of LAMP and a local installation of Damn Vulnerable Web Applications. Let's first get our docker container.
 
----to be continued...---
+### OK let's go
+
+Getting this built took longer than I expected, but if you check [my github](https://github.com/remotephone) page you'll see a repo for dvwa-lamp. This is a docker container than includes the [Damn Vulnerable Web App](https://github.com/ethicalhack3r/DVWA) bundled inside a lamp container I forked off [tutum](https://github.com/tutumcloud/lamp).
+
+You can follow the instructions in the README or do just do this:
+
+~~~
+docker build -t remotephone/dvwa-lamp .
+docker run -d -p 80:80 -p 3306:3306 remotephone/lamp 
+<wait 10 seconds and then browse to...>
+http://localhost/setup.php
+~~~
+
+And you're set! Let's get started. We're going to move from a web app to a Docker container and see if we can make it to the host.
