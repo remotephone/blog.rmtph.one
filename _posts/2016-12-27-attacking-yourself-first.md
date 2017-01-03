@@ -39,10 +39,12 @@ cd dvwa-lamp
 docker build -t remotephone/dvwa-lamp .
 docker run -d -p 80:80 -p 3306:3306 remotephone/dvwa-lamp 
 <wait some seconds and then browse to...>
-http://localhost/setup.php
+http://<Victim IP>/setup.php
 ~~~
 
 And you're set! Install the database by completed the setup and login as admin/password. 
+
+### Explotiation and notes
 
 Now let's get started. We're going to move from a web app to a Docker container and see if we can make it to the host. For the purposes of this demo, I'm going easy mode, we're going to set the security level to "Low" in DVWA Security in the sidebar and then go to the File Inclusion tests.
 
@@ -59,6 +61,3 @@ $port = 443;       // CHANGE THIS
 ~~~
 
 It's conveniently marked with "CHANGE THIS" so you know what to update. If you want to change some of the actions under $shell, you can, especially if for some reason bash or sh is not in the /bin/ directory. 
-
-
- 
