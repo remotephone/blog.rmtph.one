@@ -102,5 +102,7 @@ These are some great resources for some of the shells I've included above. Learn
 
 
 [The one](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet) everyone seems to link 
+
 [Variations](https://highon.coffee/blog/reverse-shell-cheat-sheet/) on the theme.
+
 [Oldy](http://bernardodamele.blogspot.com/2011/09/reverse-shells-one-liners.html) but goody
