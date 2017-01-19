@@ -28,7 +28,7 @@ There are some pretty good guides to installing Docker out there. There's the [o
 1. Install necessary packaages
   
    ~~~bash
-   sudo apt-get install docker.io linux-image-extra-$(uname -r) linux-image-extra-virtual
+   sudo apt-get install docker.io linux-image-extra-$(uname -r) linux-image-extra-virtual git
    ~~~
 
 2. Add yourself to the appropriate group
