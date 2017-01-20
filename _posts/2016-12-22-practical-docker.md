@@ -5,7 +5,7 @@ date:   2016-12-20 16:29:15 -0600
 categories: lab homelab budget testing
 ---
 
-[Docker](https://www.docker.com/) and containers pretty nifty.  You can run applications or even OSes inside containers (sort of, it shares a kernel with the host OS and there's still at least some ways to escape a container to get to the host). The beauty of it to me is how throwaway it is. I saw a presentation where someone started an Ubuntu container, rm -rf /'ed themselves, created a new container, and it was like nothing ever happened. Amazing stuff.  
+[Docker](https://www.docker.com/) and containers are pretty nifty.  You can run applications or even OSes inside containers (sort of, it shares a kernel with the host OS and there's still at least some ways to escape a container to get to the host). The beauty of it to me is how throwaway it is. I saw a presentation where someone started an Ubuntu container, rm -rf /'ed themselves, created a new container, and it was like nothing ever happened. Amazing stuff.  
 
 I won't pretend I'm getting the most possible out of docker or even understand it fully, but the learning curve required to get a whole lot of functionality out of it is really shallow. I have Docker installed in a VM. Like I described earlier, I got it working well enough and then snapshotted it. If you're not paying attention to what you're doing, you can run into a lot of errors and annoyances you don't see coming. 
 
