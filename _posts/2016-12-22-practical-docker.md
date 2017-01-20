@@ -57,7 +57,7 @@ Splunk is great Running it in a docker container is greater. I tend to run cheap
 
 Replacing the server.conf minFreeSpace variable means indexing will keep running until you have only 500mb free, which is easier to swing than 5GB. If you need to change it further, you can, but at that point its probably better just to make a bigger disk. 
 
-To run the image, clone the repo, cd into the enterprise directory and do:
+For this example, I've created a /data directory and copied my VM's /var/log/ directory into it just so we have some data to work with. To run the image, clone the repo, cd into the enterprise directory and do:
 
 ~~~bash    
 docker build -t splunkminfree .
