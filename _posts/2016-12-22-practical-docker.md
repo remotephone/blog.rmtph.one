@@ -13,7 +13,7 @@ I won't pretend I'm getting the most possible out of docker or even understand i
 
 Docker is a really handy way to run things temporarily. There's an excellent implementation of [Mutillidae](https://github.com/citizen-stig/dockermutillidae) that makes for a good test range, base Ubuntu Images, LAMP stacks, and on and on and on. 
 
-One of my favorites is [Splunk](https://www.splunk.com/). Sometimes, I'll get a large amount of logs or data I need to go through quickly. If you've never used Splunk, it really is an amazing tool. It indexes data quickly and lets you run very complex searches. The problem is the full version is expensive and the free version has limits. There's this happy in-between trial enterprise version. You can index a certain amount of data until it warns you, but it won't stop you. You can injest several gigabytes of data into a single splunk index, do what you need to do, and then get rid of it. If you're snapshotting or pausing the container, you can get that data right back without reindexing it. If you forget, just spin up a new container and you're ready to restart. 
+One of my favorites is [Splunk](https://www.splunk.com/). Sometimes, I'll get a large amount of logs or data I need to go through quickly. If you've never used Splunk, it really is an amazing tool. It indexes data quickly and lets you run very complex searches. The problem is the full version is expensive and the free version has limits. There's this happy in-between trial enterprise version. You can index a certain amount of data until it warns you, but it won't stop you. You can ingest several gigabytes of data into a single splunk index, do what you need to do, and then get rid of it. If you're snapshotting or pausing the container, you can get that data right back without reindexing it. If you forget, just spin up a new container and you're ready to restart. 
 
 Another test case I'm sure has never happened to any incident responder anywhere is that a server becomes ground zero for an incident but it wasn't logging to a central logging server. Now you have gigabytes of data you need to go through quickly and no way to do it. Splunk can be really useful for situations like these (which probably never happen).
 
@@ -25,7 +25,7 @@ This post will go into some examples of how to use Docker and cover some pitfall
 
 There are some pretty good guides to installing Docker out there. There's the [official documentation](https://docs.docker.com/engine/installation/linux/ubuntulinux/#/install-the-latest-version) and [plenty](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) of [others](https://www.howtoforge.com/tutorial/docker-installation-and-usage-on-ubuntu-16.04/). This is the setup that worked for me in November 2016 and still works last I checked a week ago. 
 
-1. Install necessary packaages
+1. Install necessary packages
   
    ~~~bash
    sudo apt-get install docker.io linux-image-extra-$(uname -r) linux-image-extra-virtual git
@@ -48,7 +48,7 @@ There are some pretty good guides to installing Docker out there. There's the [o
 
 ### Splunk
 
-Splunk is great Running it in a docker container is greater. I tend to run cheap with VMs and not provision huge drives or anything, so it's important for me to run them lean. Since my VMs are small and disk space is at a premium, the default minimum free space settign splunk has before it stops indexing of 5GB is pretty greedy for my tastes. I changed up the Dockerfile on the [official Splunk repo](https://github.com/splunk/docker-splunk) to require a minimum of 500MB free in my [forked version](https://github.com/remotephone/docker-splunk). I literally changed only one line, so you can just clone the original repo and edit it yourself or just fork mine. The change was on line 42 and 43 of docker-splunk/enterprise/Dockerfile.
+Splunk is great Running it in a docker container is greater. I tend to run cheap with VMs and not provision huge drives or anything, so it's important for me to run them lean. Since my VMs are small and disk space is at a premium, the default minimum free space setting splunk has before it stops indexing of 5GB is pretty greedy for my tastes. I changed up the Dockerfile on the [official Splunk repo](https://github.com/splunk/docker-splunk) to require a minimum of 500MB free in my [forked version](https://github.com/remotephone/docker-splunk). I literally changed only one line, so you can just clone the original repo and edit it yourself or just fork mine. The change was on line 42 and 43 of docker-splunk/enterprise/Dockerfile.
 
 ~~~
 42 && rm -rf /var/lib/apt/lists/* \
