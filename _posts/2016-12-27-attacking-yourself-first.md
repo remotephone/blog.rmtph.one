@@ -116,7 +116,7 @@ total 8
 
 ### Compiling your exploit. 
 
-We already know the kernel version, 4.4.0-31 and we don't have an image laying around with that particular version, but we do have an updated image in an VM we have sitting around. To install the appropriate kernel, we need to find it. Search <distroname> <kernel verison> in google and you'll hopefully find something like [this page](http://packages.ubuntu.com/xenial/amd64/linux-image-4.4.0-31-generic/download) where you can download and install the kernel with:
+We already know the kernel version, 4.4.0-31 and we don't have an image laying around with that particular version, but we do have an updated image in an VM we have sitting around. To install the appropriate kernel, we need to find it. Search <distroname> <kernel verison> in google and you'll hopefully find something like this [page](http://packages.ubuntu.com/xenial/amd64/linux-image-4.4.0-31-generic/download) where you can download and install the kernel with:
 
 ~~~
 dpkg -i linux-image-4.4.0-31-generic_4.4.0-31.50_amd64.deb
