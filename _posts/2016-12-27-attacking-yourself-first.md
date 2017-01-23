@@ -142,6 +142,6 @@ And there you go, you've successfully gone from a web application, to a containe
 
 ### Lessons Learned
 
-Containers are not a panacea. They won't mean you're 100% secure, but they do put some difficult restrictions around attackers. Unless they haven't gotten around to patching dirtyc0w (which wouldn't be *that* surprising), you better be sitting on some creative ways of interacting with the kernel if you want to escape a container. As people get better with containers, best practices get better defined, and things like (Clear Linux)[https://clearlinux.org/] really take off, I think it's only going to get more interesting for attackers and pen testers.
+Containers are not a panacea. They won't mean you're 100% secure, but they do put some difficult restrictions around attackers. Unless they haven't gotten around to patching dirtyc0w (which wouldn't be *that* surprising), you better be sitting on some creative ways of interacting with the kernel if you want to escape a container. As people get better with containers, best practices get better defined, and things like [Clear Linux](https://clearlinux.org/) really take off, I think it's only going to get more interesting for attackers and pen testers.
 
 Thanks!
