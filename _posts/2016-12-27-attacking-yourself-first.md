@@ -99,7 +99,7 @@ Check for yourself in a default Ubuntu container, lots of the stuff we'd typical
 
 In the spirit of living off the land, let's start with what got us here to begin with, php. We have rights to the system, we can move around in a shell, let's see if we can execute arbitrary php. This isn't pretty, but it proves my point, we can execute arbitrary php commands.
 
-![PHP Works]({{site.url}}/images/phpworks.png){: .center-image } 
+![Whiches and php]{{site.url}}/images/whichesphp.png){: .center-image } 
  
 So great, we can move stuff in and out, but you can see we can't even compile anything locally once it's on there. I checked a handful of popular containers like the CentOS one, redis, and jenkins and they all come pretty bare. These are some results from redis and jenkins:
 
