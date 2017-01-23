@@ -98,7 +98,7 @@ If we have a vulnerable kernel, we need to get our exploit to the box. How do we
  
 Check for yourself in a default Ubuntu container, lots of the stuff we'd typically rely on getting files into and out of a server we're in aren't there. No ftp, no tftp, no wget, curl, fetch, etc etc. This complicates getting our exploit code on to the server.  
 
-In the spirit of living off the land, let's start with what got us here to begin with, php. We have rights to the system, we can move around in a shell, let's see if we can excute php. This isn't pretty, but it proves my point, we can execute arbitrary php commands.
+In the spirit of living off the land, let's start with what got us here to begin with, php. We have rights to the system, we can move around in a shell, let's see if we can execute arbitrary php. This isn't pretty, but it proves my point, we can execute arbitrary php commands.
 
 ![PHP Works]({{site.url}}/images/phpworks.png){: .center-image } 
  
@@ -123,7 +123,7 @@ We already know the kernel version, 4.4.0-31 and we don't have an image laying a
 dpkg -i linux-image-4.4.0-31-generic_4.4.0-31.50_amd64.deb
 ~~~
  
-You might also need the image-extra or headers package. Reboot into your new kernel, make sure you have the apporpriate packages installed, then compile it. If you don't, have everything installed, this is the full process:
+You might also need the image-extra or headers package. Reboot into your new kernel, make sure you have the appropriate packages installed, then compile it. If you don't have everything installed, this is the full process:
 
 ~~~
 sudo apt-get install git nasm make gcc
