@@ -95,13 +95,13 @@ If we have a vulnerable kernel, we need to get our exploit to the box. How do we
 
 ### Living off the land when you're in a desert
  
-Check for yourself in a default Ubuntu container, lots of the stuff we'd typically rely on getting files into and out of a server we're in aren't there. No ftp, no tftp, no wget, curl, fetch, etc etc. This complicates getting our exploit code on to the server.  
+Check for yourself in a default Ubuntu container, lots of the stuff we'd typically rely on getting files into and out of a server we're in aren't there. No ftp, no tftp, no wget, curl, fetch, etc etc. This complicates getting our exploit code on to the server. Once it's there, you'll find there's usually nothing to compile it either.  
 
 In the spirit of living off the land, let's start with what got us here to begin with, php. We have rights to the system, we can move around in a shell, let's see if we can execute arbitrary php. This isn't pretty, but it proves my point, we can execute arbitrary php commands.
 
 ![PHP Works]({{site.url}}/images/phpworks.png){: .center-image } 
  
-So great, we can move stuff in and out, but can we compile anything once it's there? I checked a handful of popular containers like the CentOS one, redis, and jenkins and they all come pretty bare. These are some results from redis and jenkins:
+So great, we can move stuff in and out, but you can see we can't even compile anything locally once it's on there. I checked a handful of popular containers like the CentOS one, redis, and jenkins and they all come pretty bare. These are some results from redis and jenkins:
 
 ![Installed default packages]({{site.url}}/images/whichredisjenkins.png){: .center-image }
 
