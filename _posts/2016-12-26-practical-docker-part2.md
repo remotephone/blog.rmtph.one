@@ -52,6 +52,8 @@ npm install
 docker run -dit -p 8888:80 -v /home/ubuntu/gits/CyberChef/:/usr/local/apache2/htdocs httpd
 ~~~ 
 
+> Not really sure what changed here, but on 4/14/17 when I set this up again, I had to be in the Cyberchef directory and run "sudo grunt prod" before it would populate the prod directory. 
+
 Of course, replace directories as appropriate. If you go to your forwarded (or not) port in your browser and the build/prod/ directory, you have a working instance of cyberchef! Let's pull a random sample from the internet and see if we can decode it. I first chose the sample from this [page](https://isc.sans.edu/forums/diary/Obfuscated+SQL+Injection+attacks/9397/). This sample will be good because we can check our work against their results. 
 
 
