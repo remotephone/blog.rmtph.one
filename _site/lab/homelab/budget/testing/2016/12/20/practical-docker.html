@@ -16,10 +16,10 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
 
     
-    <meta name="description" content="Docker is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.
+    <meta name="description" content="Docker and containers are pretty nifty.  You can run applications or even OSes inside containers (sort of, it shares a kernel with the host OS and there’s still at least some ways to escape a container to get to the host). The beauty of it to me is how throwaway it is. I saw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, created a new container, and it was like nothing ever happened. Amazing stuff.
 
 " />
-    <meta property="og:description" content="Docker is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.
+    <meta property="og:description" content="Docker and containers are pretty nifty.  You can run applications or even OSes inside containers (sort of, it shares a kernel with the host OS and there’s still at least some ways to escape a container to get to the host). The beauty of it to me is how throwaway it is. I saw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, created a new container, and it was like nothing ever happened. Amazing stuff.
 
 " />
     
@@ -63,15 +63,15 @@
   <h1>Practical Docker for Security Admins - Part 1</h1>
 
   <div class="entry">
-    <p><a href="https://www.docker.com/">Docker</a> is pretty nifty. The people behind it seem to get really annoyed if you say it’s lightweight VMs, so it’s not, but it’s kinda like lightweight VMs for applications. Kinda. You can run applications or even entire OSes inside containers. The beauty of it is how throwaway it is. I aw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, and then restarted the container and it was like nothing ever happened. Amazing stuff.</p>
+    <p><a href="https://www.docker.com/">Docker</a> and containers are pretty nifty.  You can run applications or even OSes inside containers (sort of, it shares a kernel with the host OS and there’s still at least some ways to escape a container to get to the host). The beauty of it to me is how throwaway it is. I saw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, created a new container, and it was like nothing ever happened. Amazing stuff.</p>
 
-<p>I won’t pretend I’m getting the most possible out of docker, but the learning curve required to get a whole lot of functionality out of it is really shallow. I have Docker installed in a VM. Like I described earlier, I got it working well enough and then snapshotted it. If you’re not paying attention to what you’re doing, you can run into a lot of errors and annoyances you don’t see coming.</p>
+<p>I won’t pretend I’m getting the most possible out of docker or even understand it fully, but the learning curve required to get a whole lot of functionality out of it is really shallow. I have Docker installed in a VM. Like I described earlier, I got it working well enough and then snapshotted it. If you’re not paying attention to what you’re doing, you can run into a lot of errors and annoyances you don’t see coming.</p>
 
 <h2 id="some-use-cases-and-ideas">Some Use Cases and Ideas</h2>
 
-<p>Docker is a really handy way to run things temporarily. There’s an excellent implementation of <a href="https://github.com/citizen-stig/dockermutillidae">Mutillidae</a> that makes for a good test range, base Ubuntu Images, and on and on and on.</p>
+<p>Docker is a really handy way to run things temporarily. There’s an excellent implementation of <a href="https://github.com/citizen-stig/dockermutillidae">Mutillidae</a> that makes for a good test range, base Ubuntu Images, LAMP stacks, and on and on and on.</p>
 
-<p>One of my favorites is <a href="https://www.splunk.com/">Splunk</a>. Sometimes, I’ll get a large amount of logs or data I need to go through quickly. If you’ve never used Splunk, it really is an amazing tool. It indexes data quickly and lets you run very complex searches. The problem is the full version is expensive and the free version has limits. There’s this happy in-between trial enterprise version. You can index a certain amount of data until it warns you, but it won’t stop you. You can injest several gigabytes of data into a single splunk index, do what you need to do, and then get rid of it. If you’re snapshotting or pausing the container, you can get that data right back without reindexing it. If you forget, just spin up a new container and you’re ready to restart.</p>
+<p>One of my favorites is <a href="https://www.splunk.com/">Splunk</a>. Sometimes, I’ll get a large amount of logs or data I need to go through quickly. If you’ve never used Splunk, it really is an amazing tool. It indexes data quickly and lets you run very complex searches. The problem is the full version is expensive and the free version has limits. There’s this happy in-between trial enterprise version. You can index a certain amount of data until it warns you, but it won’t stop you. You can ingest several gigabytes of data into a single splunk index, do what you need to do, and then get rid of it. If you’re snapshotting or pausing the container, you can get that data right back without reindexing it. If you forget, just spin up a new container and you’re ready to restart.</p>
 
 <p>Another test case I’m sure has never happened to any incident responder anywhere is that a server becomes ground zero for an incident but it wasn’t logging to a central logging server. Now you have gigabytes of data you need to go through quickly and no way to do it. Splunk can be really useful for situations like these (which probably never happen).</p>
 
@@ -85,9 +85,9 @@
 
 <ol>
   <li>
-    <p>Install necessary packaages</p>
+    <p>Install necessary packages</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo apt-get install docker.io linux-image-extra-<span class="k">$(</span>uname -r<span class="k">)</span> linux-image-extra-virtual
+    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo apt-get install docker.io linux-image-extra-<span class="k">$(</span>uname -r<span class="k">)</span> linux-image-extra-virtual git
 </code></pre>
     </div>
   </li>
@@ -113,7 +113,7 @@ systemctl <span class="nb">enable </span>docker
 
 <h3 id="splunk">Splunk</h3>
 
-<p>Splunk is great Running it in a docker container is greater. I tend to run cheap with VMs and not provision huge drives or anything, so it’s important for me to run them lean. Since my VMs are small and disk space is at a premium, the default minimum free space settign splunk has before it stops indexing of 5GB is pretty greedy for my tastes. I changed up the Dockerfile on the <a href="https://github.com/splunk/docker-splunk">official Splunk repo</a> to require a minimum of 500MB free in my <a href="https://github.com/remotephone/docker-splunk">forked version</a>. I literally changed only one line, so you can just clone the original repo and edit it yourself or just fork mine. The change was on line 42 and 43 of docker-splunk/enterprise/Dockerfile.</p>
+<p>Splunk is great Running it in a docker container is greater. I tend to run cheap with VMs and not provision huge drives or anything, so it’s important for me to run them lean. Since my VMs are small and disk space is at a premium, the default minimum free space setting splunk has before it stops indexing of 5GB is pretty greedy for my tastes. I changed up the Dockerfile on the <a href="https://github.com/splunk/docker-splunk">official Splunk repo</a> to require a minimum of 500MB free in my <a href="https://github.com/remotephone/docker-splunk">forked version</a>. I literally changed only one line, so you can just clone the original repo and edit it yourself or just fork mine. The change was on line 42 and 43 of docker-splunk/enterprise/Dockerfile.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>42 &amp;&amp; rm -rf /var/lib/apt/lists/* \
 43 &amp;&amp; sed -i -e 's/minFreeSpace = 5000/minFreeSpace = 500/' /var/opt/splunk/etc/system/default/server.conf
@@ -122,7 +122,7 @@ systemctl <span class="nb">enable </span>docker
 
 <p>Replacing the server.conf minFreeSpace variable means indexing will keep running until you have only 500mb free, which is easier to swing than 5GB. If you need to change it further, you can, but at that point its probably better just to make a bigger disk.</p>
 
-<p>To run the image, clone the repo, cd into the enterprise directory and do:</p>
+<p>For this example, I’ve created a /data directory and copied my VM’s /var/log/ directory into it just so we have some data to work with. To run the image, clone the repo, cd into the enterprise directory and do:</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code>docker build -t splunkminfree .
 &lt;<span class="nb">let </span>it run and build&gt;
