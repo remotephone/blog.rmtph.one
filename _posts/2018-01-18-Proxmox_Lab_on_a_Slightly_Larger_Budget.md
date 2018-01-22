@@ -4,10 +4,10 @@ title:  "Proxmox Home Lab on a Slightly Larger Budget"
 date:   2017-01-18 21:31:00 -0600
 ---
 
-# Proxmox 5 and PFSense Home Lab Part 1
 
 Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a 2 simple node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your outer, and then connect everything up before you start installing Proxmox. 
 
+![My home lab]({{site.url}}/images/lab.jpg){: .center-image }
 
 ### Hardware
 
@@ -41,21 +41,26 @@ Some stuff you also should do:
 * Make your home subnet a /22. You'll appreciate the IP space.
 * Restrict your DHCP range to something specific, 10.0.0.50-10.0.0.150 for example.
  * This isn't required but makes keeping your networks straight in your head easier
+![dhcp]({{site.url}}/images/dhcp.png){: .center-image }
 *  Configure your router name and Configure your domain name. 
 * Enable USB Support under Services > USB
+![usb]({{site.url}}/images/usb.png){: .center-image }
 * Enable NAS support. Proxmox will store images here. 
+![nas]({{site.url}}/images/nas.png){: .center-image }
 * Create a backup of your configuration once you have something that works
 
 
 When it's done, you'll have the basis to build this:
 
-
+![netmap]({{site.url}}/images/netmap.png){: .center-image }
 
 ### Networking - Switch
 
 Configure your switch for the last IP of your network range. You'll need to connect directly to it and static an IP if you use the same tp-link family of switches I have. I couldn't find anything with feature parity at the same price (18 bucks on sale) but if you get something else you need VLAN support. 
 
 I connected my switch to a single port on my router and used VLANs to do network segregation on the switch. With the configuration I use, everything in my lab can be accessible from my home network but we avoid switching loops and and broadcast issues. This is my vlan configuration:
+
+![vlans]({{site.url}}/images/switch.png){: .center-image }
 
 With that VLAN configuration, you're ready to go. Connect eno1, the built in ethernet to ports 5 and 6. Port 7 and 8 will connect your dongles. 
 
