@@ -5,7 +5,7 @@ date:   2017-01-18 21:31:00 -0600
 ---
 
 
-Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a 2 simple node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your outer, and then connect everything up before you start installing Proxmox. 
+Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a 2 simple node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your router, and then connect everything up before you start installing Proxmox. 
 
 ![My home lab]({{site.url}}/images/lab.jpg){: .center-image }
 
@@ -172,6 +172,19 @@ iface vmbr1 inet static
         mtu 4000
 ~~~
 
-Reboot the systems so the changes take and if everything wenta s planned, you've got a 2 host proxmox cluster! Congratulations. 
+Reboot your system here, we now we just need to make sure the NAS comes up when the network does. Create a startup script at /etc/network/if-up.d/mount and make it executable. All you need to have in it is a mount -a to get it all working. The network interface will come up, the NAS will be ready and mounted when you're done booting up. 
+
+~~~ bash
+#!/bin/bash
+mount -a
+~~~
+
+Now you need to enable it in the console and tell each node they want to use the NAS for storage. Log in to your console as an admin, click data center at the top left, and the click Storage and Add and pick directory(mine's added already, but here's what you're looking for:
+
+![storage1]({{site.url}}/images/storage1.png){: .center-image }
+
+Once there, enable all types of storage, set backups to two (it will come in handy later), and save. This may report as unavailable, but once you reboot and your startup script runs, it'll mount the drive and be ready for use. 
+
+Do a final reboot of your nodes. If everything went as planned, you've got a 2 host proxmox cluster! Congratulations. 
 
 Follow up posts will go into setting up PFSense and other interesting bits in the lab. Thanks for reading.
