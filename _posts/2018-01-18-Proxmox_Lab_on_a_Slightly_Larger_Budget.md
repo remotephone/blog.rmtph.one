@@ -13,11 +13,11 @@ Proxmox is an open source virtualization solution and a really flexible base for
 
 Proxmox is based on a fairly recent version of Debian so it's extremely forgiving in what it'll let you install it on. My lab consists of the following hardware:
 
-- 2x thinkcentre m92p tiny's w/ i5's and 8gb
-- 2x extra usb3 gig-ethernet dongles (trendnet and amazon basics, both worked fine)
-- 1x tp-link TL-SG108E 8 port gigabit switch
-- 1x dd-wrt router -> cable modem (my home router)
-- 1x 87 key Aukey Mechanical keyboard (nice to have, not needed)
+* 2x thinkcentre m92p tiny's w/ i5's and 8gb
+* 2x extra usb3 gig-ethernet dongles (trendnet and amazon basics, both worked fine)
+* 1x tp-link TL-SG108E 8 port gigabit switch
+* 1x dd-wrt router -> cable modem (my home router)
+* 1x 87 key Aukey Mechanical keyboard (nice to have, not needed)
 
 If you don't have hardware yet, watch ebay for a while and be patient. The systems I got at 140 bucks a piece were anywhere from 125 to 450 depending on when I looked. I'm pretty sure they were office worker workstations that served their two years of service and got replaced. Of course, you can also just install this on any two boxes you have laying around. You could also go real fancy and get Intel NUCs, but I managed to keep this full lab price around 450, even with the SSD's.
 
@@ -38,13 +38,13 @@ You'll need four IP addresses available for each your hosts eno1 and eno2 interf
 
 Some stuff you also should do:
 
-- Make your home subnet a /22. You'll appreciate the IP space.
-- Restrict your DHCP range to something specific, 10.0.0.50-10.0.0.150 for example.
- - This isn't required but makes keeping your networks straight in your head easier
--  Configure your router name and Configure your domain name. 
-- Enable USB Support under Services > USB
-- Enable NAS support. Proxmox will store images here. 
-- Create a backup of your configuration once you have something that works
+* Make your home subnet a /22. You'll appreciate the IP space.
+* Restrict your DHCP range to something specific, 10.0.0.50-10.0.0.150 for example.
+ * This isn't required but makes keeping your networks straight in your head easier
+*  Configure your router name and Configure your domain name. 
+* Enable USB Support under Services > USB
+* Enable NAS support. Proxmox will store images here. 
+* Create a backup of your configuration once you have something that works
 
 
 When it's done, you'll have the basis to build this:
@@ -74,7 +74,7 @@ Install on the first host. I chose the hostnames pve1 and pve2. I staticked IPs 
 
 You'll need to SSH into each host, add your SSH key if you so desire, and then do this configure the free repositories for updates and install them, unless you want to pay for support:
 
-{% highlight bash %}
+~~~ bash
 rm /etc/apt/sources.list.d/*
 echo "deb http://download.proxmox.com/debian/pve stretch pve-no-subscription" > /etc/apt/sources.list.d/pve-install-repo.list
 wget http://download.proxmox.com/debian/proxmox-ve-release-5.x.gpg -O /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
@@ -82,7 +82,7 @@ wget http://download.proxmox.com/debian/proxmox-ve-release-5.x.gpg -O /etc/apt/t
 apt update
 apt install openvswitch-switch
 apt upgrade
-{% endhighlight %}
+~~~
 
 Add your NAS to the /etc/fstab file of each Proxmox host. Use a credentials file for better security.This is an example of the line you'll add to your fstab file:
 
@@ -94,7 +94,7 @@ Add these lines to /etc/sysctl.conf.
 
 Edit /etc/sysctl.conf to do the following (you could just as easily paste it in at the bottom):
 
-{% highlight bash %}
+~~~ bash
 # Uncomment the next line to enable packet forwarding for IPv4
 net.ipv4.ip_forward=1
 
@@ -105,23 +105,23 @@ net.ipv6.conf.lo.disable_ipv6 = 1
 
 # increase max_user_instances to allow more containers
 fs.inotify.max_user_instances = 1024
-{% endhighlight %}
+~~~
 
 You'll thank me later for this one, but you'll notice your second network interface has some crazy name that includes the mac address in it. This long name causes all sorts of problems and is at the very least a pain to type over and over, so rename the interface eno2. You can do that by inserting the following line into /etc/udev/rules.d/10-network.rules with your proper mac address. 
 
 
-% highlight bash %}
+~~~ bash
 SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="XX:XX:XX:XX:XX:XX", NAME="eno2"
-{% endhighlight %}
+~~~
 
 Finally, configure your hosts file on each of the nodes to look like this, modifying it depending on what node you're on:
 
-{% highlight bash %}
+~~~ bash
 root@pve1:~# cat /etc/hosts
 127.0.0.1 localhost.localdomain localhost
 10.0.0.11 pve1.home.local pve1 pvelocalhost
 10.0.0.12 pve2.home.local pve2
-{% endhighlight %}
+~~~
 
 Reboot and verify your interface name and all the other changes took. 
 
