@@ -124,8 +124,8 @@ Finally, configure your hosts file on each of the nodes to look like this, modif
 ~~~ bash
 root@pve1:~# cat /etc/hosts
 127.0.0.1 localhost.localdomain localhost
-10.0.0.11 pve1.home.local pve1 pvelocalhost
-10.0.0.12 pve2.home.local pve2
+<IP pve1> pve1.local.lan pve1 pvelocalhost
+<IP pve2> pve2.local.lan pve2
 ~~~
 
 Reboot and verify your interface name and all the other changes took. 
@@ -134,4 +134,44 @@ Reboot and verify your interface name and all the other changes took.
 
 This is so easy you're gonna love it. Reboot first so you know all your changes took. Create your cluster and pick a name, ssh into the other host and add it. Proxmox configures ssh keys and all sorts of other services. If you want a cluster named cluster, use these steps, otherwise, customize it to your liking.  
 
-The steps [here](https://pve.proxmox.com/wiki/Cluster_Manager) outline what needs to be done pretty well, but basically, create the cluster on pve1, ssh in pve2 and add it to the cluster. 
+The steps [here](https://pve.proxmox.com/wiki/Cluster_Manager) outline what needs to be done pretty well, but basically, create the cluster on pve1, ssh in pve2 and add it to the cluster. That's really all there is to it. It does the rest. You can then launch your browser and get to the console.  
+
+You can mess aroudn in in the console if you want, but you need to set up your interfaces files before you deploy any images or devices. I wouldn't bother editing them through the GUI, there's some options that are different to configure through the console such as mtu and anything else beyond the basics. 
+
+Modify the following /etc/network/interfaces file to match the IPs for your lan for each host, back up the existing interfaces file (move it to /etc/network/interfaces.old), and drop in something that looks like this:
+
+~~~
+auto lo
+iface lo inet loopback
+
+allow-vmbr0 eno1
+iface eno1 inet manual
+        ovs_type OVSPort
+        ovs_bridge vmbr0
+
+allow-vmbr1 eno2
+iface eno2 inet manual
+        ovs_type OVSPort
+        ovs_bridge vmbr1
+        mtu 4000
+
+auto vmbr0
+iface vmbr0 inet static
+        address  10.0.0.11
+        netmask  255.255.252.0
+        gateway  10.0.0.1
+        ovs_type OVSBridge
+        ovs_ports eno1
+
+auto vmbr1
+iface vmbr1 inet static
+        address  10.0.0.21
+        netmask  255.255.252.0
+        ovs_type OVSBridge
+        ovs_ports eno2
+        mtu 4000
+~~~
+
+Reboot the systems so the changes take and if everything wenta s planned, you've got a 2 host proxmox cluster! Congratulations. 
+
+Follow up posts will go into setting up PFSense and other interesting bits in the lab. Thanks for reading.
