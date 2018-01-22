@@ -5,7 +5,7 @@ date:   2017-01-18 21:31:00 -0600
 ---
 
 
-Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a 2 simple node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your router, and then connect everything up before you start installing Proxmox. 
+Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a simple 2 node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your router, and then connect everything up before you start installing Proxmox. 
 
 ![My home lab]({{site.url}}/images/lab.jpg){: .center-image }
 
