@@ -7,12 +7,20 @@
   -webkit-box-shadow: 3px 3px rgba(0,0,0,0.1);
   box-shadow: 3px 3px rgba(0,0,0,0.1);
   margin: 0px 0 0px 0;
-  overflow: scroll;
+  overflow: auto;
 }
 
-.highlight .highlight {
-	  border: none;
-	    box-shadow: none;
+
+pre.highlight {
+  white-space: pre;
+  overflow: auto;
+  word-wrap: normal; /* horizontal scrolling */
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  padding: 10px;
+  background: #343642;
+  color: #C1C2C3;
 }
 
 code {
