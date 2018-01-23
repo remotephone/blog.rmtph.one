@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Proxmox Home Lab on a Slightly Larger Budget"
-date:   2017-01-18 21:31:00 -0600
+date:   2017-01-18 21:31:00 -0600
 ---
 
 
