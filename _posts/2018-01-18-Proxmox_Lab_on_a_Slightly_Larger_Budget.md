@@ -30,7 +30,7 @@ For networking, make sure you have Cat6 cables, a real gigabit switch, and don't
 
 ### Networking - DD-WRT
 
-I use dd-wrt for my home router OS. It makes a lot of what I'm doing easier, but updated support for hardware varies. The main www.dd-wrt.com is the place to go for most questions, but the resources at [my open router](https://www.myopenrouter.com/) are excellent. If you don't already have a router that supports dd-wrt, I strongly recommend you pick one based on what someone at my open router supports. Install it using their guides. 
+I use dd-wrt for my home router OS. It makes a lot of what I'm doing easier, but updated support for hardware varies. The main www.dd-wrt.com is the place to go for most questions, but the resources at [my open router](https://www.myopenrouter.com/) are excellent. If you don't already have a router that supports dd-wrt, I strongly recommend you pick one based on what someone at my open router supports. Install it using their guides. For updates, go to the [dd-wrt beta download site](https://download1.dd-wrt.com/dd-wrtv2/downloads/betas) and avoid what's on the [router database](https://www.dd-wrt.com/site/support/router-database), beta has better bug fixes and support.
 
 Judge me if you must, but I wanted this easy to interact with from my home network, so I dumped both my home network and lab into the same subnet. I'll break it off one day, but that's the subject of another post. 
 
@@ -91,9 +91,9 @@ apt upgrade
 
 Add your NAS to the /etc/fstab file of each Proxmox host. Use a credentials file for better security.This is an example of the line you'll add to your fstab file:
 
-  //mynas/media /mnt/bindmounts/media cifs rw,credentials=/home/.smbcredentials-mynas,vers=3.0,noperm,auto 0 0
+  //mynas/media /mnt/bindmounts/media cifs rw,credentials=/home/.smbcredentials-mynas,vers=2.0,noperm,auto 0 0
 
-If you use DD-wrt and didn't upgrade to SMBv3, you'll need to specify version 1 with "vers=1.0". 
+If you use DD-wrt and aren't using a recent version, you'll need to specify version 1 with "vers=1.0". Use an updated version.
 
 Add these lines to /etc/sysctl.conf. 
 
@@ -179,7 +179,7 @@ Reboot your system here, we now we just need to make sure the NAS comes up when 
 mount -a
 ~~~
 
-Now you need to enable it in the console and tell each node they want to use the NAS for storage. Log in to your console as an admin, click data center at the top left, and the click Storage and Add and pick directory(mine's added already, but here's what you're looking for:
+Now you need to enable it in the console and tell each node they want to use the NAS for storage. Log in to your console as an admin, click data center at the top left, and the click Storage and Add and pick directory 9(mine's added already, but here's what you're looking for:
 
 ![storage1]({{site.url}}/images/storage1.png){: .center-image }
 
