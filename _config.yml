@@ -31,6 +31,8 @@ theme: jekyll-theme-tactile
 gems:
  - jekyll-feed
  - jekyll-paginate
+plugins:
+ - jekyll-redirect-from
 exclude:
  - Gemfile
  - Gemfile.lock
