@@ -3,7 +3,7 @@ layout: post
 title:  "Proxmox Home Lab on a Slightly Larger Budget - Part 1"
 date:   2018-01-18 21:31:00 -0600
 redirect_from:	
-  - "/Proxmox_Lab_on_a_Slightly_Larger_Budget.html"
+  - "/Proxmox_Lab_on_a_Slightly_Larger_Budget.md"
 ---
 
 
