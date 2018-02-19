@@ -6,9 +6,9 @@ date:   2018-02-19 00:31:00 -0600
 
 Building a home lab Part 2 - Networking Some More
 
-So now we have some hardware and some virtualization hosts set up. Now you can set up your firewall. There are a few things we can do to make this environment easier to maintain. There are lots of great guides on setting up PfSense, mine will blaze through that set up to get to the goods. If you want a really great guide on setting up Pfsense, I recommend (Building Virtual Machine Labs)[https://leanpub.com/avatar] by Tony Robinson. 
+So now we have some hardware and some virtualization hosts set up. Now you can set up your firewall. There are a few things we can do to make this environment easier to maintain. There are lots of great guides on setting up PfSense, mine will blaze through that set up to get to the goods. If you want a really great guide on setting up Pfsense, I recommend [Building Virtual Machine Labs](https://leanpub.com/avatar) by Tony Robinson. 
 
-The real short version of it is you need to get pfsense from (here)[https://www.pfsense.org/download/] and upload it to your lab, create a VM, load the pfesnse ISO, enable VirtIO driver support, and then configure the WAN interface before you can get to any fun stuff. 
+The real short version of it is you need to get pfsense from [here](https://www.pfsense.org/download/) and upload it to your lab, create a VM, load the pfesnse ISO, enable VirtIO driver support, and then configure the WAN interface before you can get to any fun stuff. 
 
 
 ## Setting up the VMs
@@ -75,7 +75,7 @@ Since we have this on our LAN, we'll need to go to Interfaces > WAN > Reserved N
 
 We'll also need to poke this hole in the firewall to allow you to manage the firewall directly. 
 
-One handy change I made was under General > Setup > WebConfigurator, I changed Top Navigation to "Fixed" because it prevents the top menu bar from getting lost when the browser isn't full screened. Following the recommendations (here)[https://doc.pfsense.org/index.php/Virtualizing_pfSense_on_Proxmox], disable hardware checksum offloading.
+One handy change I made was under General > Setup > WebConfigurator, I changed Top Navigation to "Fixed" because it prevents the top menu bar from getting lost when the browser isn't full screened. Following the recommendations [here](https://doc.pfsense.org/index.php/Virtualizing_pfSense_on_Proxmox), disable hardware checksum offloading.
 
 
 ## VLANs
