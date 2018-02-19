@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Proxmox Home Lab on a Slightly Larger Budget - Part 2"
-date:   2018-02-19 21:31:00 -0600
+date:   2018-02-19 00:31:00 -0600
 ---
 
 Building a home lab Part 2 - Networking Some More
@@ -43,7 +43,7 @@ virtio_pci_load="YES"
 if_vtnet_load="YES"
 virtio_balloon_load="YES"
 virtio_blk_load="YES"
-~~~ bash
+~~~
 
 Save the file, reboot, and you have pfsense installed! It'll boot and then you can hit it through the console by clicking on the VM in ProxMox's Server View, selecting the VM, and using the console to manage it. It'll run you through some setup, again, I selected defaults and let it DHCP itself onto the network. It'll come up wherever it wants or at the address it was staticked to earlier. 
 
