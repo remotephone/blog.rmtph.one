@@ -94,7 +94,7 @@ Once you've created the VLANs, you'll need to assign them to an interface under 
 
 Now you need to go to Services > DHCP Server and configure each of the interfaces like I configured my admin interface. I recommend you use /24's for each of the interface, it makes a lot of what we'll do with ansible much easier (I learned this the hard way).
 
-![Admin DHCP]({{site.url}}/images/admin-lan.png){: .center-image }
+![Admin DHCP]({{site.url}}/images/adminlan.png){: .center-image }
 
 
 ## Firewalls!
