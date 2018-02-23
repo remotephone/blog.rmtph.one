@@ -109,8 +109,13 @@ nav a { margin-left: 20px; color: #333; text-align: right; font-weight: 300; let
 
 footer { padding: 20px 0; text-align: center; }
 
-.highlight { background-color: #efefef; padding: 7px 7px 7px 10px; border: 1px solid #ddd; -moz-box-shadow: 3px 3px rgba(0, 0, 0, 0.1); -webkit-box-shadow: 3px 3px rgba(0, 0, 0, 0.1); box-shadow: 3px 3px rgba(0, 0, 0, 0.1); margin: 20px 0 20px 0; overflow: scroll; }
+pre.highlight { background-color: #efefef; padding: 7px 7px 7px 10px; border: 1px solid #ddd; -moz-box-shadow: 3px 3px rgba(0, 0, 0, 0.1); -webkit-box-shadow: 3px 3px rgba(0, 0, 0, 0.1); box-shadow: 3px 3px rgba(0, 0, 0, 0.1); margin: 0px 0 0px 0; overflow: auto; }
 
+/*
+pre.highlight { white-space: pre; overflow: auto; word-wrap: normal; /* horizontal scrolling */
+                                               /* -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; padding: 10px; background: #343642; color: #C1C2C3;
+}
+*/
 code { font-family: 'Bitstream Vera Sans Mono','Courier', monospace; }
 
 .highlight .c { color: #586E75; }

