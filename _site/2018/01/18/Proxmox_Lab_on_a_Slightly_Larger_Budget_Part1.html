@@ -5,7 +5,7 @@
     <link rel="icon" 
       type="image/png" 
       href="https://remotephone.github.io/images/52774.png">
-    <!--title>Proxmox Home Lab on a Slightly Larger Budget - Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
+    <!--title>Proxmox Home Lab on a Slightly Larger Budget - Part 1 - Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
 </title-->
     <title>Notepad+++  - Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
 </title>
@@ -16,18 +16,18 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
 
     
-    <meta name="description" content="Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a 2 simple node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your outer, and then connect everything up before you start installing Proxmox.
+    <meta name="description" content="Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a simple 2 node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your router, and then connect everything up before you start installing Proxmox.
 
 " />
-    <meta property="og:description" content="Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a 2 simple node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your outer, and then connect everything up before you start installing Proxmox.
+    <meta property="og:description" content="Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a simple 2 node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your router, and then connect everything up before you start installing Proxmox.
 
 " />
     
     <meta name="author" content="Break it, Fix it, Write It Down" />
 
     
-    <meta property="og:title" content="Proxmox Home Lab on a Slightly Larger Budget" />
-    <meta property="twitter:title" content="Proxmox Home Lab on a Slightly Larger Budget" />
+    <meta property="og:title" content="Proxmox Home Lab on a Slightly Larger Budget - Part 1" />
+    <meta property="twitter:title" content="Proxmox Home Lab on a Slightly Larger Budget - Part 1" />
     
 
 
@@ -60,12 +60,12 @@
 
     <div id="main" role="main" class="container">
       <article class="post">
-  <h1>Proxmox Home Lab on a Slightly Larger Budget</h1>
+  <h1>Proxmox Home Lab on a Slightly Larger Budget - Part 1</h1>
 
   <div class="entry">
-    <p>Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a 2 simple node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your outer, and then connect everything up before you start installing Proxmox.</p>
+    <p>Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a simple 2 node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your router, and then connect everything up before you start installing Proxmox.</p>
 
-<p><img src="http://0.0.0.0:4000/images/lab.jpg" alt="My home lab" class="center-image" /></p>
+<p><img src="http://localhost:4000/images/lab.jpg" alt="My home lab" class="center-image" /></p>
 
 <h3 id="hardware">Hardware</h3>
 
@@ -89,7 +89,7 @@
 
 <h3 id="networking---dd-wrt">Networking - DD-WRT</h3>
 
-<p>I use dd-wrt for my home router OS. It makes a lot of what I’m doing easier, but updated support for hardware varies. The main www.dd-wrt.com is the place to go for most questions, but the resources at <a href="https://www.myopenrouter.com/">my open router</a> are excellent. If you don’t already have a router that supports dd-wrt, I strongly recommend you pick one based on what someone at my open router supports. Install it using their guides.</p>
+<p>I use dd-wrt for my home router OS. It makes a lot of what I’m doing easier, but updated support for hardware varies. The main www.dd-wrt.com is the place to go for most questions, but the resources at <a href="https://www.myopenrouter.com/">my open router</a> are excellent. If you don’t already have a router that supports dd-wrt, I strongly recommend you pick one based on what someone at my open router supports. Install it using their guides. For updates, go to the <a href="https://download1.dd-wrt.com/dd-wrtv2/downloads/betas">dd-wrt beta download site</a> and avoid what’s on the <a href="https://www.dd-wrt.com/site/support/router-database">router database</a>, beta has better bug fixes and support.</p>
 
 <p>Judge me if you must, but I wanted this easy to interact with from my home network, so I dumped both my home network and lab into the same subnet. I’ll break it off one day, but that’s the subject of another post.</p>
 
@@ -101,18 +101,18 @@
   <li>Make your home subnet a /22. You’ll appreciate the IP space.</li>
   <li>Restrict your DHCP range to something specific, 10.0.0.50-10.0.0.150 for example.</li>
   <li>This isn’t required but makes keeping your networks straight in your head easier
-<img src="http://0.0.0.0:4000/images/dhcp.png" alt="dhcp" class="center-image" /></li>
+<img src="http://localhost:4000/images/dhcp.png" alt="dhcp" class="center-image" /></li>
   <li>Configure your router name and Configure your domain name.</li>
   <li>Enable USB Support under Services &gt; USB
-<img src="http://0.0.0.0:4000/images/usb.png" alt="usb" class="center-image" /></li>
+<img src="http://localhost:4000/images/usb.png" alt="usb" class="center-image" /></li>
   <li>Enable NAS support. Proxmox will store images here. 
-<img src="http://0.0.0.0:4000/images/nas.png" alt="nas" class="center-image" /></li>
+<img src="http://localhost:4000/images/nas.png" alt="nas" class="center-image" /></li>
   <li>Create a backup of your configuration once you have something that works</li>
 </ul>
 
 <p>When it’s done, you’ll have the basis to build this:</p>
 
-<p><img src="http://0.0.0.0:4000/images/netmap.png" alt="netmap" class="center-image" /></p>
+<p><img src="http://localhost:4000/images/netmap.png" alt="netmap" class="center-image" /></p>
 
 <h3 id="networking---switch">Networking - Switch</h3>
 
@@ -120,7 +120,7 @@
 
 <p>I connected my switch to a single port on my router and used VLANs to do network segregation on the switch. With the configuration I use, everything in my lab can be accessible from my home network but we avoid switching loops and and broadcast issues. This is my vlan configuration:</p>
 
-<p><img src="http://0.0.0.0:4000/images/switch.png" alt="vlans" class="center-image" /></p>
+<p><img src="http://localhost:4000/images/switch.png" alt="vlans" class="center-image" /></p>
 
 <p>With that VLAN configuration, you’re ready to go. Connect eno1, the built in ethernet to ports 5 and 6. Port 7 and 8 will connect your dongles.</p>
 
@@ -136,27 +136,26 @@
 
 <p>You’ll need to SSH into each host, add your SSH key if you so desire, and then do this configure the free repositories for updates and install them, unless you want to pay for support:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>rm /etc/apt/sources.list.d/<span class="k">*</span>
-<span class="nb">echo</span> <span class="s2">"deb http://download.proxmox.com/debian/pve stretch pve-no-subscription"</span> &gt; /etc/apt/sources.list.d/pve-install-repo.list
-wget http://download.proxmox.com/debian/proxmox-ve-release-5.x.gpg -O /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rm /etc/apt/sources.list.d/<span class="k">*</span>
+<span class="nb">echo</span> <span class="s2">"deb http://download.proxmox.com/debian/pve stretch pve-no-subscription"</span> <span class="o">&gt;</span> /etc/apt/sources.list.d/pve-install-repo.list
+wget http://download.proxmox.com/debian/proxmox-ve-release-5.x.gpg <span class="nt">-O</span> /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
 
 apt update
 apt install openvswitch-switch
 apt upgrade
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Add your NAS to the /etc/fstab file of each Proxmox host. Use a credentials file for better security.This is an example of the line you’ll add to your fstab file:</p>
 
-<p>//mynas/media /mnt/bindmounts/media cifs rw,credentials=/home/.smbcredentials-mynas,vers=3.0,noperm,auto 0 0</p>
+<p>//mynas/media /mnt/bindmounts/media cifs rw,credentials=/home/.smbcredentials-mynas,vers=2.0,noperm,auto 0 0</p>
 
-<p>If you use DD-wrt and didn’t upgrade to SMBv3, you’ll need to specify version 1 with “vers=1.0”.</p>
+<p>If you use DD-wrt and aren’t using a recent version, you’ll need to specify version 1 with “vers=1.0”. Use an updated version.</p>
 
 <p>Add these lines to /etc/sysctl.conf.</p>
 
 <p>Edit /etc/sysctl.conf to do the following (you could just as easily paste it in at the bottom):</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Uncomment the next line to enable packet forwarding for IPv4</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Uncomment the next line to enable packet forwarding for IPv4</span>
 net.ipv4.ip_forward<span class="o">=</span>1
 
 <span class="c"># disable ipv6</span>
@@ -166,23 +165,20 @@ net.ipv6.conf.lo.disable_ipv6 <span class="o">=</span> 1
 
 <span class="c"># increase max_user_instances to allow more containers</span>
 fs.inotify.max_user_instances <span class="o">=</span> 1024
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You’ll thank me later for this one, but you’ll notice your second network interface has some crazy name that includes the mac address in it. This long name causes all sorts of problems and is at the very least a pain to type over and over, so rename the interface eno2. You can do that by inserting the following line into /etc/udev/rules.d/10-network.rules with your proper mac address.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nv">SUBSYSTEM</span><span class="o">==</span><span class="s2">"net"</span>, <span class="nv">ACTION</span><span class="o">==</span><span class="s2">"add"</span>, ATTR<span class="o">{</span>address<span class="o">}==</span><span class="s2">"XX:XX:XX:XX:XX:XX"</span>, <span class="nv">NAME</span><span class="o">=</span><span class="s2">"eno2"</span>
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">SUBSYSTEM</span><span class="o">==</span><span class="s2">"net"</span>, <span class="nv">ACTION</span><span class="o">==</span><span class="s2">"add"</span>, ATTR<span class="o">{</span>address<span class="o">}==</span><span class="s2">"XX:XX:XX:XX:XX:XX"</span>, <span class="nv">NAME</span><span class="o">=</span><span class="s2">"eno2"</span>
+</code></pre></div></div>
 
 <p>Finally, configure your hosts file on each of the nodes to look like this, modifying it depending on what node you’re on:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">root@pve1:~# </span>cat /etc/hosts
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@pve1:~# <span class="nb">cat</span> /etc/hosts
 127.0.0.1 localhost.localdomain localhost
-10.0.0.11 pve1.home.local pve1 pvelocalhost
-10.0.0.12 pve2.home.local pve2
-</code></pre>
-</div>
+&lt;IP pve1&gt; pve1.local.lan pve1 pvelocalhost
+&lt;IP pve2&gt; pve2.local.lan pve2
+</code></pre></div></div>
 
 <p>Reboot and verify your interface name and all the other changes took.</p>
 
@@ -190,42 +186,68 @@ fs.inotify.max_user_instances <span class="o">=</span> 1024
 
 <p>This is so easy you’re gonna love it. Reboot first so you know all your changes took. Create your cluster and pick a name, ssh into the other host and add it. Proxmox configures ssh keys and all sorts of other services. If you want a cluster named cluster, use these steps, otherwise, customize it to your liking.</p>
 
-<p>The steps <a href="https://pve.proxmox.com/wiki/Cluster_Manager">here</a> outline what needs to be done pretty well, but basically, create the cluster on pve1, ssh in pve2 and add it to the cluster.</p>
+<p>The steps <a href="https://pve.proxmox.com/wiki/Cluster_Manager">here</a> outline what needs to be done pretty well, but basically, create the cluster on pve1, ssh in pve2 and add it to the cluster. That’s really all there is to it. It does the rest. You can then launch your browser and get to the console.</p>
+
+<p>You can mess aroudn in in the console if you want, but you need to set up your interfaces files before you deploy any images or devices. I wouldn’t bother editing them through the GUI, there’s some options that are different to configure through the console such as mtu and anything else beyond the basics.</p>
+
+<p>Modify the following /etc/network/interfaces file to match the IPs for your lan for each host, back up the existing interfaces file (move it to /etc/network/interfaces.old), and drop in something that looks like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>auto lo
+iface lo inet loopback
+
+allow-vmbr0 eno1
+iface eno1 inet manual
+        ovs_type OVSPort
+        ovs_bridge vmbr0
+
+allow-vmbr1 eno2
+iface eno2 inet manual
+        ovs_type OVSPort
+        ovs_bridge vmbr1
+        mtu 4000
+
+auto vmbr0
+iface vmbr0 inet static
+        address  10.0.0.11
+        netmask  255.255.252.0
+        gateway  10.0.0.1
+        ovs_type OVSBridge
+        ovs_ports eno1
+
+auto vmbr1
+iface vmbr1 inet static
+        address  10.0.0.21
+        netmask  255.255.252.0
+        ovs_type OVSBridge
+        ovs_ports eno2
+        mtu 4000
+</code></pre></div></div>
+
+<p>Reboot your system here, we now we just need to make sure the NAS comes up when the network does. Create a startup script at /etc/network/if-up.d/mount and make it executable. All you need to have in it is a mount -a to get it all working. The network interface will come up, the NAS will be ready and mounted when you’re done booting up.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+mount <span class="nt">-a</span>
+</code></pre></div></div>
+
+<p>Now you need to enable it in the console and tell each node they want to use the NAS for storage. Log in to your console as an admin, click data center at the top left, and the click Storage and Add and pick directory 9(mine’s added already, but here’s what you’re looking for:</p>
+
+<p><img src="http://localhost:4000/images/storage1.png" alt="storage1" class="center-image" /></p>
+
+<p>Once there, enable all types of storage, set backups to two (it will come in handy later), and save. This may report as unavailable, but once you reboot and your startup script runs, it’ll mount the drive and be ready for use.</p>
+
+<p>Do a final reboot of your nodes. If everything went as planned, you’ve got a 2 host proxmox cluster! Congratulations.</p>
+
+<p>Follow up posts will go into setting up PFSense and other interesting bits in the lab. Thanks for reading.</p>
 
   </div>
 
   <div class="date">
-    Written on January 18, 2017
+    Written on January 18, 2018
   </div>
-
-    <div id="disqus_thread"></div>
-<script>
-
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = '//remotephone-github-io.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-    <script id="dsq-count-scr" src="//remotephone-github-io.disqus.com/count.js" async></script>
-
 
 </article>
 
     </div>
-
 
 
 

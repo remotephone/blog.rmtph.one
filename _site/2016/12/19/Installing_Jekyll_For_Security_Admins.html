@@ -83,9 +83,8 @@
 
 <p>There are a few things you need to do. I don’t do this stuff on my desktop, I use a VM (even working in an Ubuntu variant), clone the repository there, do my work, and then throw away the VM or restore a snapshot. It means I have to manually add SSH keys to my github account each time depending on where I’m working from, but you can make this easy with the following:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -u <span class="s2">"username"</span> --data <span class="s1">'{"title":"KEYNAME","key":"ssh-rsa AAA..."}'</span> https://api.github.com/user/keys 
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-u</span> <span class="s2">"username"</span> <span class="nt">--data</span> <span class="s1">'{"title":"KEYNAME","key":"ssh-rsa AAA..."}'</span> https://api.github.com/user/keys 
+</code></pre></div></div>
 
 <p>Since I’m in the web console anyway, it’s easy to delete unneeded keys. You’ll also have to edit your ssh config file but you can avoid all that work if you just do it from your desktop. I’d rather not for reasons I’m still working out.</p>
 
@@ -106,18 +105,16 @@ kyll-as-a-static-site-generator-with-github-pages/">github documentation</a> if 
       <li>
         <p>Run the following:</p>
 
-        <div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo apt-get install ruby ruby-dev make gcc git
-sudo gem install bundle
-</code></pre>
-        </div>
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get install ruby ruby-dev make gcc git
+<span class="nb">sudo </span>gem install bundle
+</code></pre></div>        </div>
       </li>
       <li>
         <p>I also turn on a color scheme in VIM (shine until it fails me) and enable spellchecking. Add this to your ~/.vimrc file</p>
 
-        <div class="language-bash highlighter-rouge"><pre class="highlight"><code> <span class="nb">set </span>spell <span class="nv">spelllang</span><span class="o">=</span>en_us
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">set </span>spell <span class="nv">spelllang</span><span class="o">=</span>en_us
  colorscheme shine
-</code></pre>
-        </div>
+</code></pre></div>        </div>
       </li>
       <li>
         <p>I keep a directory of repositories in my home directory to minimize clutter called gits and do all my work out of there</p>
@@ -157,20 +154,18 @@ sudo gem install bundle
       <li>
         <p>Before you commit, you need to run</p>
 
-        <div class="language-bash highlighter-rouge"><pre class="highlight"><code>git config --global user.email <span class="s2">"you@example.com"</span>
- 	  git config --global user.name <span class="s2">"Your Name"</span>
-</code></pre>
-        </div>
+        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">--global</span> user.email <span class="s2">"you@example.com"</span>
+ 	  git config <span class="nt">--global</span> user.name <span class="s2">"Your Name"</span>
+</code></pre></div>        </div>
       </li>
     </ul>
   </li>
   <li>
     <p>If you want to test it locally, you need to make a Gemfile according to the instructions <a href="https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/">here</a>. Then, from the root of your repo:</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>bundle install
-bundle <span class="nb">exec </span>jekyll serve --host<span class="o">=</span>0.0.0.0
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle install
+bundle <span class="nb">exec </span>jekyll serve <span class="nt">--host</span><span class="o">=</span>0.0.0.0
+</code></pre></div>    </div>
   </li>
 </ol>
 
@@ -184,34 +179,9 @@ bundle <span class="nb">exec </span>jekyll serve --host<span class="o">=</span>0
     Written on December 19, 2016
   </div>
 
-    <div id="disqus_thread"></div>
-<script>
-
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = '//remotephone-github-io.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-    <script id="dsq-count-scr" src="//remotephone-github-io.disqus.com/count.js" async></script>
-
-
 </article>
 
     </div>
-
 
 
 

@@ -87,16 +87,14 @@
   <li>
     <p>Install necessary packages</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo apt-get install docker.io linux-image-extra-<span class="k">$(</span>uname -r<span class="k">)</span> linux-image-extra-virtual git
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get install docker.io linux-image-extra-<span class="k">$(</span>uname <span class="nt">-r</span><span class="k">)</span> linux-image-extra-virtual git
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Add yourself to the appropriate group</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo usermod -aG docker <span class="nv">$USER</span>
-</code></pre>
-    </div>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>usermod <span class="nt">-aG</span> docker <span class="nv">$USER</span>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Reboot to make sure everything sticks and force you to log back in so group permissions take</p>
@@ -104,10 +102,9 @@
   <li>
     <p>Log back in and enable the service</p>
 
-    <div class="language-bash highlighter-rouge"><pre class="highlight"><code>systemctl start docker
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl start docker
 systemctl <span class="nb">enable </span>docker
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
 </ol>
 
@@ -115,36 +112,34 @@ systemctl <span class="nb">enable </span>docker
 
 <p>Splunk is great Running it in a docker container is greater. I tend to run cheap with VMs and not provision huge drives or anything, so it’s important for me to run them lean. Since my VMs are small and disk space is at a premium, the default minimum free space setting splunk has before it stops indexing of 5GB is pretty greedy for my tastes. I changed up the Dockerfile on the <a href="https://github.com/splunk/docker-splunk">official Splunk repo</a> to require a minimum of 500MB free in my <a href="https://github.com/remotephone/docker-splunk">forked version</a>. I literally changed only one line, so you can just clone the original repo and edit it yourself or just fork mine. The change was on line 42 and 43 of docker-splunk/enterprise/Dockerfile.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>42 &amp;&amp; rm -rf /var/lib/apt/lists/* \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>42 &amp;&amp; rm -rf /var/lib/apt/lists/* \
 43 &amp;&amp; sed -i -e 's/minFreeSpace = 5000/minFreeSpace = 500/' /var/opt/splunk/etc/system/default/server.conf
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Replacing the server.conf minFreeSpace variable means indexing will keep running until you have only 500mb free, which is easier to swing than 5GB. If you need to change it further, you can, but at that point its probably better just to make a bigger disk.</p>
 
 <p>For this example, I’ve created a /data directory and copied my VM’s /var/log/ directory into it just so we have some data to work with. To run the image, clone the repo, cd into the enterprise directory and do:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>docker build -t splunkminfree .
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> splunkminfree <span class="nb">.</span>
 &lt;<span class="nb">let </span>it run and build&gt;
-docker run -d -e <span class="s2">"SPLUNK_START_ARGS=--accept-license"</span> -e <span class="s2">"SPLUNK_USER=root"</span> -p <span class="s2">"8000:8000"</span>  -v /data:/root/ splunkminfree
-</code></pre>
-</div>
+docker run <span class="nt">-d</span> <span class="nt">-e</span> <span class="s2">"SPLUNK_START_ARGS=--accept-license"</span> <span class="nt">-e</span> <span class="s2">"SPLUNK_USER=root"</span> <span class="nt">-p</span> <span class="s2">"8000:8000"</span>  <span class="nt">-v</span> /data:/root/ splunkminfree
+</code></pre></div></div>
 
 <p>If you watch the build happen, you can see where docker replaced the config file as it was building the image.</p>
 
-<p><img src="http://0.0.0.0:4000/images/splunksed.png" alt="Splunk Sed Disk Size" class="center-image" /></p>
+<p><img src="http://localhost:4000/images/splunksed.png" alt="Splunk Sed Disk Size" class="center-image" /></p>
 
 <p>If you did it right, you’ll have a container available at your VM IP on port 8000. It takes a minute or two to start up and you may have to enable port forwarding if your VM is NATed and not bridged. Once you update the default password, you’re at the start screen!</p>
 
-<p><img src="http://0.0.0.0:4000/images/splunkstart.png" alt="Splunk Start Screen" class="center-image" /></p>
+<p><img src="http://localhost:4000/images/splunkstart.png" alt="Splunk Start Screen" class="center-image" /></p>
 
 <p>If we check our settings page, we can see our sed we did in the Dockerfile took place before execution, so we don’t need to restart the Splunk service, it booted up with our changes in place. This is important because if you do your changes as part of the entrypoint.sh script or elsewhere that’s not in the Dockerfile, your container can start up services before changes are made, making you restart them to get where you wanted to be to begin with.</p>
 
-<p><img src="http://0.0.0.0:4000/images/splunksettings.png" alt="Splunk Settings" class="center-image" /></p>
+<p><img src="http://localhost:4000/images/splunksettings.png" alt="Splunk Settings" class="center-image" /></p>
 
 <p>So now we have a working splunk instance, it loaded data at /data, and we can search it. You can change the destination mount directory to whatever you want, but since I sent it to the root user’s home folder, I need to find it  there.</p>
 
-<p><img src="http://0.0.0.0:4000/images/splunkdatadirs.png" alt="Splunk Settings" class="center-image" /></p>
+<p><img src="http://localhost:4000/images/splunkdatadirs.png" alt="Splunk Settings" class="center-image" /></p>
 
 <p>Indexing will take a little bit depending on how much data you have, but there it is! You can now do all the wonderful things you can usually do in Splunk.</p>
 
@@ -156,34 +151,9 @@ docker run -d -e <span class="s2">"SPLUNK_START_ARGS=--accept-license"</span> -e
     Written on December 20, 2016
   </div>
 
-    <div id="disqus_thread"></div>
-<script>
-
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-/*
-var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = '//remotephone-github-io.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-    <script id="dsq-count-scr" src="//remotephone-github-io.disqus.com/count.js" async></script>
-
-
 </article>
 
     </div>
-
 
 
 
