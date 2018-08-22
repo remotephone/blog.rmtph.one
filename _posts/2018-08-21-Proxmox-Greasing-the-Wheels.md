@@ -6,7 +6,7 @@ date:   2018-08-21 10:31:00 -0600
 
 I got distracted. I've done quite a bit of work on the incident response type lab I've been working on, but I also got interested in Docker and Docker Swarm. I've built that and it works so I figured I'd write that down first. This post will cover a few things I've done for myself to make all my projects easier. 
 
-# SSH Jumpbox 
+## SSH Jumpbox 
 
 I created an LXC container in a VLAN that has access to everything, its my jumpbox server. I use SSH key authentication to get into it, but I created a key on that system that I use to configure my systems when they're built. You want to give this more space than the default 8GB for a container since you may keep files and resources here
 
@@ -15,7 +15,7 @@ It's handy to have a jumpbox server if you have multiple systems you'll access y
 Once inside your jumpbox, you can move freely around your network.
 
 
-# Local image store
+## Local image store
 
 You know how you have to download ISO's each time you want to install a new VM? Don't do that over and over. I keep everything on my desktop in an HDD where storage is cheap and use them as backup. It's nice to be able to have older images on hand (which might still be available online but seem to take longer to download when you need them).
 
@@ -25,7 +25,7 @@ For ISOs you expect to use frequently, load those to the NAS share we created ea
 
 For LXC templates, store those in your NAS too. If you want to refresh the availabe VMs, you need to run "pveam update" on your ProxMox hosts. That'll fetch new images you can create containers from. Again, store those on your NAS. 
 
-# Apt-cacher-ng
+## Apt-cacher-ng
 
 Once you have images and containers deployed, you should generally keep them updated unless you have a specific reason not to. Frequent updates take a long time and on metered connections can be expensive. To work aroudn this, install and use apt-cache-ng This service is super userful. I know it works for Ubuntu and for other distributions, but I've only used it for Ubuntu. You'll need to set up something on both the apt-cacher-ng server and tell your clients to use it. 
 
@@ -68,7 +68,7 @@ That's it! Updates are fast, do do-release-upgraded 3 ubuntu servers in just a f
 
 ![Apt-cacher-ng network traffic]({{site.url}}/images/aptcache-network-io.png){: .center-image }
 
-# Snapshot and Automate
+## Snapshot and Automate
 
 I have a few things I seem to do frequently. This includse set up basic packages, configure apt-cacher-ng, install docker, and other things like that. If you're doing something more than 3 times, automate it. 
 
@@ -104,7 +104,7 @@ Some LXC containers are so minimalist they don't even have python installed for 
 
 Running this role against a host uses raw commands to set up python-minimal which ansible can use to run the rest of what it needs to do and complete more involved tasks. Once that's run it gathers "facts" about the host. Facts are what ansible uses to know details about the host it interacts with. These can include things like the hostname, free disk space, memory, and all sorts of other things. 
 
-# Snapshots
+## Snapshots
 
 If you build a VM or install a new OS, snapshot it. It's easy to do that and then restore a snapshot when you get something wrong or need to deploy a second similar machine. You can create one pretty easily by clicking on a VM, goign to Backup and selecting Backup now.
 
@@ -112,6 +112,6 @@ If you build a VM or install a new OS, snapshot it. It's easy to do that and the
 
 then you can restore or create a new one off a backup. 
 
-# That's it
+## That's it
 
 This is a short post where I want you to be able to learn from my mistakes and hopefully do things quicker and more easily. I'd be interested to hear if anything doesn't work for you. I can't seem to make my next post what I say it's gonna be about, but I intend to write about setting up a docker swarm with shared storage to provide services through traefik next. I got it working for the most part, there's just some bugs I need to work out. Hope this all helps someone!
