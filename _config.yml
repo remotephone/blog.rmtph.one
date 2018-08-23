@@ -16,7 +16,7 @@
 title: Notepad+++ 
 description: Break it, Fix it, Write It Down
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://remotephone.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 github_repo: remotephone.github.io # the GitHub repo name for your project
 github_username: remotephone
 
