@@ -1,18 +1,5 @@
 ---
-layout: page
+layout: home
 ---
 
-<div class="posts">
-  {% for post in site.posts %}
-    <article class="post">
-
-      <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
-
-      <div class="entry">
-        {{ post.content | strip_html | truncatewords: 25 }}
-      </div>
-
-      <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
-    </article>
-  {% endfor %}
-</div>
+<!-- Set title and description in config.yml -->

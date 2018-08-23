@@ -1,55 +1,18 @@
 <!DOCTYPE html>
 <html>
-    <html lang="en-US">
-    <head profile="http://www.w3.org/2005/10/profile">
-    <link rel="icon" 
-      type="image/png" 
-      href="{{ site.avatar }}">
-    <!--title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.name }} - {{ site.description }}</title-->
-    <title>{{ site.title }}{{ site.name }} - {{ site.description }}</title>
-    
-    {% include meta.html %}
 
-    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
-    <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
-
-    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
-  </head>
+  {% include head.html %}
 
   <body>
-    <div class="wrapper-masthead">
-      <div class="container">
-        <header class="masthead clearfix">
-          <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.avatar }}" /></a>
-	  <!-- credit for avatar: http://image.flaticon.com/icons/png/512/52/52774.png-->
-          <div class="site-info">
-            <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-            <p class="site-description">{{ site.description }}</p>
-          </div>
 
-          <nav>
-            <a href="{{ site.baseurl }}/">Blog</a>
-            <a href="{{ site.baseurl }}/about">About</a>
-          </nav>
-        </header>
-      </div>
-    </div>
+    {% include header.html %}
 
-    <div id="main" role="main" class="container">
+    <div>
       {{ content }}
     </div>
 
-
-
-
-
-    <div class="wrapper-footer">
-      <div class="container">
-        <footer class="footer">
-          {% include svg-icons.html %}
-        </footer>
-      </div>
-    </div>
+    {% include footer.html %}
 
   </body>
+
 </html>
