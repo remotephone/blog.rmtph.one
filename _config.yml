@@ -13,8 +13,8 @@
 # you will see them accessed via {{ site.title }}, {{ site.github_repo }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Break it, Fix it, Write It Down
-description: Putting stuff together so you don't have to google as hard as I did.
+title: Notepad+++ 
+description: Break it, Fix it, Write It Down
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_repo: remotephone.github.io # the GitHub repo name for your project

@@ -69,10 +69,10 @@ a:hover {
   text-decoration: underline; }
 
 pre {
-  border-left: 8px solid #ddd;
+  border-left: 0 solid #ddd;
   margin: 32px 0;
   padding-left: 16px;
-  width: 75%;
+  width: 100%;
   overflow-x: auto; }
 
 code {
