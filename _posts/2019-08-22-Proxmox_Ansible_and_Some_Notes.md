@@ -2,6 +2,7 @@
 layout: post
 title:  "Proxmox, Ansible, And Some Notes"
 date:   2018-08-21 10:31:00 -0600
+Categories: homelab proxmox ansible
 ---
 
 
