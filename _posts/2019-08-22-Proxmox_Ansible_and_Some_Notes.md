@@ -66,11 +66,17 @@ If you know the hosts you're working with have two intefaces, you can gather Ans
 I put my task together bit by bit. Knowing I want to end up with this line in a file, I can start figuring out how to find the Mac address:
 
 ~~~
+{% raw %}
+
 SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="XX:XX:XX:XX:XX:XX", NAME="eno2"
+{% endraw %}
+
 ~~~
 
 First, figure out what interfaces ansible knows about. 
 ~~~
+{% raw %}
+
 test@test:~$ sudo ansible all -m setup --connection=local -a 'filter=ansible_interfaces'
 127.0.0.1 | SUCCESS => {
     "ansible_facts": {
@@ -82,6 +88,8 @@ test@test:~$ sudo ansible all -m setup --connection=local -a 'filter=ansible_int
     },
     "changed": false
 }
+{% endraw %}
+
 ~~~
 
 You can then query Ansible for the interface that doesn't match the ones you expect. When you use the Ansible [set_fact](https://docs.ansible.com/ansible/latest/modules/set_fact_module.html) module, you can assign the resultant value of your request to a variable. To test what you're going to set your fact to, you can use debug messages.
@@ -89,17 +97,23 @@ You can then query Ansible for the interface that doesn't match the ones you exp
 I queried all the interfaces, piped that to the Ansible filter [difference](https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#id15), told it to exclude the loop back and default interface and tell me what was left. This is the playbook I tested with:
 
 ~~~
+{% raw %}
+
 test@test:~$ cat simple.yml
 ---
 - hosts: pve1
   tasks:
     - debug:
         msg: "{{ ansible_interfaces | difference(['lo',ansible_default_ipv4.alias]) | last }}"
+{% endraw %}
+
 ~~~
 
 Here's that playbook running:
 
 ~~~
+{% raw %}
+
 test@test:~$  sudo ansible-playbook simple.yml --ask-pass
 SSH password:
 
@@ -115,11 +129,14 @@ ok: [10.0.0.11] => {
 
 PLAY RECAP *********************************************************************************************************************************************************
 10.0.0.11                  : ok=2    changed=0    unreachable=0    failed=0
+{% endraw %}
+
 ~~~
 
 So now we have the name and set it as a fact, called second_nic. Then we take that and get it's mac address like this:
 
 ~~~ bash
+{% raw %}
 - name: get the name of the second interface so we can work with it
   set_fact:
     second_nic: "{{ ansible_interfaces | difference(['lo',ansible_default_ipv4.alias]) | last }}"
@@ -127,6 +144,8 @@ So now we have the name and set it as a fact, called second_nic. Then we take th
 - name: wut
   set_fact:
     second_mac: "{{ hostvars[inventory_hostname]['ansible_' + second_nic]['macaddress'] }}"
+{% endraw %}
+
 ~~~   
 
 The double curly braces are [jinja2 templating](https://docs.ansible.com/ansible/latest/user_guide/playbooks_templating.html), something else you should read about. It allows you to create outputs or inputs by applying parsing or processing logic to data. In the above case, we took all the host variables (hostvars), pulled the hostname, got the ansible_<Nic_name> (which is what anisble refers to the interface as), and request it's Mac address so we can set it to a new fact, second_mac.
@@ -134,12 +153,16 @@ The double curly braces are [jinja2 templating](https://docs.ansible.com/ansible
 Now, using this last task, I create the file, "/etc/udev/rules.d/10-network.rules" that will contain the configuration the OS will read at startup to name the interface. The [lineinfile](https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html) module will find a line in a file by regex and replace it. If the file or line doesn't exist, its created with "create:yes". 
 
 ~~~
+{% raw %}
+
 - name: Conveniently rename interfaces
   lineinfile:
     dest: /etc/udev/rules.d/10-network.rules
     regexp: 'SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="{{ second_mac }}", NAME="eno2"'
     line: 'SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="{{ second_mac }}", NAME="eno2"'
     create: yes
+{% endraw %}
+
 ~~~
 
 Badabing badaboom. Renamed network interface once you reboot the system.
