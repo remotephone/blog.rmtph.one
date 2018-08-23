@@ -1,6 +1,0 @@
----
-- hosts: pve1
-  tasks:
-    - debug:
-        msg: "{{ ansible_interfaces | difference(['lo',ansible_default_ipv4.alias]) | last }}"
-
