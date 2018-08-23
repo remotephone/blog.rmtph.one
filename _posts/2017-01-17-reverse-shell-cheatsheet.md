@@ -2,6 +2,7 @@
 layout: post
 title:  "Reverse Shell Cheat Sheet"
 date:   2017-01-17 20:56:00 -0600
+Categories: pentesting
 ---
 
 ## Cause everyone posts one

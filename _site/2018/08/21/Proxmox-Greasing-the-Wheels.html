@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    <html lang="en-US">
+    <head profile="http://www.w3.org/2005/10/profile">
+    <link rel="icon" 
+      type="image/png" 
+      href="https://remotephone.github.io/images/52774.png">
+    <!--title>Proxmox  - Greasing the Wheels - Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
+</title-->
+    <title>Notepad+++  - Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
+</title>
+    
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="I got distracted. I’ve done quite a bit of work on the incident response type lab I’ve been working on, but I also got interested in Docker and Docker Swarm. I’ve built that and it works so I figured I’d write that down first. This post will cover a few things I’ve done for myself to make all my projects easier.
+
+" />
+    <meta property="og:description" content="I got distracted. I’ve done quite a bit of work on the incident response type lab I’ve been working on, but I also got interested in Docker and Docker Swarm. I’ve built that and it works so I figured I’d write that down first. This post will cover a few things I’ve done for myself to make all my projects easier.
+
+" />
+    
+    <meta name="author" content="Break it, Fix it, Write It Down" />
+
+    
+    <meta property="og:title" content="Proxmox  - Greasing the Wheels" />
+    <meta property="twitter:title" content="Proxmox  - Greasing the Wheels" />
+    
+
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
+" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://remotephone.github.io/images/52774.png" /></a>
+	  <!-- credit for avatar: http://image.flaticon.com/icons/png/512/52/52774.png-->
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Break it, Fix it, Write It Down</a></h1>
+            <p class="site-description">Putting stuff together so you don't have to google as hard as I did.
+</p>
+          </div>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Proxmox  - Greasing the Wheels</h1>
+
+  <div class="entry">
+    <p>I got distracted. I’ve done quite a bit of work on the incident response type lab I’ve been working on, but I also got interested in Docker and Docker Swarm. I’ve built that and it works so I figured I’d write that down first. This post will cover a few things I’ve done for myself to make all my projects easier.</p>
+
+<h2 id="ssh-jumpbox">SSH Jumpbox</h2>
+
+<p>I created an LXC container in a VLAN that has access to everything, its my jumpbox server. I use SSH key authentication to get into it, but I created a key on that system that I use to configure my systems when they’re built. You want to give this more space than the default 8GB for a container since you may keep files and resources here</p>
+
+<p>It’s handy to have a jumpbox server if you have multiple systems you’ll access your cluster from. Copy your public key to the authorized_keys file on the jump host (using the console in proxmox so you don’t have to open password auth to the jumpbox) and then every device can just have your jumpbox key on it. You can also use something like <a href="https://duo.com/docs/duounix#install-pam_duo">DUO</a> to secure the jumpbox further.</p>
+
+<p>Once inside your jumpbox, you can move freely around your network.</p>
+
+<h2 id="local-image-store">Local image store</h2>
+
+<p>You know how you have to download ISO’s each time you want to install a new VM? Don’t do that over and over. I keep everything on my desktop in an HDD where storage is cheap and use them as backup. It’s nice to be able to have older images on hand (which might still be available online but seem to take longer to download when you need them).</p>
+
+<p><img src="http://localhost:4000/images/localisostorage.png" alt="Local ISO Storage" class="center-image" /></p>
+
+<p>For ISOs you expect to use frequently, load those to the NAS share we created earlier attached to DD-WRT. This makes them quickly available to any VMs you install in Proxmox. From slowest to fastest, its Internet &lt; HDD &lt; ProxMox Nas &lt; Clone an existing VM.</p>
+
+<p>For LXC templates, store those in your NAS too. If you want to refresh the availabe VMs, you need to run “pveam update” on your ProxMox hosts. That’ll fetch new images you can create containers from. Again, store those on your NAS.</p>
+
+<h2 id="apt-cacher-ng">Apt-cacher-ng</h2>
+
+<p>Once you have images and containers deployed, you should generally keep them updated unless you have a specific reason not to. Frequent updates take a long time and on metered connections can be expensive. To work aroudn this, install and use apt-cache-ng This service is super userful. I know it works for Ubuntu and for other distributions, but I’ve only used it for Ubuntu. You’ll need to set up something on both the apt-cacher-ng server and tell your clients to use it.</p>
+
+<h3 id="server-setup">Server Setup</h3>
+
+<p>This one’s pretty easy. You need to install the service, update the config, and restart it. There are a lot of options in my config, but I have only a few that matter. This is my file with all comments and blank lines removed:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CacheDir: /var/cache/apt-cacher-ng
+LogDir: /var/log/apt-cacher-ng
+Port:3142
+BindAddress: 0.0.0.0
+Remap-debrep: file:deb_mirror<span class="k">*</span>.gz /debian <span class="p">;</span> file:backends_debian <span class="c"># Debian Archives</span>
+Remap-uburep: file:ubuntu_mirrors /ubuntu <span class="p">;</span> file:backends_ubuntu <span class="c"># Ubuntu Archives</span>
+Remap-debvol: file:debvol_mirror<span class="k">*</span>.gz /debian-volatile <span class="p">;</span> file:backends_debvol <span class="c"># Debian Volatile Archives</span>
+ReportPage: acng-report.html
+PidFile: /var/run/apt-cacher-ng/pid
+ExTreshold: 4
+LocalDirs: acng-doc /usr/share/doc/apt-cacher-ng
+PassThroughPattern: .<span class="k">*</span> <span class="c"># this would allow CONNECT to everything</span>
+PassThroughPattern: download<span class="se">\.</span>docker<span class="se">\.</span>com:443<span class="err">$</span>
+</code></pre></div></div>
+
+<p>Here, we’re storing files in /var/cache/apt-cacher-ng, listing on all interfaces on port 3142, supporting Debian and Ubuntu archives, and I exclude https://download.docker.com. Since this is basically man-in-the-middling your apt updates, https doesn’t like it. You need to exclude packages you upgrade through apt-transport-https or it will fai.</p>
+
+<p>I created this <a href="https://github.com/remotephone/ansible-apt-cacherng">ansible role</a> to install and configure it.</p>
+
+<h3 id="client-setup">Client Setup</h3>
+
+<p>Clients need to be pointed the proxy to use it. You need to create a file (I used 01proxy but files in that directory are loaded as configurations for apt) This is a sample file from one of my hosts:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ubuntu@swarm-wrk1:~<span class="nv">$ </span><span class="nb">cat</span> /etc/apt/apt.conf.d/01proxy 
+Acquire::http::Proxy <span class="s2">"http://apt-cacher-ng-server:3142"</span><span class="p">;</span>
+Acquire::HTTP::Proxy::download.docker.com <span class="s2">"DIRECT"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>That’s it! Updates are fast, do do-release-upgraded 3 ubuntu servers in just a few minutes since everything was cached locally. You can see spikes in traffic when I update each device.</p>
+
+<p><img src="http://localhost:4000/images/aptcache-network-io.png" alt="Apt-cacher-ng network traffic" class="center-image" /></p>
+
+<h2 id="snapshot-and-automate">Snapshot and Automate</h2>
+
+<p>I have a few things I seem to do frequently. This includse set up basic packages, configure apt-cacher-ng, install docker, and other things like that. If you’re doing something more than 3 times, automate it.</p>
+
+<p>I’ve written a few ansible roles and playbooks taht speed this process along for me. <a href="https://docs.ansible.com/ansible/latest/index.html">Ansible</a> was the simplest automation language I could get into, but you can use whatever you’re more comfortable with or what you use at work.</p>
+
+<p>I wrote this <a href="https://github.com/remotephone/ansible-proxmox">set of roles and playbooks</a>  because I kept reinstalling Proxmox after breaking my installs. To run it, SSH into your newly installed proxmox host and run the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt update
+apt install git ansible -y
+git clone https://github.com/remotephone/ansible-proxmox.git
+echo "[proxmox]" &gt;&gt; /etc/ansible/hosts
+echo "localhost ansible_host=127.0.0.1 ansible_user=root" &gt;&gt; /etc/ansible/hosts
+ansible-playbook main.yml
+</code></pre></div></div>
+
+<p>This playbook actually covers the install steps from my last two posts in one quick playbook run! It’s pretty amazing what you can make happen with ansible. I’ll update it eventually so I can cover both hosts at once, but for now I just run it once on each one.</p>
+
+<h3 id="ansible-bootstrapping">Ansible Bootstrapping</h3>
+
+<p>Some LXC containers are so minimalist they don’t even have python installed for you to get your ansible playbooks running. I ran into an Ansible bootstrap script some time ago and have adapted it to a role.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+
+- name: install python 2
+  raw: test -e /usr/bin/python || (apt -y update &amp;&amp; apt install -y python-minimal)
+
+- name: now gather_facts
+  setup:
+</code></pre></div></div>
+
+<p>Running this role against a host uses raw commands to set up python-minimal which ansible can use to run the rest of what it needs to do and complete more involved tasks. Once that’s run it gathers “facts” about the host. Facts are what ansible uses to know details about the host it interacts with. These can include things like the hostname, free disk space, memory, and all sorts of other things.</p>
+
+<h2 id="snapshots">Snapshots</h2>
+
+<p>If you build a VM or install a new OS, snapshot it. It’s easy to do that and then restore a snapshot when you get something wrong or need to deploy a second similar machine. You can create one pretty easily by clicking on a VM, goign to Backup and selecting Backup now.</p>
+
+<p><img src="http://localhost:4000/images/snapshotbackup.png" alt="backup VM" class="center-image" /></p>
+
+<p>then you can restore or create a new one off a backup.</p>
+
+<h2 id="thats-it">That’s it</h2>
+
+<p>This is a short post where I want you to be able to learn from my mistakes and hopefully do things quicker and more easily. I’d be interested to hear if anything doesn’t work for you. I can’t seem to make my next post what I say it’s gonna be about, but I intend to write about setting up a docker swarm with shared storage to provide services through traefik next. I got it working for the most part, there’s just some bugs I need to work out. Hope this all helps someone!</p>
+
+  </div>
+
+  <div class="date">
+    Written on August 21, 2018
+  </div>
+
+</article>
+
+    </div>
+
+
+
+
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/remotephone/remotephone.github.io"><i class="svg-icon github"></i></a>
+
+
+
+<a href="/feed.xml"><i class="svg-icon rss"></i></a>
+<a href="https://www.twitter.com/remotephone"><i class="svg-icon twitter"></i></a>
+
+
+
+
+        </footer>
+      </div>
+    </div>
+
+  </body>
+</html>

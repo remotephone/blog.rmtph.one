@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+    <html lang="en-US">
+    <head profile="http://www.w3.org/2005/10/profile">
+    <link rel="icon" 
+      type="image/png" 
+      href="https://remotephone.github.io/images/52774.png">
+    <!--title>Proxmox, Ansible, And Some Notes - Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
+</title-->
+    <title>Notepad+++  - Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
+</title>
+    
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="I’ve been using Ansible a little bit now and while it has a very easy learning curve, there’s some finer points I had some trouble figuring out. I’m still not the best with it, but being barely functional can still help you move worlds with a single playbook.
+
+" />
+    <meta property="og:description" content="I’ve been using Ansible a little bit now and while it has a very easy learning curve, there’s some finer points I had some trouble figuring out. I’m still not the best with it, but being barely functional can still help you move worlds with a single playbook.
+
+" />
+    
+    <meta name="author" content="Break it, Fix it, Write It Down" />
+
+    
+    <meta property="og:title" content="Proxmox, Ansible, And Some Notes" />
+    <meta property="twitter:title" content="Proxmox, Ansible, And Some Notes" />
+    
+
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="Break it, Fix it, Write It Down - Putting stuff together so you don't have to google as hard as I did.
+" href="/feed.xml" />
+
+    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
+  </head>
+
+  <body>
+    <div class="wrapper-masthead">
+      <div class="container">
+        <header class="masthead clearfix">
+          <a href="/" class="site-avatar"><img src="https://remotephone.github.io/images/52774.png" /></a>
+	  <!-- credit for avatar: http://image.flaticon.com/icons/png/512/52/52774.png-->
+          <div class="site-info">
+            <h1 class="site-name"><a href="/">Break it, Fix it, Write It Down</a></h1>
+            <p class="site-description">Putting stuff together so you don't have to google as hard as I did.
+</p>
+          </div>
+
+          <nav>
+            <a href="/">Blog</a>
+            <a href="/about">About</a>
+          </nav>
+        </header>
+      </div>
+    </div>
+
+    <div id="main" role="main" class="container">
+      <article class="post">
+  <h1>Proxmox, Ansible, And Some Notes</h1>
+
+  <div class="entry">
+    <p>I’ve been using Ansible a little bit now and while it has a very easy learning curve, there’s some finer points I had some trouble figuring out. I’m still not the best with it, but being barely functional can still help you move worlds with a single playbook.</p>
+
+<h2 id="learning-ansible">Learning Ansible</h2>
+
+<p>Lots of ways to learn it, but these were some of the resources that were most useful.</p>
+
+<p>This <a href="https://www.ansible.com/resources/videos/quick-start-video">quick start video</a> is a good intro.</p>
+
+<p>Start writing some simple <a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html">playbooks</a>. Some suggestions are:</p>
+
+<ul>
+  <li><a href="https://docs.ansible.com/ansible/latest/modules/apt_module.html">Install some packages</a> (LXC is great to do this in since those containers can be blown away so easily)</li>
+  <li>Add some <a href="https://docs.ansible.com/ansible/latest/modules/user_module.html">users</a> and <a href="https://docs.ansible.com/ansible/latest/modules/group_module.html">groups</a></li>
+  <li><a href="https://docs.ansible.com/ansible/latest/modules/copy_module.html">Copy</a> a file to a device</li>
+</ul>
+
+<p>This was a <a href="https://github.com/leucos/ansible-tuto">fantastic introduction</a> to Ansible - work through tasks step by step to understand Ansible feature by feature. If you only do one, do this one.</p>
+
+<p>My general approach for using a module I’ve never used before is find it in the Ansible documentation, scroll down to the <a href="https://docs.ansible.com/ansible/latest/modules/copy_module.html#id4">examples</a>, find one that does close to what I want, modify it to suit my needs, and reach each of the <a href="https://docs.ansible.com/ansible/latest/modules/copy_module.html#id2">parameters</a> after I have a skeleton of something that looks like it works.</p>
+
+<h2 id="roles">Roles</h2>
+
+<p>When I write a role, I tend to start with an empty directory with the structure all in place. Ansible’s <a href="https://docs.ansible.com/ansible/2.5/user_guide/playbooks_reuse_roles.html#id5">official documentation</a> gives this nice and neat sample structure I keep reusing.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>site.yml
+webservers.yml
+fooservers.yml
+roles/
+   common/
+     tasks/
+     handlers/
+     files/
+     templates/
+     vars/
+     defaults/
+     meta/
+   webservers/
+     tasks/
+     defaults/
+     meta/
+</code></pre></div></div>
+
+<p>I create empty directories and blank files and then fill them in as I go. This is really handy as it gives me reminders of what features (vars, handlers, etc) I don’t always use that might make something I’m having trouble with easier.</p>
+
+<h2 id="using-ansible-facts-to-rename-network-interfaces">Using Ansible facts to rename Network Interfaces</h2>
+
+<p>I wrote an Ansible playbook that uses a couple of roles to configure my Proxmox servers. This came in handy the more I worked with Proxmox and broke things. I would make configuration changes I’d forget or bork storage in one new way or another and be unable to work my way backwards. Needless to say, I figured it’d save me some trouble to automate the Proxmox setup.</p>
+
+<p>One task I had to repeat each time was renaming secondary network interfaces. In this <a href="https://remotephone.github.io/2018/01/19/Proxmox_Lab_on_a_Slightly_Larger_Budget_Part1.html">post</a> I explained how to rename an interface manually. This isn’t as easy as I hoped it’d be in Ansible since the interface MAC will be different for every NIC and I didn’t want to statically configure it as a variable. I believe <a href="https://unix.stackexchange.com/questions/335461/predictable-network-interface-names-break-vm-migration">this</a> post is what helped me answer the questions.</p>
+
+<p>If you know the hosts you’re working with have two intefaces, you can gather Ansible facts and figure out what you need to do with them. To make the following examples work, you’ll need to have Ansible amd sshpass installed and working and add this to your /etc/ansible/hosts file, where 1.1.1.1 is your actual proxmox host IP:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[pve1]
+1.1.1.1  
+</code></pre></div></div>
+
+<p>I put my task together bit by bit. Knowing I want to end up with this line in a file, I can start figuring out how to find the Mac address:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="XX:XX:XX:XX:XX:XX", NAME="eno2"
+
+
+</code></pre></div></div>
+
+<p>First, figure out what interfaces ansible knows about.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+test@test:~$ sudo ansible all -m setup --connection=local -a 'filter=ansible_interfaces'
+127.0.0.1 | SUCCESS =&gt; {
+    "ansible_facts": {
+        "ansible_interfaces": [
+            "eno1",
+            "enxabcd1234abcd1234",
+            "lo"
+        ]
+    },
+    "changed": false
+}
+
+
+</code></pre></div></div>
+
+<p>You can then query Ansible for the interface that doesn’t match the ones you expect. When you use the Ansible <a href="https://docs.ansible.com/ansible/latest/modules/set_fact_module.html">set_fact</a> module, you can assign the resultant value of your request to a variable. To test what you’re going to set your fact to, you can use debug messages.</p>
+
+<p>I queried all the interfaces, piped that to the Ansible filter <a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#id15">difference</a>, told it to exclude the loop back and default interface and tell me what was left. This is the playbook I tested with:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+test@test:~$ cat simple.yml
+---
+- hosts: pve1
+  tasks:
+    - debug:
+        msg: "{{ ansible_interfaces | difference(['lo',ansible_default_ipv4.alias]) | last }}"
+
+
+</code></pre></div></div>
+
+<p>Here’s that playbook running:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+test@test:~$  sudo ansible-playbook simple.yml --ask-pass
+SSH password:
+
+PLAY [pve1] ********************************************************************************************************************************************************
+
+TASK [Gathering Facts] *********************************************************************************************************************************************
+ok: [10.0.0.11]
+
+TASK [debug] *******************************************************************************************************************************************************
+ok: [10.0.0.11] =&gt; {
+    "msg": "enxabcd1234abcd1234"
+}
+
+PLAY RECAP *********************************************************************************************************************************************************
+10.0.0.11                  : ok=2    changed=0    unreachable=0    failed=0
+
+
+</code></pre></div></div>
+
+<p>So now we have the name and set it as a fact, called second_nic. Then we take that and get it’s mac address like this:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+- name: get the name of the second interface so we can work with it
+  set_fact:
+    second_nic: <span class="s2">"{{ ansible_interfaces | difference(['lo',ansible_default_ipv4.alias]) | last }}"</span>
+
+- name: wut
+  set_fact:
+    second_mac: <span class="s2">"{{ hostvars[inventory_hostname]['ansible_' + second_nic]['macaddress'] }}"</span>
+
+
+</code></pre></div></div>
+
+<p>The double curly braces are <a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks_templating.html">jinja2 templating</a>, something else you should read about. It allows you to create outputs or inputs by applying parsing or processing logic to data. In the above case, we took all the host variables (hostvars), pulled the hostname, got the ansible_<Nic_name> (which is what anisble refers to the interface as), and request it's Mac address so we can set it to a new fact, second_mac.</Nic_name></p>
+
+<p>Now, using this last task, I create the file, “/etc/udev/rules.d/10-network.rules” that will contain the configuration the OS will read at startup to name the interface. The <a href="https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html">lineinfile</a> module will find a line in a file by regex and replace it. If the file or line doesn’t exist, its created with “create:yes”.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+- name: Conveniently rename interfaces
+  lineinfile:
+    dest: /etc/udev/rules.d/10-network.rules
+    regexp: 'SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="{{ second_mac }}", NAME="eno2"'
+    line: 'SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="{{ second_mac }}", NAME="eno2"'
+    create: yes
+
+
+</code></pre></div></div>
+
+<p>Badabing badaboom. Renamed network interface once you reboot the system.</p>
+
+<h2 id="wrapping-up">Wrapping up</h2>
+
+<p>Ansible can be as simple or complicated as you want it to be. You don’t have to be the best at it to get a lot of value out of it either. I consider myself barely functional but have written some very useful things and you can too. Get some practice in LXC containers so you can break things freely and test before breaking VMs.</p>
+
+  </div>
+
+  <div class="date">
+    Written on August 21, 2018
+  </div>
+
+</article>
+
+    </div>
+
+
+
+
+
+    <div class="wrapper-footer">
+      <div class="container">
+        <footer class="footer">
+          
+
+
+
+<a href="https://github.com/remotephone/remotephone.github.io"><i class="svg-icon github"></i></a>
+
+
+
+<a href="/feed.xml"><i class="svg-icon rss"></i></a>
+<a href="https://www.twitter.com/remotephone"><i class="svg-icon twitter"></i></a>
+
+
+
+
+        </footer>
+      </div>
+    </div>
+
+  </body>
+</html>
