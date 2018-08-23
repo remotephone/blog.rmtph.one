@@ -69,10 +69,10 @@ a:hover {
   text-decoration: underline; }
 
 pre {
-  border-left: 0 solid #ddd;
+  border-left: 8px solid #ddd;
   margin: 32px 0;
   padding-left: 16px;
-  width: 100%;
+  width: 75%;
   overflow-x: auto; }
 
 code {
@@ -481,3 +481,10 @@ code {
   .link-primary:hover {
     color: #009DDB;
     text-decoration: none !important; }
+
+pre {
+  border-left: 0 solid #ddd;
+  margin: 32px 0;
+  padding-left: 0;
+  width: 100%;
+  overflow-x: auto; }
