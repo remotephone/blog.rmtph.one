@@ -27,7 +27,7 @@ github_username:  remotephone
 
 # Build settings
 markdown: kramdown
-theme: jekyll-theme-tactile
+theme: jekyll-theme-slate
 gems:
  - jekyll-feed
  - jekyll-paginate
