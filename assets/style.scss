@@ -7,3 +7,10 @@
 @import
         "theme-{{ site.theme_color | default: "black" }}.scss"
 ;
+pre {
+        border-left: 0 solid #ddd;
+        margin: 32px 0;
+        padding-left: 0;
+        width: 100%;
+        overflow-x: auto; }
+      
