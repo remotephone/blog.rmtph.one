@@ -27,20 +27,20 @@ github_username:  remotephone
 
 # Build settings
 markdown: kramdown
-theme: jekyll-theme-slate
-gems:
- - jekyll-feed
- - jekyll-paginate
+remote_theme: broccolini/swiss
+# gems:
+#  - jekyll-feed
+#  - jekyll-paginate
 plugins:
  - jekyll-redirect-from
-exclude:
- - Gemfile
- - Gemfile.lock
+# exclude:
+#  - Gemfile
+#  - Gemfile.lock
 
 #Paginate this thing - http://www.seanbuscay.com/blog/jekyll-teaser-pager-and-read-more/
 
-paginate: 10
-paginate_path: "page:num"
+# paginate: 10
+# paginate_path: "page:num"
 
 #create excerpts in site http://www.seanbuscay.com/blog/jekyll-teaser-pager-and-read-more/
 #excerpt_separator: <!--more-->
