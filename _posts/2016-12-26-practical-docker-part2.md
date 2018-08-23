@@ -2,7 +2,7 @@
 layout: post
 title: "Practical Docker for Security Admins - Part 2"
 date:   2016-12-26 22:15:33 -0600
-categories: lab homelab budget testing
+categories: lab homelab docker
 ---
 
 ## More test cases, but first, some housekeeping
