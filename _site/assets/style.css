@@ -69,7 +69,7 @@ a:hover {
   text-decoration: underline; }
 
 pre {
-  border-left: 0 solid #b0b0b0;
+  border-left: 0 solid #ddd;
   margin: 32px 0;
   padding-left: 16px;
   width: 100%;
