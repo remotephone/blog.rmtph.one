@@ -47,7 +47,7 @@ I'm a big fan of writing this stuff yourself, but it seems unnecessary to reinve
 
 Install Docker on your laptop. I wrote a playbook that did that by reading the documentation and turning each step into a task in the docker-ce role.  You can see my playbook [here](https://github.com/remotephone/docker-ubuntu-ansible). Take a look at the docker-ce role and compare it to the docker-compose role. Something I see people who are better at this than I am do pretty frequently is configure everything as variables. This is an example of a task written statically in [https://github.com/remotephone/docker-ubuntu-ansible/blob/master/roles/docker-ce/tasks/main.yml](https://github.com/remotephone/docker-ubuntu-ansible/blob/master/roles/docker-ce/tasks/main.yml).
 
-~~~
+~~~ bash
 - name: Adding Docker repo
   apt_repository:
     repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
@@ -58,11 +58,13 @@ Install Docker on your laptop. I wrote a playbook that did that by reading the d
 
 Here is that same task written a little more dynamically. 
 
-~~~
+~~~ bash
+{% raw %}
 - name: Adding Docker repo
   apt_repository:
     repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu "{{ ansible_distribution_release }}" stable
     state: present
+{% endraw %}
 
 ~~~
 
