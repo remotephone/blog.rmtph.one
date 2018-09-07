@@ -40,6 +40,8 @@ The AppArmor bit is important. By default, LXC has restrictions on it that preve
 
 My process for doing each of these was pretty iterative. I started by getting things working on my laptop as a single docker host. After I figured out how to do each thing manually, I'd write an ansible-playbook with roles to handle each part of the tasks. Some I wrote myself, some I just took from others and modified to suit my needs. 
 
+Once it worked on my laptop and I could run a docker swarm and spin up stacks with compose files, I created the docker swarm in VMs. Doing it in VMs first eliminated a lot of headaches I had to figure out getting LXC containers working and let me focus on the substance of what I was trying to get done. Once I had this working in VMs, I created LXC containers, got docker working in them, built a swarm, got single containers working, go a stack working, and got traefik configured to serve up traffic. 
+
 I'm a big fan of writing this stuff yourself, but it seems unnecessary to reinvent the wheel every time. Of course, if you're running this stuff on any system of yours, you should be able to read the code. If you can't read something and tell what it's doing, its probably better to write an ugly version yourself than use something else someone wrote.  
 
 
