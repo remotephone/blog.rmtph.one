@@ -39,13 +39,13 @@ p {
 
 h1, h2, h3, h4, h5, h6 {
   margin-top: 1em;
-  margin-bottom: 0.25em; }
+  margin-bottom: 0.1em; }
 
 h1, .h1 {
-  font-size: 40px; }
+  font-size: 32px; }
 
 h2, .h2 {
-  font-size: 32px; }
+  font-size: 28px; }
 
 h3, .h3 {
   font-size: 24px; }
@@ -88,7 +88,7 @@ code {
   font-size: 20px;
   margin-bottom: 1em;
   width: 100%; }
-  @media (min-width: 52em) {
+  @media (min-width: 26em) {
     .prose p, .prose ol, .prose ul {
       width: 83.3333333333%; } }
 .prose ul, .prose ol {
@@ -99,7 +99,7 @@ code {
     margin-bottom: 0; }
 .prose img {
   max-width: 100%; }
-  @media (min-width: 52em) {
+  @media (min-width: 26em) {
     .prose img {
       max-width: 120%; } }
 .prose blockquote {
@@ -110,7 +110,7 @@ code {
   font-style: italic; }
   .prose blockquote p {
     font-size: 24px; }
-  @media (min-width: 52em) {
+  @media (min-width: 26em) {
     .prose blockquote {
       padding-left: 32px;
       margin: 64px 0 64px -40px;
@@ -155,13 +155,13 @@ code {
 
 /* Type utilities */
 .h0 {
-  font-size: 64px;
+  font-size: 48px;
   line-height: 1.0125;
   margin-top: 0.85em;
   word-wrap: break-word; }
-  @media (min-width: 52em) {
+  @media (min-width: 26em) {
     .h0 {
-      font-size: 128px; } }
+      font-size: 96px; } }
 
 .text-right {
   text-align: right; }
@@ -269,7 +269,7 @@ code {
 .col-12 {
   width: 100%; }
 
-@media (max-width: 52em) {
+@media (max-width: 26em) {
   .sm-width-full {
     width: 100% !important; } }
 .block {
