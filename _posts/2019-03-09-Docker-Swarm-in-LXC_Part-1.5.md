@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Docker Swarm in LXC, Part 1.5 - The Kerneling"
-date:   2010-03-09 10:31:00 -0600
+date:   2019-03-09 10:31:00 -0600
 categories: lab homelab proxmox ansible docker workflow
 ---
 
