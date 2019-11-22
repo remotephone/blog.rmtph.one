@@ -78,7 +78,7 @@ There are plenty of guides on how to set this up. [This one](https://www.remembe
 
 These are the configuration options I ended up with on my server. Not all routers support all encryption modes and if you stray from the defaults, expect some trial and error. Make sure you save and apply these too. 
 
-![OpenVPN Server Settings]({{site.url}}/images/openvpn_server_config.png){: .center-image }
+![OpenVPN Server Settings]({{site.url}}/images/openvpn_config.png){: .center-image }
 
 
 ### Certificates, Keys, Additional Info
