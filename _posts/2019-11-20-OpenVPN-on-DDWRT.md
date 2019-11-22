@@ -93,10 +93,9 @@ This table was super useful and from the DD-wrt documentation [here](https://wik
 | Public Server Cert           | server.crt                     |
 | Private Server Key           | server.key                     |
 | DH PEM                       | dh1024.pem                     |
-| OpenVPN Config               | (see below)                    |
-| OpenVPN TLS Auth             | blank (or ta.key file content) |
+| OpenVPN TLS Auth             | ta.key                         |
 
-This is still confusing (why are there two Public Server Certs???) so the output of the docker container makes it very clear what's what. 
+This is still confusing (why are there two Public Server Certs???) so the output of the docker container makes it very clear what's what. Each time, you only want to include the bits between `-----BEGIN WHATEVER-----` and `-----END WHATEVER-----` and watch for white spaces, they'll cause errors.
 
 In the additional config section, drop something like this, but update it to be sure you don't conflict with your home LAN.  Also, remove the comments, mine doesnt have them. 
 
