@@ -139,4 +139,4 @@ I shred and delete the config files once they're installed where they need to be
 
 # Conclusions
 
-OpenVPN isn't the most performant, secure, or fanciest VPN solution, but it works for the most part and I've been able to automate most of the annoying parts. Feel free to use my [here](https://github.com/remotephone/openvpn_cert_generator) if it helps you get there quicker.
+OpenVPN isn't the most performant, secure, or fanciest VPN solution, but it works for the most part and I've been able to automate most of the annoying parts. Feel free to use my setup [here](https://github.com/remotephone/openvpn_cert_generator) if it helps you get there quicker.
