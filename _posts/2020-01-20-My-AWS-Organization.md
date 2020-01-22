@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "My AWS Organization - Part 1"
-date:   2019-11-20 13:31:00 -0600
+date:   2020-1-20 23:28:00 -0600
 categories: lab homelab AWS cloud workflow
 ---
 
@@ -113,12 +113,12 @@ I wrote a [simple tool](https://github.com/remotephone/aws-learning/blob/master/
 
 ~~~
   1 [test]
-  2 aws_access_key_id = AKIAMYKEY
+  2 aws_access_key_id = AKIAACCESSKEY
   3 aws_secret_access_key = MYSECRETKEYMYSECRETKEYMYSECRETKEY
   4 mfa_serial = arn:aws:iam::123456789012:mfa/mytestadmin
 ~~~
 
-Here's a run through making a request before requesting my session token and after:
+Here's a run through making a request before requesting my session token and after (with sensitive details removed):
 
 ~~~
 
@@ -133,7 +133,7 @@ $ aws s3api list-buckets --profile test
 
 An error occurred (AccessDenied) when calling the ListBuckets operation: Access Denied
 [me@workstation:~/] 
-$ vi ~/.aws/credentials 
+$ vi ~/.aws/credentials     #### Added line 4 from above
 [me@workstation:~/] 
 $ python3 aws-sts.py --profile test -t 923485
 Configured profile "test-mfa" to use "us-east-1" region
