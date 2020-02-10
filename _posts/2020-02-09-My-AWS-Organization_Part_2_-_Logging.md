@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "My AWS Organization - Part 2 - Logging"
+title:  "My AWS Organization - Part 2 - Bills and Logs"
 date:   2020-1-20 23:28:00 -0600
 categories: lab homelab AWS cloud workflow
 ---
