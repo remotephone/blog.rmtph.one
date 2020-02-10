@@ -104,11 +104,11 @@ Sumologic has put out some pretty good [documentation](https://www.sumologic.com
 
 In the Services option at the top, search for Cloudtrail and Click it. One of the most important settings you'll need to be sure is set is for Cloudtrail to record events from all regions. You'll also want to record all read and write events. 
 
-![cloudtrail New Org]({{site.url}}/images/cloudtrailneworg.png){: .center-image }
+![cloudtrail New Org]({{site.url}}/images/cloudtrail_new_org.png){: .center-image }
 
 When you create this trail, you can set it to create a new S3 bucket. Handily, AWS handles the S3 bucket permissions for you. You'll need to pick a bucket name that's unique for your logging. 
 
-![cloudtrail New Org]({{site.url}}/images/cloudtrailneworg2.png){: .center-image }
+![cloudtrail New Org]({{site.url}}/images/cloudtrail_new_org2.png){: .center-image }
 
 I handle an bucket that logs for multiple accounts and haven't had to manually modify this bucket policy. AWS does all this work for you, you don't have to worry about it. This is my bucket policy, anonymized because I'm a suspicious person:
 
