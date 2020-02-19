@@ -38,7 +38,7 @@ Folks hoping to follow along with this post should have some comfort with AWS se
 
 ## Some Perspective 
 
-Doing labs is great, chasing certs is great, and working at home is great, but there's nothing to compare to the scale companies work at. You won't get important experience and troubleshoot surpisingly common "edge cases" unless you throw yourself into these projects at work or as part of a service that serves a significant number of people and see how common these "edge cases" actually are. The basic features of the cloud are amazing, but they really start to make sense when you see them interact to serve requests from a large number of people. 
+Doing labs is great, chasing certs is great, and working at home is great, but there's nothing to compare to the scale companies work at. You won't get important experience and troubleshoot surprisingly common "edge cases" unless you throw yourself into these projects at work or as part of a service that serves a significant number of people and see how common these "edge cases" actually are. The basic features of the cloud are amazing, but they really start to make sense when you see them interact to serve requests from a large number of people. 
 
 None of this should discourage you from building a lab and running services of your own, but you should understand that it makes a big difference to do this stuff at scale. If you get the basics out of the way in your lab, you'll be ready when the weird stuff hits you in production environments. 
 
@@ -51,7 +51,7 @@ We're going to build one. It's going to look like this:
 
 ![Organization Map]({{site.url}}/images/orgmap.png){: .center-image }
 
-The Primary Account manages all the other accounts, the Active accounts have minimal Service Control Policies (SCP) set to restrict activity in the account, the Restricted accounts are test groups for SCPs (maybe restricting to a single region, service, or condition), and finally Inactive accoutns are accounts I created but don't need so they're locked down entirely by SCPs.
+The Primary Account manages all the other accounts, the Active accounts have minimal Service Control Policies (SCP) set to restrict activity in the account, the Restricted accounts are test groups for SCPs (maybe restricting to a single region, service, or condition), and finally Inactive accounts are accounts I created but don't need so they're locked down entirely by SCPs.
 
 You'll need to sign up for an AWS account with an email address (eventually you'll need a few). This should not be the same email and AWS account you use to order underwear and  light bulbs. I recommend you set up a separate gmail or whatever account. The email address should tell you something about the purpose - blogpostdemo-master@gmail.com or whatever. Configure it to use hardware 2fa and a complex password. The hardware 2FA is going to come in handy because we're going to use it over and over. If you were a fancy organization with complex security needs, you'd manage this differently - we are not and you're welcome to go beyond the scope of these posts to set this up differently. 
 
@@ -107,7 +107,7 @@ To help mitigate this, each of my accounts has a single IAM user with Full Admin
 }
 ~~~
 
-The key statement is  `"aws:MultiFactorAuthPresent": "true"` which requires all requests to be authenticated with MFA. For console access, that means you used you 2nd factor to login. For CLI access, this means the only useful commands you can are STS GetSessionToken (and a handful of others). This uses long lived key and secret key to request temporary credentials that are then used to authenicate each API request. 
+The key statement is  `"aws:MultiFactorAuthPresent": "true"` which requires all requests to be authenticated with MFA. For console access, that means you used you 2nd factor to login. For CLI access, this means the only useful commands you can are STS GetSessionToken (and a handful of others). This uses long lived key and secret key to request temporary credentials that are then used to authenticate each API request. 
 
 I wrote a [simple tool](https://github.com/remotephone/aws-learning/blob/master/aws-sts.py) that you can use to request temporary credentials. This automatically requests and updates your existing ~/.aws/credentials file so next time you authenticate, you are protected with MFA. This is what my credentials file looks like. After running an `aws configure`, I manually add the MFA token ARN to the file. 
 
