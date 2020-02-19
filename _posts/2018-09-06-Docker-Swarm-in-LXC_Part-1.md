@@ -11,7 +11,7 @@ Looking back, this was a really useful experience and I was able to figure out q
 
 ### Some Considerations
 
-First, does it make sense to have a swarm for you? I interact with them some at work so I need to know something about them, so that made this worthwhile for me. It's a big pain in the ass and it's a mystery why some things don't work until you find something obscure someone wrote that describes your exact problem. I'm also partly to blame for my troubles as I am treaitng this as a hobby and not a real project, I didn't read the documentation thoroughly for everything so some things I've run into were clearly documented and I should have just read the whole documentation instead of skimming for the bits I thought I needed. 
+First, does it make sense to have a swarm for you? I interact with them some at work so I need to know something about them, so that made this worthwhile for me. It's a big pain in the ass and it's a mystery why some things don't work until you find something obscure someone wrote that describes your exact problem. I'm also partly to blame for my troubles as I am treating this as a hobby and not a real project, I didn't read the documentation thoroughly for everything so some things I've run into were clearly documented and I should have just read the whole documentation instead of skimming for the bits I thought I needed. 
 
 Assuming you're willing to put up with the above, let's move on.
 
@@ -19,7 +19,7 @@ Assuming you're willing to put up with the above, let's move on.
 
 I got interested in [traefik(](https://traefik.io/) because I saw it working and it's really cool. You can expose containers by DNS name and provide HTTPS by only exposing Traefik. They include instructions for running it both locally and in a swarm. If you're running a service like portainer, it would be available at something like https://portainer.mydomain.com. 
 
-I want to run traefik and just make it available on my home network. Since the really out of the box solution they provide is better for internet acccessible deployments, we'll need to make some tweaks. 
+I want to run traefik and just make it available on my home network. Since the really out of the box solution they provide is better for internet accessible deployments, we'll need to make some tweaks. 
 
 ### Requirements
 

@@ -5,7 +5,7 @@ date:   2019-03-09 10:31:00 -0600
 categories: lab homelab proxmox ansible docker workflow
 ---
 
-Well life catches up with you fast I guess. I havent posted any updates because I was posting as I was building and I hit a roadblock. I'll first talk about that in case Google gets you here while you're running into the same problem and then give the pieces I did figure out. 
+Well life catches up with you fast I guess. I haven't posted any updates because I was posting as I was building and I hit a roadblock. I'll first talk about that in case Google gets you here while you're running into the same problem and then give the pieces I did figure out. 
 
 ## Docker Swarm in Proxmox LXC Containers
 

@@ -14,7 +14,7 @@ I run DD-WRT on my home router. It's great enough and does what I need. I run a 
 
 ## Keeping it Updated
 
-DD-WRT has issues like anything else and needs to be frequently updated. You should not use the versions available on the DD-WRT website, they're out of date. Updated versions are availabe [here](https://download1.dd-wrt.com/dd-wrtv2/downloads/betas/2019/). Find a recent revision and go from there. I've had success with Buffalo, Asus, Linksys, and Netgear models. [MyOpenRouter.com](https://www.myopenrouter.com/) is an excellent resource to help you pick a Netgear model, which will work fine. Any of the models you see referenced on [this](https://www.myopenrouter.com/download) page are likely well supported enough. 
+DD-WRT has issues like anything else and needs to be frequently updated. You should not use the versions available on the DD-WRT website, they're out of date. Updated versions are available [here](https://download1.dd-wrt.com/dd-wrtv2/downloads/betas/2019/). Find a recent revision and go from there. I've had success with Buffalo, Asus, Linksys, and Netgear models. [MyOpenRouter.com](https://www.myopenrouter.com/) is an excellent resource to help you pick a Netgear model, which will work fine. Any of the models you see referenced on [this](https://www.myopenrouter.com/download) page are likely well supported enough. 
 
 
 ## Documentation - Plentiful and Confusing
@@ -45,7 +45,7 @@ version of openssl.cnf: /CA/openssl.cnf
 The correct version should have a comment that says: easy-rsa version 2.x
 ~~~
 
-To fix this, the container uses a copy of that same file and names it appropraitely to match the version of openssl on the system.
+To fix this, the container uses a copy of that same file and names it appropriately to match the version of openssl on the system.
 
 Doing this non-interactively means you need to pass some additional arguments during the build process. `/tmp/CA/build-ca --batch nopass` means you don't have to provide a password for signing certificates through this CA. 
 
