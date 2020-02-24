@@ -95,3 +95,4 @@ Ok so that's about enough. If you followed along, you should have billing alerts
 
 This post was pretty picture heavy, but the next one I'll do will be taking this very simple deployment and turning it into something you can deploy with CloudFormation and/or Terraform, depending on how much I get done. Thanks for reading!
 
+** Special thanks to Ravi for pointing out some formatting and other kind of tweaks I could make to this. I appreciate the feedback!
