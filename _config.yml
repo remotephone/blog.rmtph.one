@@ -27,7 +27,7 @@ social_username: remotephone
 
 # Set theme color here
 # Choose from: black (default), blue, gray, magenta, orange, red, white, and yellow.
-theme_color: blue
+theme_color: black
 
 # Build settings
 markdown: kramdown
