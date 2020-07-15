@@ -28,7 +28,7 @@ lxc.cgroup.devices.allow: a
 lxc.cap.drop:
 ~~~
 
-The important bits are the ones at the end. Proxmox provides a handful of app armor profiles that allow you to run certain applications that would be blocked from running sinde a container. Unconfined isn't great from a security perspective, but since docker will still isolate processes from the LXC container, you do preserve some level of isolation. This profile allows you to get a container running to begin with.
+The important bits are the ones at the end. Proxmox provides a handful of app armor profiles that allow you to run certain applications that would be blocked from running inside a container. Unconfined isn't great from a security perspective, but since docker will still isolate processes from the LXC container, you do preserve some level of isolation. This profile allows you to get a container running to begin with.
 
 After running my docker-ce and swarm install playbooks, things would look up and running, but containers would always fail to launch on lxc worker nodes. My docker-compose file spun up traefik and another network to allow things to talk to each other without being exposed publicly. A `docker network ls` on my worker showed:
 
