@@ -12,7 +12,7 @@ I saw this [tweet](https://twitter.com/ZoomerX/status/1283161781440057344) which
 
 ## Finding it
 
-The tweet itself didn't give any good info. I went to the accounts profile page and there is no link to a github account or anything. So i try some google dorking. The first search is `site:github.com filetype:exe CVE-2020-1350`. That didn't get me anything, so I removed the filetype search and simply searched `site:github.com CBE-2020-1350`. That led me to this [repo](https://github.com/ZephrFish/CVE-2020-1350) and I believe I found the [executable](https://github.com/ZephrFish/CVE-2020-1350/blob/master/CVE-2020-1350.exe) I wanted, or at least something interesting enough to look into. 
+The tweet itself didn't give any good info. I went to the accounts profile page and there is no link to a github account or anything. So i try some google dorking. The first search is `site:github.com filetype:exe CVE-2020-1350`. That didn't get me anything, so I removed the filetype search and simply searched `site:github.com CVE-2020-1350`. That led me to this [repo](https://github.com/ZephrFish/CVE-2020-1350) and I believe I found the [executable](https://github.com/ZephrFish/CVE-2020-1350/blob/master/CVE-2020-1350.exe) I wanted, or at least something interesting enough to look into. 
 
 
 ## What I'd Normally Do
@@ -89,4 +89,8 @@ A request is made to a canary tokens domain with a UID that is probably how this
 
 ## A simple conclusion
 
-So, never having executed this in a sandbox or VM or seeing it run, it looks like this creates a gui with some input and buttons, asks you who you want to exploit, ridicules you if you point it at localhost and then kermitrickrolls you, validates the IP anyway, and then calls out to a canary token URL to flag you as a baddy. I am thrilled that someone went through the trouble to do this. It's a kind of offensive defense that outs dumber baddies and gives really interesting intel about how quick people are to run random things off the internet they think might cause trouble. Big thanks to @ZoomerX on twitter and ZephrFish on github. This was very interesting to go through and a good example of why you don't run random things off the internet (including ILSpy...). Not everyones out to do harm to you, but its important to either know exactly what random code you're doing or at least get it from somewhere you trust before you run it. I'm off to reimage my machine. Thanks for reading. 
+So, never having executed this in a sandbox or VM or seeing it run, it looks like this creates a gui with some input and buttons, asks you who you want to exploit, ridicules you if you point it at localhost and then kermitrickrolls you, validates the IP anyway, and then calls out to a canary token URL to flag you as a baddy. 
+
+I am thrilled that someone went through the trouble to do this. It's a kind of offensive defense that outs dumber baddies and gives really interesting intel about how quick people are to run random things off the internet they think might cause trouble. Big thanks to @ZoomerX on twitter and ZephrFish on github. This was very interesting to go through and a good example of why you don't run random things off the internet (including ILSpy...). Not everyones out to do harm to you, but its important to either know exactly what random code you're doing or at least get it from somewhere you trust before you run it. 
+
+I'm off to reimage my machine. Thanks for reading. 
