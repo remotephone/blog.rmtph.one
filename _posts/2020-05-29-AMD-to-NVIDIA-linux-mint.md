@@ -2,7 +2,7 @@
 layout: post
 title:  "AMD to Nvidia - Linux Mint and Cinnamon Crashes"
 date:   2020-05-29 14:40:00 -0600
-categories: [homelab, workflow]
+categories: homelab workflow
 ---
 
 I upgraded from an AMD RX-480 to an Nvidia RTX 2070 Super. What an ugprade. The windows side of thing was pretty painless except for the fact that I had to completely reinstall my OS. Fortunately, for that, I had [this](https://gist.github.com/remotephone/948ae20e1e02c05a9b3bb6bcb43abf50) installer script I lifted (with some small tweaks) from [jessfraz](https://github.com/jessfraz) and it proved super helpful. For my Linux workstations, I have an ansible [playbook](https://github.com/remotephone/remotephone-desktop-ansible) I run that helps if I'm starting from scratch, but not so much if I just need to make a hardware change.

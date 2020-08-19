@@ -2,7 +2,7 @@
 layout: post
 title:  "Docker Swarm in LXC, Part 1"
 date:   2018-09-06 10:31:00 -0600
-categories: [lab, homelab, proxmox, ansible, docker] 
+categories: lab homelab proxmox ansible docker workflow
 ---
 
 I decided to run a Docker swarm at home because I thought it would be useful to know how to do and didn't really appreciate what I was getting into when I started it all. Despite the current them of my blog, security is what I'm really interested in and a swarm is going to give me ways to quickly deploy and throw away things to play with. 

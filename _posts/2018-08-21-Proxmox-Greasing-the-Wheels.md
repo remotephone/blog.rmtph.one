@@ -2,7 +2,7 @@
 layout: post
 title:  "Proxmox  - Greasing the Wheels"
 date:   2018-08-21 10:31:00 -0600
-categories: [lab, homelab, proxmox, ansible] 
+categories: lab homelab proxmox ansible workflow
 ---
 
 I got distracted. I've done quite a bit of work on the incident response type lab I've been working on, but I also got interested in Docker and Docker Swarm. I've built that and it works so I figured I'd write that down first. This post will cover a few things I've done for myself to make all my projects easier. 

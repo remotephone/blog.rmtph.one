@@ -2,7 +2,7 @@
 layout: post
 title:  "Running Random Executables for Fun and No Profit"
 date:   2020-07-16 14:40:00 -0600
-categories: [homelab, workflow, malware]
+categories: homelab workflow
 ---
 
 I saw this [tweet](https://twitter.com/ZoomerX/status/1283161781440057344) which I thought was hilarious and I wanted to see what the binary did. This post will walk you through my process of finding it and looking at it. 
