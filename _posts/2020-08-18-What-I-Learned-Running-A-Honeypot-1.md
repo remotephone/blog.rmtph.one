@@ -21,7 +21,6 @@ I deployed [T-Mobile's Tpotce](https://github.com/dtag-dev-sec/tpotce) in AWS. T
 
 This diagram spells it out the best:
 
-![New Topic]({{site.url}}/images/new_topic.png){: .center-image }
 ![tpot-ce architecture](https://github.com/dtag-dev-sec/tpotce/blob/master/doc/architecture.png?raw=true)
 
 You have a large number of containerized services with restricted admin access back into the box. All the services log to a subdirectory in /data and those logs are ingested into an ELK stack built into the tool. 
