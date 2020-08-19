@@ -2,7 +2,7 @@
 layout: post
 title:  "My AWS Organization - Part 3 - Billing Alerts"
 date:   2020-2-23 00:40:00 -0600
-categories: lab homelab AWS cloud workflow
+categories: [lab, homelab, AWS, cloud, workflow]
 ---
 
 # Part 3 - Billing Alerts - How You Know You're In Trouble

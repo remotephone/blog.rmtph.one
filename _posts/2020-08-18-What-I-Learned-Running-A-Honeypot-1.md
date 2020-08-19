@@ -2,7 +2,7 @@
 layout: post
 title:  "What I Learned Running A Honeypot - 1"
 date:   2020-08-18 22:40:00 -0600
-categories: homelab workflow
+categories: [homelab, aws, honeypot, workflow, malware]
 ---
 
 ## Catching Flies with Honeypots

@@ -2,7 +2,7 @@
 layout: post
 title:  "Reverse Shell Cheat Sheet"
 date:   2017-01-17 20:56:00 -0600
-categories: lab homelab pentest cheatsheet
+categories: [lab, homelab, pentest, cheatsheet]
 ---
 
 ## Cause everyone posts one
