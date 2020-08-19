@@ -2,7 +2,7 @@
 layout: post
 title: "Security Labs on a (no) budget"
 date:   2016-12-20 16:29:15 -0600
-categories: lab homelab budget testing
+categories: [lab, homelab, budget, testing]
 ---
 
 ## So you want a lab?
