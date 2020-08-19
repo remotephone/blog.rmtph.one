@@ -1,11 +1,12 @@
 ---
+layout: page
 title: About
-
-# The About page
-# v2.0
-# https://github.com/cotes2020/jekyll-theme-chirpy
-# © 2017-2019 Cotes Chung
-# MIT License
+permalink: /about/
 ---
 
-> **Note**: Add Markdown syntax content to file `tabs/about.md` and it will show up on this page.
+Hi, I'm Jaime. I work in security and enjoy defensive security, incident response, offsensive security, and testing new technologies. I spend an enormous amount of time googling and documenting things, and this is my attempt to reduce that time. You'll find articles that aren't complete because I'm working on them. I hope to get back to everything eventually, but at least until I have a good base of posts, I'll finish what I start before I start something else.  
+
+### Other interests and info
+
+I do plenty of things, most of which have nothing to do with the content of this blog. I hope to one day to have produced some original content here and reproduced some other's content I've had to modify or update to make work. 
+
