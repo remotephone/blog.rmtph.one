@@ -2,7 +2,7 @@
 layout: post
 title:  "Proxmox Home Lab on a Slightly Larger Budget - Part 2"
 date:   2018-02-19 00:31:00 -0600
-categories: lab homelab proxmox
+categories: [lab, homelab, proxmox, dd-wrt] 
 ---
 
 Building a home lab Part 2 - Networking Some More
