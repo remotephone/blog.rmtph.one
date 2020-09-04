@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Running a Service frrom Github Container Registry in My Docker Swarm"
+title:  "Running a Service from Github Container Registry in My Docker Swarm"
 date:   2020-09-04 01:20:00 -0600
 categories: homelab docker workflow
 ---
