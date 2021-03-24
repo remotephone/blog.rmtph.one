@@ -46,14 +46,14 @@ To enable them,
 3. Make sure your configs support them. In my /etc/fstab file in my proxmox servers, I had to set the version explicitly.
 
     ~~~
-    //10.0.0.1/NAS /media/nas cifs credentials=/etc/.smbcredentials,vers=3.0 0 0
+    //192.168.0.1/NAS /media/nas cifs credentials=/etc/.smbcredentials,vers=3.0 0 0
     ~~~ 
 
 4. Remount your drives and it should work
 
 ## OpenVPN Server
 
-The openvpn server is pretty nice. I use it when I'm in places where I trust my home network more than the network I am in, and typically on a phone or laptop. I put together [this tool](https://github.com/remotephone/openvpn_cert_generator) to simplify the process of generating certificates. This also uses TLS instead of password authentication. 
+The openvpn server is pretty nice. I use it when I'm in places where I trust my home network more than the network I am in, and typically on a phone or laptop. I put together [this tool](https://github.com/remotephone/openvpn_cert_generator) to simplify the process of generating certificates. This also uses TLS instead of password authentication because why not. 
 
 ## That's it
 
