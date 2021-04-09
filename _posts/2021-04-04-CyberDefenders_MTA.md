@@ -91,3 +91,7 @@ For this one, the query `event_type=alert | count() by alert.signature_id | sort
 ## OK that's it.
 
 Good stuff. I enjoyed this exercise and will probably work through more. I submitted feedback on the ones that didn't work as expected, so maybe I did something wrong or they can get updated. Either way, I really appreciate the work that went into this, this is a great learning resource. 
+
+## Edit
+
+I submitted that support ticket and got a response the same night that the content would get updated. Really impressed with their turnaround.
