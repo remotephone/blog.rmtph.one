@@ -1,5 +1,6 @@
 ---
 layout: post
+author: remotephone
 title:  "What I Learned Running A Honeypot - 2 - Failing to Run it Locally"
 date:   2020-09-04 00:20:00 -0600
 categories: homelab workflow

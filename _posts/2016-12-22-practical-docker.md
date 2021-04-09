@@ -1,5 +1,6 @@
 ---
 layout: post
+author: remotephone
 title: "Practical Docker for Security Admins - Part 1"
 date:   2016-12-20 16:29:15 -0600
 categories: lab homelab docker

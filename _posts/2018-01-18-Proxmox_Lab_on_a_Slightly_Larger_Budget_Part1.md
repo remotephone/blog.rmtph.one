@@ -1,5 +1,6 @@
 ---
 layout: post
+author: remotephone
 title:  "Proxmox Home Lab on a Slightly Larger Budget - Part 1"
 date:   2018-01-18 21:31:00 -0600
 categories: lab homelab proxmox dd-wrt 

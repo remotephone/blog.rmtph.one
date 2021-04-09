@@ -1,5 +1,6 @@
 ---
 layout: post
+author: remotephone
 title:  "What is Markdown anyway?"
 date:   2016-12-18 21:14:55 -0600
 description: Quick reference for markdown \(mainly for me\)

@@ -1,5 +1,6 @@
 ---
 layout: post
+author: remotephone
 title:  "CyberDefenders.org - Malware Traffic Analysis Walktrhough"
 date:   2021-04-08 00:40:00 -0600
 categories: lab homelab malware traffic-analysis workflow

@@ -1,5 +1,6 @@
 ---
 layout: post
+author: remotephone
 title:  "Docker Swarm in LXC, Part 1"
 date:   2018-09-06 10:31:00 -0600
 categories: lab homelab proxmox ansible docker workflow

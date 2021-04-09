@@ -1,5 +1,6 @@
 ---
 layout: post
+author: remotephone
 title:  "My AWS Organization - Part 2 - Bills and Logs"
 date:   2020-2-10 00:40:00 -0600
 categories: lab homelab AWS cloud workflow
