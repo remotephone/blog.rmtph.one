@@ -104,8 +104,6 @@ kramdown:
 # or you think you're smart enough to change other relevant URLs within this template.
 permalink: /posts/:title/
 
-title_image: "https://avatars.githubusercontent.com/u/24580355?v=4"
-
 defaults:
   -
     scope:
@@ -113,7 +111,6 @@ defaults:
       type: posts
     values:
       layout: post
-author: remotephone
       comments: true    # Enable comments in posts.
       toc: true         # Display TOC column in posts.
       location: Post
