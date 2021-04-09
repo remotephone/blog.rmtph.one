@@ -1,6 +1,6 @@
 ---
 layout:	post
-title:  "Installing Jekyll for Security Professionals - or \"I don\'t know what I\'m doing\""
+title:  'Installing Jekyll for Security Professionals'
 date:   2016-12-19 17:05:15 -0600
 ---
 
