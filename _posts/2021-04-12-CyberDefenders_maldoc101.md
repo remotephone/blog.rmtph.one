@@ -1,21 +1,25 @@
 ---
 layout: post
 author: remotephone
-title:  "CyberDefenders.org - Maldoc101 Walktrhough"
+title:  "CyberDefenders.org - Maldoc101 Walkthrough"
 date:   2021-04-12 00:40:00 -0600
 categories: lab homelab malware malware workflow
 ---
 
-# CyberDefenders.org again
+# Another go at CyberDefenders.org 
 
-Having another go at a [CyberDefenders](https://cyberdefenders.org/) challenge, this one about maldocs.
+Having another go at a [CyberDefenders](https://cyberdefenders.org/) challenge, this one about maldocs. You can find a link to the challenge [here](https://cyberdefenders.org/labs/51).
 
-## Environemtn
+## Environment
 
-I did this through Windows Subsystem for Linux 2. I already have that environment installed and wworking, but any linux environment should give you a very similar path to follow what I did. 
+I did this through Windows Subsystem for Linux 2. I already have that environment installed and working, but any linux environment should give you a very similar path to follow what I did. 
 
-I also grabbed [oletools](https://github.com/decalage2/oletools) as this is the king of the maldoc analyzers. My install process followed the instructions on his page (slightly modified) to `pip3 install oletools --user` and I also separately grabbed oledump from [here](https://blog.didierstevens.com/programs/oledump-py/) as it wasn't included.
+I also grabbed [oletools](https://github.com/decalage2/oletools) as this is the king of the maldoc analyzers. My install process followed the instructions on his page (slightly modified) to `pip3 install oletools --user` and I also separately grabbed oledump from [here](https://blog.didierstevens.com/programs/oledump-py/) as it wasn't included. Simply wget and unzipped it to my temporary working directory, which made a mess, but we only have one file we're working with so who's counting? 
 
+
+## Some notes
+
+I appreciate them renaming this file to sample.bin so someone doesn't accidentally maldoc themselves. I am also just generally impressed at the experience on this site. Just sign up, go to a lab, and start plugging away. I'm currently downloading a 27gig macos forensics image and I'm surprised no one's charging me. 
 
 ## Question 1: What streams contain macros in this document? 
 
