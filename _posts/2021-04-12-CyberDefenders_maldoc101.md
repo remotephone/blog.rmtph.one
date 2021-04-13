@@ -109,6 +109,7 @@ My guess here was the biggest section must have it, so 34 is your flag.
 
 Here, we can oledir the file to see all the parts of it, and browse it as a directory structure. 
 
+~~~bash
 computer@computer: ~/gits/MalDoc101
 $ oledir sample.bin                                                                                          [23:10:11]
 oledir 0.54 - http://decalage.info/python/oletools
