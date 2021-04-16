@@ -14,9 +14,20 @@ Having another go at a [CyberDefenders](https://cyberdefenders.org/) challenge, 
 
 I did this largely on my Windows workstation. I used Autopsy to analyze the image. I used Windows Subsystem for Linux 2 to install mac_apt on. I cannot overstate how convenient it is to have very transparent access to Linux tools via my Windows workstation. I will boot into Linux every now and then if I need to, but I find I need to less and less as WSL gets better and better, especially once WSL2 came out. 
 
-I worked on this one night and ran into some issues. I'll call out where it was night 2 and I had some time to think about the issue. The big difference is I installed apfs-fuse and used it to mount the drive and examine it manually. Somet things didn't work through Autopsy and I don't know why, but mounting the image and browsing let me access some files I couldn't access via Autopsy. Keep in mind this is not necessarily forensically sound.
+I set this up and installed stuff one night, worked on this over 2 nights and ran into some issues. I'll call out where it was night 2 and I had some time to think about the issues. Taking time off during work like this does me wonders because I can approach problems with a fresh mind later.
 
-This is my command line history for installing and configuring apfs-fuse.
+ The big difference on night 2 is that I installed apfs-fuse and used it to mount the drive and examine it manually. Somethings didn't work through Autopsy and I don't know why, but mounting the image and browsing let me access some files I couldn't access via Autopsy. Keep in mind this is not necessarily forensically sound unless you mount read only.
+
+
+## Some notes
+
+Autopsy failed to complete the download a couple of times, might have been my network having hiccups. Chrome's download resume feature came in handy, same for the forenics image.
+
+I recommend you do this on an SSD. The image is 27gb, you'll need to extract it before you can work on it, and faster the disk the better. 500gb NVME drives are as cheap as 60 bucks now which is insane considering the speed an value, so if you have space for one, do it. 
+
+I'm using a Ryzen 5 2600 and 16gb of ram, this took a long time. Even with a speedy drive, expanding the files took 10-15 minutes and once expanded, it took another 50 minutes to get the image loaded into Autopsy. Just be ready to keep busy as things get set up.  
+
+This is my command line history for installing and configuring apfs-fuse, there were a few minor snags I ran into that got answered by browsing issues (see references, but this is what worked for me).
 
 ~~~bash
 mkdir /tmp/mount
@@ -45,23 +56,7 @@ sudo apt install fuse3 && sudo apt install libfuse3-dev
 ./apfs-fuse /tmp/mount/ewf1 /tmp/mountpoint
 ~~~
 
-## Some notes
-
-Autopsy failed to complete the download a couple of times, might have been my network having hiccups. Chrome's download resume feature came in handy, same for the forenics image.
-
-I recommend you do this on an SSD. The image is 27gb, you'll need to extract it before you can work on it, and faster the disk the better. 500gb NVME drives are as cheap as 60 bucks now which is insane considering the speed an value, so if you have space for one, do it. 
-
-I'm using a Ryzen 5 2600 and 16gb of ram, this took a long time. Even with a speedy drive, expanding the files took 10-15 minutes and once expanded, it took another 50 minutes to get the image loaded into Autopsy. Just be ready to keep busy as things get set up.  
-
-I use pipenv as my python environment because virtualenv was always clunky to me. This is my command line history for installing the depdencies for mac_apt. I followied their instructions with some slight modifications. 
-
-
 I watched Godzilla (2014) while doing this. This movie is excellent and I love it. 
-
-9:42 start time
-Autopsy complete at 10:29
-
-10:01 build time
 
 
 ## Question 1: What version of macOS is running on this image? 
