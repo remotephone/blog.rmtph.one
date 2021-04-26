@@ -178,7 +178,7 @@ This is asking for the user rsponsible for connecting USB devices. Some simple s
 
 I tried the IDEVICEINFO plugin for mac_apt and got nothign useful, so there may have been another way to this answer but I didn't find it. 
 
-## Eerything past here is night 2. 
+## -- Everything past here is night 2. --
 
 ## Question 14: Find the flag in the GoodExample.jpg image. It's hidden with better tools.	
 
