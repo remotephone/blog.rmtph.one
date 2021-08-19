@@ -64,6 +64,7 @@
   <meta name="twitter:site"    content="@{{ site.twitter.username }}">
   <meta name="twitter:creator" content="@{{ page.author }}">
   <meta name="twitter:title"   content="{{ page.title }}">
+  <meta property="og:image" content="https://remotephone.github.io/images/avatar.jpg">
 
   {% if page.summary %}
   <meta name="twitter:description" content="{{ page.summary }}">
@@ -74,9 +75,13 @@
   {% if page.image %}
   <meta name="twitter:card"  content="summary_large_image">
   <meta name="twitter:image" content="{{ site.url }}{{ page.image }}">
+  <meta property="og:image" content="https://remotephone.github.io/images/avatar.jpg">
+
   {% else %}
   <meta name="twitter:card"  content="summary">
   <meta name="twitter:image" content="{{ site.title_image }}">
+  <meta property="og:image" content="https://remotephone.github.io/images/avatar.jpg">
+
   {% endif %}
   <!-- end of Twitter cards -->
 
