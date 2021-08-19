@@ -1,7 +1,7 @@
 ---
 layout: post
 author: remotephone
-title:  "Finding a New Infosec Job"
+title:  "Finding a New Infosec Job - Part 1 - Looking"
 date:   2021-06-13 23:22:00 -0600
 categories: lab training job
 ---
