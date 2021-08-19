@@ -28,6 +28,8 @@ github:
 
 twitter:
   username: remotephone            # change to your twitter username
+  card: summary
+  image: https://remotephone.github.io/images/avatar.jpg
 
 social:
   name: remotephone                  # it will shows as the copyright owner in Footer
