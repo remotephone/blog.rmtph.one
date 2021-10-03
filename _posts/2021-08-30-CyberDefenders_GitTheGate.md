@@ -24,7 +24,7 @@ The instructions are pretty straight forward, download the VM, expand it, run it
 Once you access the Kibana homepage, you can see a pretty obvious slice of time we'll be focusign on. It defaults to 2 years ago to ~10 months ago, you can expand around but that's all there is. 
 
 
-![Git the Gate](../images/01_gitthegate.png)
+![Git the Gate]({{site.url}}/images/01_gitthegate.png)
 
 
 First we check the indexes, and there are a few, `auditbeat-*`, `filebeat-*`, and `kibana_sample_data_logs`. Checkign in the `agent.hostname` field is a good place to start because we can get an idea of what's been reporting logs and what logs they might offer. In this case, we know we have an SSH box and a system running the elastic stack (elasticsearch, kibana, and logstash presumably). 
@@ -32,13 +32,13 @@ First we check the indexes, and there are a few, `auditbeat-*`, `filebeat-*`, an
 Since we have a timeline and we know one system, according to the prompt, is web facing, let's start with the ssh box with the search `agent.hostname:sshbox`. If we look at the `user.audit.id` field and the `user.name` field, we might find who has been on the system.
 
 
-![users](../images/02_gitthegate.png)
+![users]({{site.url}}/images/02_gitthegate.png)
 
 
 One value sticks out pretty sorely, `4294967295`, and that may or may not be something, just keep it in mind. If we go to the `auditbeat-*` index pattern, we can build a table that's useful for looking at these processes. I'll start with these fields and add more as I think I need them. 
 
 
-![table fields](../images/03_gitthegate.png)
+![table fields]({{site.url}}/images/03_gitthegate.png)
 
 
 If you go to the very bottom, you see you're limited to 500 events. I wouldn't necessarily make this change in production without testing, but you can go to Kibana settings and see much more. Open the Gear at the left in a new tab `> Advanced settings > Discover > Number of Rows` and set it to 10000. If you scroll down now, you'll see more rows, but this will slow down requests. Toggle the number until you end uip with a nice balance. 
@@ -48,13 +48,13 @@ Since we know SSH is exposed, let's find sucessful SSH connections using a query
 An extremely useful way to search data in Kibana is to make visualizations. There's a lot to learn here, but getting started is pretty easy and there are resources like [this](https://www.elastic.co/webinars/kibana-101-get-started-with-visualizations) and [this](https://www.elastic.co/guide/en/kibana/current/get-started.html). I launch the visualize tab, created a simple visualization of hosts and process names and generated a table like this. 
 
 
-![simple viz](../images/04_gitthegate.png)
+![simple viz]({{site.url}}/images/04_gitthegate.png)
 
 
 Using the table headers to sort the count by reverse order, we find the rare commands, which again, might be interesting since we see things like `cat`, `touch`, `useradd`, and `whoami`, some commands that might imply discovery and creation of users for persistence on the `elk-stack` system. 
 
 
-![simple viz](../images/05_gitthegate.png)
+![simple viz]({{site.url}}/images/05_gitthegate.png)
 
 
 So to reinventory what we have, there's some interesting IPs, some interesting commands, and at least one interesting user ID. Let's look at the questions.
