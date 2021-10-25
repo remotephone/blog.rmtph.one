@@ -23,6 +23,8 @@ author: remotephone
 
 avatar: /images/avatar.jpg   # support internet resources
 
+title_image: /images/avatar.jpg
+
 github:
   username: remotephone             # change to your github username
 

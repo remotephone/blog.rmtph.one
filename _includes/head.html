@@ -60,27 +60,6 @@
 
   {% include css-selector.html %}
 
-    <!-- Twitter cards https://brianbunke.com/blog/2017/09/06/twitter-cards-on-jekyll/ -->
-  <meta name="twitter:site"    content="@{{ site.twitter.username }}">
-  <meta name="twitter:creator" content="@{{ page.author }}">
-  <meta name="twitter:title"   content="{{ page.title }}">
-  <meta property="og:image" content="https://remotephone.github.io/images/avatar.jpg">
-
-  {% if page.summary %}
-  <meta name="twitter:description" content="{{ page.summary }}">
-  {% else %}
-  <meta name="twitter:description" content="{{ site.description }}">
-  {% endif %}
-
-  {% if page.image %}
-  <meta name="twitter:card"  content="summary_large_image">
-  <meta name="twitter:image" content="{{ site.url }}{{ page.image }}">
-  <meta property="og:image" content="https://remotephone.github.io/images/avatar.jpg">
-
-  {% else %}
-  <meta name="twitter:card"  content="summary">
-  <meta name="twitter:image" content="{{ site.title_image }}">
-  <meta property="og:image" content="https://remotephone.github.io/images/avatar.jpg">
 
   {% endif %}
   <!-- end of Twitter cards -->
@@ -97,4 +76,30 @@
 
   {% include js-selector.html %}
 
+
+
+  <!-- Twitter cards -->
+  <meta name="twitter:site"    content="@{{ site.twitter_username }}">
+  <meta name="twitter:creator" content="@{{ page.author }}">
+  <meta name="twitter:title"   content="{{ page.title }}">
+
+  {% if page.summary %}
+  <meta name="twitter:description" content="{{ page.summary }}">
+  {% else %}
+  <meta name="twitter:description" content="{{ site.description }}">
+  {% endif %}
+
+  {% if page.largeimage %}
+  <meta name="twitter:card"  content="summary_large_image">
+  <meta name="twitter:image" content="{{ site.url }}{{ page.largeimage }}">
+  {% else %}
+  {% if page.image %}
+  <meta name="twitter:card"  content="summary">
+  <meta name="twitter:image" content="{{ site.url }}{{ page.image }}">
+  {% else %}
+  <meta name="twitter:card"  content="summary">
+  <meta name="twitter:image" content="{{ site.title_image }}">
+  {% endif %}
+  {% endif %}
+  <!-- end of Twitter cards -->
 </head>
