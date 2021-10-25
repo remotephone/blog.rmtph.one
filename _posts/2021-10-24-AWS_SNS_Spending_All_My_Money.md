@@ -37,13 +37,17 @@ Working with this new requirement is pretty easy, unfortunately it will cost you
 
 To make the change, go to the Amazon SNS console. If you go into AWS SNS > Topics > Subscriptions and you'll see a banner that you don't have a number registered. 
 
+
 ![add number]({{site.url}}/images/aws_sns01.png){: .center-image }
+
 
 Click `View Origination Number` and then `Provision Pinpoint Number`. Click `Provision Phone Number`, Choose your country (I'm doing US), and then select Toll Free. Uncheck Voice, because least privilege and all that, and the rest can remain default. You'll almost instantly be provisioned a number. 
 
 Go back to your SNS topic, send a test message, and you shoulkd receive it shortly.
 
-![add number]({{site.url}}/images/aws_sns02.png){: .center-image }
+
+![get_text]({{site.url}}/images/aws_sns02.png){: .center-image }
+
 
 Then hang out and wait for your bill I guess.
 
