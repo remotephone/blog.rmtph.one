@@ -2,7 +2,7 @@
 layout: post
 author: remotephone
 title:  "AWS SNS - Spending All My Money"
-date:   2021-10-20 10:24:00 -0600
+date:   2021-10-24 10:49:00 -0600
 categories: lab workflow aws sns
 ---
 
