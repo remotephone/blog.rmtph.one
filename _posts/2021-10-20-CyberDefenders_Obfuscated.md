@@ -4,6 +4,8 @@ author: remotephone
 title:  "CyberDefenders - Obfuscated"
 date:   2021-10-20 10:24:00 -0600
 categories: lab workflow training dfir maldoc malware
+largeimage: /images/avatar.jpg
+
 ---
 
 # Obfuscated

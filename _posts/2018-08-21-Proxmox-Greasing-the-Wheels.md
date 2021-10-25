@@ -4,6 +4,8 @@ author: remotephone
 title:  "Proxmox  - Greasing the Wheels"
 date:   2018-08-21 10:31:00 -0600
 categories: lab homelab proxmox ansible workflow
+largeimage: /images/avatar.jpg
+
 ---
 
 I got distracted. I've done quite a bit of work on the incident response type lab I've been working on, but I also got interested in Docker and Docker Swarm. I've built that and it works so I figured I'd write that down first. This post will cover a few things I've done for myself to make all my projects easier. 
@@ -95,6 +97,8 @@ This playbook actually covers the install steps from my last two posts in one qu
 Some LXC containers are so minimalist they don't even have python installed for you to get your ansible playbooks running. I ran into an Ansible bootstrap script some time ago and have adapted it to a role.
 
 ~~~ 
+largeimage: /images/avatar.jpg
+
 ---
 
 - name: install python 2

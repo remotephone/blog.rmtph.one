@@ -4,6 +4,8 @@ author: remotephone
 title:  "Welcome to My Scratchpad"
 date:   2016-12-18 20:49:55 -0600
 categories: welcome hello info 
+largeimage: /images/avatar.jpg
+
 ---
 
 Thanks for visiting my page. Hopefully you're here because you've run into some of the same problems I've run into and are looking for an answer. Maybe I can be that answer. Maybe. 

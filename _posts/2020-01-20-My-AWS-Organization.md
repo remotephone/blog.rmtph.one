@@ -4,6 +4,8 @@ author: remotephone
 title:  "My AWS Organization - Part 1"
 date:   2020-1-20 23:28:00 -0600
 categories: lab homelab AWS cloud workflow
+largeimage: /images/avatar.jpg
+
 ---
 
 

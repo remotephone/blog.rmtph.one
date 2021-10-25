@@ -2,6 +2,8 @@
 layout:	post
 title:  'Installing Jekyll for Security Professionals'
 date:   2016-12-19 17:05:15 -0600
+largeimage: /images/avatar.jpg
+
 ---
 
 ## Why are we here anyway?

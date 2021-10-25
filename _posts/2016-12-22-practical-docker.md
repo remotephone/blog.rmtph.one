@@ -4,6 +4,8 @@ author: remotephone
 title: "Practical Docker for Security Admins - Part 1"
 date:   2016-12-20 16:29:15 -0600
 categories: lab homelab docker
+largeimage: /images/avatar.jpg
+
 ---
 
 [Docker](https://www.docker.com/) and containers are pretty nifty.  You can run applications or even OSes inside containers (sort of, it shares a kernel with the host OS and there's still at least some ways to escape a container to get to the host). The beauty of it to me is how throwaway it is. I saw a presentation where someone started an Ubuntu container, rm -rf /'ed themselves, created a new container, and it was like nothing ever happened. Amazing stuff.  

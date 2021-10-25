@@ -6,6 +6,8 @@ date:   2018-01-18 21:31:00 -0600
 categories: lab homelab proxmox dd-wrt 
 redirect_from:	
   - "/2017/01/18/Proxmox_Lab_on_a_Slightly_Larger_Budget.html"
+largeimage: /images/avatar.jpg
+
 ---
 
 

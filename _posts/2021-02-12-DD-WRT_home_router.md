@@ -4,6 +4,8 @@ author: remotephone
 title:  "DD-WRT as a home router"
 date:   2021-02-11 23:45:00 -0600
 categories: homelab dd-wrt
+largeimage: /images/avatar.jpg
+
 ---
 
 ## DD-WRT - That still works?

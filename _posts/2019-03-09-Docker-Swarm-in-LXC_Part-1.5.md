@@ -4,6 +4,8 @@ author: remotephone
 title:  "Docker Swarm in LXC, Part 1.5 - The Kerneling"
 date:   2019-03-09 10:31:00 -0600
 categories: lab homelab proxmox ansible docker workflow
+largeimage: /images/avatar.jpg
+
 ---
 
 Well life catches up with you fast I guess. I haven't posted any updates because I was posting as I was building and I hit a roadblock. I'll first talk about that in case Google gets you here while you're running into the same problem and then give the pieces I did figure out. 

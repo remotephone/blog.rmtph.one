@@ -4,6 +4,8 @@ author: remotephone
 title:  "Running a Service from Github Container Registry in My Docker Swarm"
 date:   2020-09-04 01:20:00 -0600
 categories: homelab docker workflow
+largeimage: /images/avatar.jpg
+
 ---
 
 ## Move over docker hub
