@@ -97,8 +97,6 @@ This playbook actually covers the install steps from my last two posts in one qu
 Some LXC containers are so minimalist they don't even have python installed for you to get your ansible playbooks running. I ran into an Ansible bootstrap script some time ago and have adapted it to a role.
 
 ~~~ 
-largeimage: /images/avatar.jpg
-
 ---
 
 - name: install python 2
