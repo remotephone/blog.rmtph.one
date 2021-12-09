@@ -16,7 +16,7 @@ I saw this [tweet](https://twitter.com/SecShoggoth/status/1468740840759697420?s=
 
 I'm on a M1 macbook air and tried to install volality to look at the memory image, no go there. I ran into a few errors, the big one seeming to be
 
-```
+```shell
 <snip>
 [pipenv.exceptions.InstallError]:   In file included from leechcorepyc.c:21:
 [pipenv.exceptions.InstallError]:   ./oscompatibility.h:28:10: fatal error: 'byteswap.h' file not found
@@ -36,7 +36,7 @@ Let's take a look at running processes. I started with the file at `./live_respo
 
 A quick browse shows two processes marked as deleted.
 
-```s
+```shell
 └─(23:24:54)──> grep deleted process/running_processes_full_paths.txt                                   ──(Wed,Dec08)─┘
 lrwxrwxrwx 1 daemon           daemon           0 Dec  8 18:51 /proc/24330/exe -> /tmp/agettyd (deleted)
 lrwxrwxrwx 1 root             root             0 Dec  8 18:51 /proc/609/exe -> / (deleted)
@@ -160,6 +160,6 @@ KiB Swap:        0 total,        0 free,        0 used.   158732 avail Mem
  8295 root      20   0   41012   3508   2952 R  9.4  0.4   0:00.15 top
  ```
 
- ## All Done
+## All Done
 
- So that's neat. This process took about 45 minutes from getting started writing this to getting to this paragraph while I enjoyed a movie. I'd recommend you read some of Craig's blog posts and look into Hal Pomeranz's course on [linux forensics](https://twitter.com/hal_pomeranz/status/1242539945144745986?s=20) if you're interested in learning and doing more of this stuff. Thanks for reading.
+So that's neat. This process took about 45 minutes from getting started writing this to getting to this paragraph while I enjoyed a movie. I'd recommend you read some of Craig's blog posts and look into Hal Pomeranz's course on [linux forensics](https://twitter.com/hal_pomeranz/status/1242539945144745986?s=20) if you're interested in learning and doing more of this stuff. Thanks for reading.
