@@ -12,7 +12,7 @@ largeimage: /images/avatar.jpg
 
 I have a homelab of sorts, I previously wrote about it [here](https://remotephone.github.io/posts/Proxmox_Lab_on_a_Slightly_Larger_Budget_Part1/) and [here](https://remotephone.github.io/posts/Docker-Swarm-in-LXC_Part-1.5/). It's changed a little bit since I wrote those, but I still had a need (more of a want tbh) to be able to access everything remotely. This is a logical diagram of what my network looks like:
 
-![network](../images/homenet.png)
+![network]({{site.url}}/images/homenet.png)
 
 To provide secure access to the swarm, I have everything behind [Traefik reverse proxy](https://traefik.io/) exposed to the internet. This is great because it provides HTTPS and 2FA protected SSO for all my services and was mostly easy to set up. Traefik also supports SSH, but there are some [minor gotchas](https://community.traefik.io/t/ssh-proxy-from-traefik-to-lxc/608) involved that I didn't want to work around and I don't run any other services that use SSH in my swarm, only HTTPS. I also have things scattered around AWS, other VPS services, and who knows what else I may want to access one day. 
 
@@ -36,7 +36,7 @@ First sign up for the service [here](https://login.tailscale.com/start). Then yo
 
 I deployed a default Debian 11 LXC container and loaded my public SSH key into it. This is the view in Proxmox. 
 
-![proxmox-container](../images/jumpbox_proxmox.png)
+![proxmox-container]({{site.url}}/images/jumpbox_proxmox.png)
 
 
 I followed the installation instructions [here](https://tailscale.com/kb/1017/install/), both with the manual install and simply curling to `sh`. The configuration for the container is mostly default, but I was unable to bring up the tunnel. I was getting an error like this:
