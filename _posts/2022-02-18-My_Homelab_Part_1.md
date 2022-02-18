@@ -2,7 +2,7 @@
 layout: post
 author: remotephone
 title:  "My Homelab - Part 1 - Hardware and Networking"
-date:   2022-01-31 22:49:00 -0600
+date:   2022-02-18 16:33:00 -0600
 categories: lab workflow networking lxc
 largeimage: /images/avatar.jpg
 
@@ -55,6 +55,10 @@ I'll make a separate post about my AWS environment supporting my lab, but I have
   expand-hosts                            # turn docker to docker.my.domain automatically
   ```
 5. Save and reboot your router.  
+
+## Port forwarding
+
+I forward a single port from the internet to my cluster. 
 
 ## I think that's it for now
 
