@@ -2,7 +2,7 @@
 layout: post
 author: remotephone
 title:  "My Homelab - Part 2 - Proxmox Hosts"
-date:   2022-02-21 07:33:00 -0600
+date:   2022-02-21 06:33:00 -0600
 categories: lab workflow networking proxmox lxc
 largeimage: /images/avatar.jpg
 
