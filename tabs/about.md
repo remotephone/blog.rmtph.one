@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About
-permalink: /about/
+permalink: /tabs/about/
 ---
 
 Hi, I'm Jaime. I work in security and enjoy defensive security, incident response, offsensive security, and testing new technologies. I spend an enormous amount of time googling and documenting things, and this is my attempt to reduce that time. You'll find articles that aren't complete because I'm working on them. I hope to get back to everything eventually, but at least until I have a good base of posts, I'll finish what I start before I start something else.  
