@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "Welcome to My Scratchpad"
 date:   2016-12-18 20:49:55 -0600
-categories: welcome hello info 
+categories: workflow 
 largeimage: /images/avatar.jpg
 
 ---
