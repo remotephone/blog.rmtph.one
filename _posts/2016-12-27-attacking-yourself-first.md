@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title: Attacking Yourself First
 date:   2016-12-27 23:43:12 -0600
-Categories: homelab docker webapp pentesting
+categories: [homelab, docker, webapp, pentesting]
 largeimage: /images/avatar.jpg
 
 ---

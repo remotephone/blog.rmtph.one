@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "Cyberdefenders.org - Hammered Walkthrough"
 date:   2021-06-03 23:22:00 -0600
-categories: lab homelab training workflow
+categories: [lab, homelab, training, workflow]
 largeimage: /images/avatar.jpg
 
 ---

@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "Proxmox  - Greasing the Wheels"
 date:   2018-08-21 10:31:00 -0600
-categories: lab homelab proxmox ansible workflow
+categories: [lab, homelab, proxmox, ansible, workflow]
 largeimage: /images/avatar.jpg
 
 ---

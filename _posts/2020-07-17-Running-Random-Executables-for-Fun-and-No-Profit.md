@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "Running Random Executables for Fun and No Profit"
 date:   2020-07-16 14:40:00 -0600
-categories: homelab workflow
+categories: [homelab, workflow]
 largeimage: /images/avatar.jpg
 
 ---

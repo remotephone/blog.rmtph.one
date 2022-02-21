@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "My Homelab - Part 1 - Hardware and Networking"
 date:   2022-02-18 16:33:00 -0600
-categories: lab workflow networking lxc
+categories: [lab, workflow, networking, lxc]
 largeimage: /images/avatar.jpg
 
 ---

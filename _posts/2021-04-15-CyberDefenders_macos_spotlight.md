@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "CyberDefenders.org - macOS Spotlight - Forensics Walkthrough"
 date:   2021-04-15 23:22:00 -0600
-categories: lab homelab forensics macos workflow
+categories: [lab, homelab, forensics, macos, workflow]
 largeimage: /images/avatar.jpg
 
 ---

@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "Tailscale at Home"
 date:   2022-01-02 22:49:00 -0600
-categories: lab workflow networking lxc
+categories: [lab, workflow, networking, lxc]
 largeimage: /images/avatar.jpg
 
 ---

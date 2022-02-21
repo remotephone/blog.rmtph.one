@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "CyberDefenders - GitTheGate"
 date:   2021-08-30 11:29:00 -0600
-categories: lab workflow training dfir
+categories: [lab, workflow, training, dfir]
 largeimage: /images/avatar.jpg
 
 ---

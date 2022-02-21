@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "Finding a New Infosec Job - Part 3 - The Interviewing"
 date:   2021-08-18 11:29:00 -0600
-categories: lab training job
+categories: [lab, training, job]
 largeimage: /images/avatar.jpg
 
 ---

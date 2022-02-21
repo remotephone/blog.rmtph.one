@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "OpenVPN on DD-WRT Made Simple"
 date:   2019-11-20 13:31:00 -0600
-categories: lab homelab docker workflow
+categories: [lab, homelab, docker, workflow]
 largeimage: /images/avatar.jpg
 
 ---

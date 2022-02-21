@@ -4,7 +4,7 @@ author: remotephone
 title:  "What is Markdown anyway?"
 date:   2016-12-18 21:14:55 -0600
 description: Quick reference for markdown \(mainly for me\)
-categories: quick-reference whatamidoing 
+categories: [quick-reference, whatamidoing]
 largeimage: /images/avatar.jpg
 
 ---

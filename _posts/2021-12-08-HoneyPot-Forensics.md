@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "HoneyPot Forensics"
 date:   2021-12-08 22:49:00 -0600
-categories: lab workflow forensics malware
+categories: [lab, workflow, forensics, malware]
 largeimage: /images/avatar.jpg
 
 ---

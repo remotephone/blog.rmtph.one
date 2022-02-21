@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "CyberDefenders.org - Maldoc101 Walkthrough"
 date:   2021-04-12 23:40:00 -0600
-categories: lab homelab malware malware workflow
+categories: [lab, homelab, malware, malware, workflow]
 largeimage: /images/avatar.jpg
 
 ---

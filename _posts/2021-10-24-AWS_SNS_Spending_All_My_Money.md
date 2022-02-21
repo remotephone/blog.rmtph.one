@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "AWS SNS - Spending All My Money"
 date:   2021-10-24 22:49:00 -0600
-categories: lab workflow aws sns
+categories: [lab, workflow, aws, sns]
 largeimage: /images/avatar.jpg
 
 ---

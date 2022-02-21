@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "AMD to Nvidia - Linux Mint and Cinnamon Crashes"
 date:   2020-05-29 14:40:00 -0600
-categories: homelab workflow
+categories: [homelab, workflow]
 largeimage: /images/avatar.jpg
 
 ---

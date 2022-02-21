@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "Docker Swarm in LXC, Part 1.5 - The Kerneling"
 date:   2019-03-09 10:31:00 -0600
-categories: lab homelab proxmox ansible docker workflow
+categories: [lab, homelab, proxmox, ansible, docker, workflow]
 largeimage: /images/avatar.jpg
 
 ---

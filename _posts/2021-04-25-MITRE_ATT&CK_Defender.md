@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "MITRE ATT&CK Defender - My Thoughts on Training and Certification"
 date:   2021-04-25 23:22:00 -0600
-categories: lab homelab training workflow
+categories: [lab, homelab, training, workflow]
 largeimage: /images/avatar.jpg
 
 ---

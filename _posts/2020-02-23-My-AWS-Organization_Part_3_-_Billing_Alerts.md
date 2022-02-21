@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "My AWS Organization - Part 3 - Billing Alerts"
 date:   2020-2-23 00:40:00 -0600
-categories: lab homelab AWS cloud workflow
+categories: [lab, homelab, AWS, cloud, workflow]
 largeimage: /images/avatar.jpg
 
 ---

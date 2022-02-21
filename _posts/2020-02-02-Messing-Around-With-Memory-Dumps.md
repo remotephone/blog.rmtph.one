@@ -3,7 +3,7 @@ layout: post
 author: remotephone
 title:  "Messing Around with Memory Dumps"
 date:   2020-02-02 23:00:00 -0600
-categories: lab homelab workflow malware 
+categories: [lab, homelab, workflow, malware]
 largeimage: /images/avatar.jpg
 
 ---
