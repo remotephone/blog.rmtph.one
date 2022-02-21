@@ -24,7 +24,20 @@ To find them, I go to ebay and search "tiny pc i7" or "lenovo tiny pc" or some o
 
 For SSDs, I use 256GB Crucial MX500's because those were the cheapest and best quality I could find at the time that I bought them. For the RAM, I use 16gb packs off Amazon, usually again the cheapest. 
 
-Both hosts are running Proxmox 7, nothing special or out of the ordinary there. I installed it from a USB stick and then configure them.
+So looking at the prices of hardware I've bought, it breaks down like this (at today's prices if I couldn't find receipts):
+
+1. M93p Tiny - i7-4765T w/ 8GB ram - $224 (2021)
+2. M92p Tiny - i5-3570T w/ 8GB ram - $180 (2017?)
+3. 2X Crucial MX500 - 256GB SSDs - $80 
+4. 16GB Silicon Power DDR3 ram - ~$50
+
+There was also a second system which just died and I was never able to troubleshoot back to life. That one cost about $180 and I moved it's parts over to my new system.
+
+So all in, this costs about $530 dollars over 5 years, $710 if you include the broken system (just bad luck maybe). It seems like a lot and there maybe was cheaper ways to do this, but compare that to [AWS costs](https://calculator.aws/#/createCalculator/EC2). A single 4 core, 16gb host with 256gb of storage costs $123.71 a month so it's at least chaper than AWS on-Demand prices. Digital Ocean will do 4 core/8gb at $48 dollars a month so for 2 of those it's still cheaper to own the hardware over time and repurpose it whenever this stack outlives it's usefulness.
+
+## Proxmox Install
+
+I did nothing special here, I connected each host to a monitor and keyboard, plugged in the USB stick, and ran the installer. I use etcher to write my USB install sticks on Windows and native tools on linux (Ubuntu has that Startup USB creator) since that's given me good luck for a while. I picked a simple hostname and configured networking to match my network settings, very standard stuff the [official docs](https://www.proxmox.com/en/proxmox-ve/get-started) describe better than I could. 
 
 ## Networking
 
