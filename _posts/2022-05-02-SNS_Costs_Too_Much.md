@@ -52,7 +52,7 @@ The easiest way to do this was to modify the access policy on the SNS topic. I a
     }
 ```
 
-I created a simple SNS user to test the publish function and it worked!
+I created a simple SNS user to test the publish function and it worked! After updating the Billing Alerts to point to the new topic Arn, things _should_ just work. Good work everybody. 
 
 
 ## All Done
