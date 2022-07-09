@@ -10,7 +10,7 @@ largeimage: /images/avatar.jpg
 
 # My Homelab - Proxmox
 
-So with networking out of the way, we can talk about Proxmox, or more specifically [Proxmox VE](https://www.proxmox.com/en/proxmox-ve). Proxmox is an open source virtualization software built on top of Debian. It is a free, fully featured open source alternative to things like VSphere. It has excellent support for virtualization of most major operating systems and LXC containers, both of which I use in my lab. 
+So with networking out of the way, we can talk about Proxmox, or more specifically [Proxmox VE](https://www.proxmox.com/en/proxmox-ve). Proxmox is an open source virtualization software built on top of Debian. It is a free, fully featured open source alternative to things like VSphere. It has excellent support for virtualization of most major operating systems and LXC containers, both of which I use in my lab.
 
 ## Hardware
 
@@ -18,17 +18,17 @@ I have proxmox running on two hosts, both of them Lenovo ThinkCentre workstation
 
 ![Proxmox Hosts]({{site.url}}/images/lab2_01.png){: .center-image }
 
-One of my hosts is an 2-core/4-thread i5 and the other an 4-core/8-thread i7, the difference hasn't mattered since you can deploy what you want where, but more on that later. Both hosts have 16gb of ram, giving me 12 virtual cpu's and 32gb of ram across both hosts. 
+One of my hosts is an 2-core/4-thread i5 and the other an 4-core/8-thread i7, the difference hasn't mattered since you can deploy what you want where, but more on that later. Both hosts have 16gb of ram, giving me 12 virtual cpu's and 32gb of ram across both hosts.
 
-To find them, I go to ebay and search "tiny pc i7" or "lenovo tiny pc" or some other combination like that. I look for people selling batches of them since you can tend to Make an Offer and get a cheaper price than otherwise. Depending on current ram and SSD prices, I shop for the CPU and expect to replace or upgrade the ram and SSD after I buy it. It all depends on what seems cheapest at the time. 
+To find them, I go to ebay and search "tiny pc i7" or "lenovo tiny pc" or some other combination like that. I look for people selling batches of them since you can tend to Make an Offer and get a cheaper price than otherwise. Depending on current ram and SSD prices, I shop for the CPU and expect to replace or upgrade the ram and SSD after I buy it. It all depends on what seems cheapest at the time.
 
-For SSDs, I use 256GB Crucial MX500's because those were the cheapest and best quality I could find at the time that I bought them. For the RAM, I use 16gb packs off Amazon, usually again the cheapest. 
+For SSDs, I use 256GB Crucial MX500's because those were the cheapest and best quality I could find at the time that I bought them. For the RAM, I use 16gb packs off Amazon, usually again the cheapest.
 
 So looking at the prices of hardware I've bought, it breaks down like this (at today's prices if I couldn't find receipts):
 
 1. M93p Tiny - i7-4765T w/ 8GB ram - $224 (2021)
 2. M92p Tiny - i5-3570T w/ 8GB ram - $180 (2017?)
-3. 2X Crucial MX500 - 256GB SSDs - $80 
+3. 2X Crucial MX500 - 256GB SSDs - $80
 4. 16GB Silicon Power DDR3 ram - ~$50
 
 There was also a second system which just died and I was never able to troubleshoot back to life. That one cost about $180 and I moved it's parts over to my new system.
@@ -37,21 +37,21 @@ So all in, this costs about $530 dollars over 5 years, $710 if you include the b
 
 ## Proxmox Install
 
-I did nothing special here, I connected each host to a monitor and keyboard, plugged in the USB stick, and ran the installer. I use etcher to write my USB install sticks on Windows and native tools on linux (Ubuntu has that Startup USB creator) since that's given me good luck for a while. I picked a simple hostname and configured networking to match my network settings, very standard stuff the [official docs](https://www.proxmox.com/en/proxmox-ve/get-started) describe better than I could. 
+I did nothing special here, I connected each host to a monitor and keyboard, plugged in the USB stick, and ran the installer. I use etcher to write my USB install sticks on Windows and native tools on linux (Ubuntu has that Startup USB creator) since that's given me good luck for a while. I picked a simple hostname and configured networking to match my network settings, very standard stuff the [official docs](https://www.proxmox.com/en/proxmox-ve/get-started) describe better than I could.
 
 ## Networking
 
-Networking is pretty simple, when installing the OS I picked an IP address for both of them and statically configured it on the host. I also statically assigned the IP address in DD-WRT. During the install I have them plugged into a monitor and keyboard and use `ip addr` to get the mac address for the NIC. Assign that adddress in DD-WRT. Go to `Services` > `Services`and under static leases, assign both IP addresses you selected to the MAC address of your host. Save and apply. 
+Networking is pretty simple, when installing the OS I picked an IP address for both of them and statically configured it on the host. I also statically assigned the IP address in DD-WRT. During the install I have them plugged into a monitor and keyboard and use `ip addr` to get the mac address for the NIC. Assign that adddress in DD-WRT. Go to `Services` > `Services`and under static leases, assign both IP addresses you selected to the MAC address of your host. Save and apply.
 
-The hostname you assigned during installation of proxmox should match what you configure in your static IP Assignment. This will work together with your DD-WRT configuration and netmasq setup to let you connect to `proxmox1.my.domain`, this will matter later when we get into https certificates. 
+The hostname you assigned during installation of proxmox should match what you configure in your static IP Assignment. This will work together with your DD-WRT configuration and netmasq setup to let you connect to `proxmox1.my.domain`, this will matter later when we get into https certificates.
 
-Once the OS install completes, test your ability to get into the host via SSH. If you can SSH into them both, you are done. 
+Once the OS install completes, test your ability to get into the host via SSH. If you can SSH into them both, you are done.
 
 ## Clustering
 
 The power of Proxmox is the ability to easily create multiple host clusters. I have a 2 node cluster, which isn't ideal since you can't support real high availability, but its plenty for my purposes.
 
-Once the hosts are ready, I create the cluster via the command line. One of the strengths of Proxmox is the documentation and extensive history of forum posts to help you resolve problems and their [documentation](https://pve.proxmox.com/wiki/Cluster_Manager) is a great place to get configuration steps for a cluster. 
+Once the hosts are ready, I create the cluster via the command line. One of the strengths of Proxmox is the documentation and extensive history of forum posts to help you resolve problems and their [documentation](https://pve.proxmox.com/wiki/Cluster_Manager) is a great place to get configuration steps for a cluster.
 
 I'm not going to rebuild my cluster for this post, but the short of the process is:
 
@@ -59,7 +59,7 @@ I'm not going to rebuild my cluster for this post, but the short of the process 
 2. `pvecm create my-cluster` to initialize the cluster on the first host
 3. Connect to the second host
 4. `pvecm add NODE1-IP` where node1 IP is the address you can use to SSH into the first host.
-5. `pvecm status` and `pvecm nodes` to verify it worked. 
+5. `pvecm status` and `pvecm nodes` to verify it worked.
 
 You should see something like this:
 
@@ -103,12 +103,11 @@ Membership information
          2          1 pve2
 ```
 
-This does some interesting things under the hood, most notably share their respective SSH public key between the hosts so each can access each other freely.  If you add a key to one, you get it added to both, which is kind of nice. 
-
+This does some interesting things under the hood, most notably share their respective SSH public key between the hosts so each can access each other freely.  If you add a key to one, you get it added to both, which is kind of nice.
 
 ## NAS Storage
 
-I use a NAS storage attached to DD-wrt to support my network. This is where VM images, container images, and other things are stored. If you don't already have one, you can set one up in DD-WRT pretty easily. Plug a large NTFS formatted external drive into the router's USB 3 port and you can set up the rest in the console. 
+I use a NAS storage attached to DD-wrt to support my network. This is where VM images, container images, and other things are stored. If you don't already have one, you can set one up in DD-WRT pretty easily. Plug a large NTFS formatted external drive into the router's USB 3 port and you can set up the rest in the console.
 
 1. Go to `Services` > `USB`. Ensure `Core USB support` and `Automatic Drive Mount` are enabled.
 2. Go to `Services` > `NAS`.
@@ -119,7 +118,7 @@ Ansible will set up the rest for us, but you want to make sure you have everythi
 
 ## Finishing the Setup with Ansible
 
-I use Ansible to configure my hosts. These the roles and playbook I run to set them up - https://github.com/remotephone/ansible-proxmox.
+I use Ansible to configure my hosts. These the roles and playbook I run to set them up - <https://github.com/remotephone/ansible-proxmox>.
 
 The bootstrap role is something I have been using for a while, I forget exactly where I found it, (possibly [here](https://gist.github.com/gwillem/4ba393dceb55e5ae276a87300f6b8e6f?). The purpose of this is to bootstrap barebones systems to be ready for the rest of the ansible tasks. It was especially useful for older OSes or barebones LXC containers.
 
@@ -137,7 +136,7 @@ The meat of it is this task, check if `/usr/bin/python` exists and if it fails, 
   setup:
 ```
 
-Then we [set up the rest of the host](https://github.com/remotephone/ansible-proxmox/blob/master/roles/hostconfig/tasks/main.yml). We configure apt, configure the NAS, enable ipv4 forwarding, disable ipv6, and update and upgrade everything. Pretty straight forward, but nice to have scripted out. 
+Then we [set up the rest of the host](https://github.com/remotephone/ansible-proxmox/blob/master/roles/hostconfig/tasks/main.yml). We configure apt, configure the NAS, enable ipv4 forwarding, disable ipv6, and update and upgrade everything. Pretty straight forward, but nice to have scripted out.
 
 ## What Now?
 

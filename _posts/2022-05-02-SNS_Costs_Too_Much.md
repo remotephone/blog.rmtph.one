@@ -14,25 +14,25 @@ Ever since AWS had to start charging for phone numbers to send SMS messages, my 
 
 ## AWS Bill Archaeology
 
-When troubleshooting any cost issues in my accounts, I first head to the Cost Explorer in my root account. This lets me see all costs aggregated across all accounts. Here's what I saw after selecting the right time frame. 
+When troubleshooting any cost issues in my accounts, I first head to the Cost Explorer in my root account. This lets me see all costs aggregated across all accounts. Here's what I saw after selecting the right time frame.
 
 ![AWS Bill Over Six Months]({{site.url}}/images/sixmonthsbill.png){: .center-image }
 
-So clearly at the end of March I did something that startd driving up my pinpoint costs. After filtering by account and seeing it was my primary organization account, I wanted to double check it was pinpoint and it's pretty clear. 
+So clearly at the end of March I did something that startd driving up my pinpoint costs. After filtering by account and seeing it was my primary organization account, I wanted to double check it was pinpoint and it's pretty clear.
 
 ![Zooming in on the Bill]({{site.url}}/images/billbyservice.png){: .center-image }
 
-Filtering by day, I saw something happened on March 29, but no memory of what it was. I checked Cloudtrail and there were no events for it and nothing in the S3 bucket I keep either. I knew I had some billing alarms set up, but no memory of configuring a pinpoint number for SNS. 
+Filtering by day, I saw something happened on March 29, but no memory of what it was. I checked Cloudtrail and there were no events for it and nothing in the S3 bucket I keep either. I knew I had some billing alarms set up, but no memory of configuring a pinpoint number for SNS.
 
-If you check pinpoint and don't have any campaigns set up, it looks like nothing should be running up your charges, which I think is confusing. If you go to AWS SNS, however, you can see Origination Numbers configured and that's where the charges are coming from. 
+If you check pinpoint and don't have any campaigns set up, it looks like nothing should be running up your charges, which I think is confusing. If you go to AWS SNS, however, you can see Origination Numbers configured and that's where the charges are coming from.
 
 ![AWS SNS Origination Numbers]({{site.url}}/images/snsorigination.png){: .center-image }
 
-I deleted the number, which broke my billing alerts, for now. 
+I deleted the number, which broke my billing alerts, for now.
 
 ## Fixing the Billing Alerts
 
-I did have a separate account in my organization where I had a number provisioned I had intended to pay for and was already using for some SNS notifications. The easiest and cheapest way to do this was, after decomissioning the other number, to allow my org to post to the SNS topic already connected to an Origination Number. 
+I did have a separate account in my organization where I had a number provisioned I had intended to pay for and was already using for some SNS notifications. The easiest and cheapest way to do this was, after decomissioning the other number, to allow my org to post to the SNS topic already connected to an Origination Number.
 
 The easiest way to do this was to modify the access policy on the SNS topic. I added a stanza like the following:
 
@@ -52,8 +52,7 @@ The easiest way to do this was to modify the access policy on the SNS topic. I a
     }
 ```
 
-I created a simple SNS user to test the publish function and it worked! After updating the Billing Alerts to point to the new topic Arn, things _should_ just work. Good work everybody. 
-
+I created a simple SNS user to test the publish function and it worked! After updating the Billing Alerts to point to the new topic Arn, things _should_ just work. Good work everybody.
 
 ## All Done
 

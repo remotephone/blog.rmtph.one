@@ -10,7 +10,7 @@ largeimage: /images/avatar.jpg
 
 # A Helpful Tweet
 
-I saw this [tweet](https://twitter.com/SecShoggoth/status/1468740840759697420?s=20) and thought it would be interesting to take a look around. I will pick something specific in the evidence, take a look at it, and write about what I find. 
+I saw this [tweet](https://twitter.com/SecShoggoth/status/1468740840759697420?s=20) and thought it would be interesting to take a look around. I will pick something specific in the evidence, take a look at it, and write about what I find.
 
 ## Some Stumbles
 
@@ -32,7 +32,7 @@ I did some googling around and it looks like this is probably something to do wi
 
 ## Moving Along
 
-Let's take a look at running processes. I started with the file at `./live_response/process/running_processes_full_paths.txt`. This was collected with https://github.com/tclahr/uac and I've never worked with it but it seems pretty straight forward.
+Let's take a look at running processes. I started with the file at `./live_response/process/running_processes_full_paths.txt`. This was collected with <https://github.com/tclahr/uac> and I've never worked with it but it seems pretty straight forward.
 
 A quick browse shows two processes marked as deleted.
 
@@ -42,7 +42,7 @@ lrwxrwxrwx 1 daemon           daemon           0 Dec  8 18:51 /proc/24330/exe ->
 lrwxrwxrwx 1 root             root             0 Dec  8 18:51 /proc/609/exe -> / (deleted)
 ```
 
-So we got two proceses that might be interesting to look at. An actor will get a process running on a linux system and then delete it off the disk to complicate investigations, but you can do a lot with the proc virtual filesystem to recover it. [Craig Rowland](https://twitter.com/CraigHRowland) of Sandfly security talks a lot about this and I've learned a lot reading his posts. 
+So we got two proceses that might be interesting to look at. An actor will get a process running on a linux system and then delete it off the disk to complicate investigations, but you can do a lot with the proc virtual filesystem to recover it. [Craig Rowland](https://twitter.com/CraigHRowland) of Sandfly security talks a lot about this and I've learned a lot reading his posts.
 
 I'm picking 24330.
 
@@ -56,7 +56,7 @@ If we look in the directory we can see these files. These are extractions of fil
 cmdline.txt comm.txt    environ.txt fd.txt      maps.txt    strings.txt.gz
 ```
 
-Let's check open file descriptors, these are where processes can take inputs and send outputs. We see output to /dev/null is typically used to ignore and silence error output and we got a socket open. 
+Let's check open file descriptors, these are where processes can take inputs and send outputs. We see output to /dev/null is typically used to ignore and silence error output and we got a socket open.
 
 ```shell
 ┌─(~/gits/forensics/image/live_response)──────────────────────────────────────────────────────────────────────────────(computer@MacBook-Air:s000)─┐
@@ -88,7 +88,7 @@ Let's see if we can see what that socket is for.
 network/lsof_-nPli.txt:agettyd   24330        1   14u  IPv4 112585467      0t0  TCP 10.0.0.4:44214->107.178.104.10:443 (ESTABLISHED)
 ```
 
-Look up that IP and we can find some intel on it - https://otx.alienvault.com/indicator/ip/107.178.104.10. I'm getting real suspicious. Let's look at the environment variables for the process. 
+Look up that IP and we can find some intel on it - <https://otx.alienvault.com/indicator/ip/107.178.104.10>. I'm getting real suspicious. Let's look at the environment variables for the process.
 
 ```shell
 ┌─(~/gits/forensics/image/live_response)──────────────────────────────────────────────────────────────────────────────(computer@MacBook-Air:s000)─┐
@@ -129,7 +129,6 @@ SERVER_NAME=13.82.150[.]103
 
 I defanged the public IPs above but otherwise left it unmodified. The 13.x.x.x IP is probably the IP the VM lived on in Azure. `5.2.72[.]226` has [intel hits](https://otx.alienvault.com/indicator/ip/5.2.72.226) for tor nodes but hard to say if thats right in this context. Glancing through strings its easy enough to see what this binary is and does.
 
-
 ```shell
 ┌─(~/gits/forensics/image/live_response)──────────────────────────────────────────────────────────────────────────────(computer@MacBook-Air:s000)─┐
 └─(23:46:50)──> cat process/proc/24330/strings.txt | less                                                                           ──(Wed,Dec08)─┘
@@ -140,7 +139,7 @@ failed to export hwloc topology.
 hwloc topology successfully exported to "%s"
 ```
 
-e83658008d6d9dc6fe5dbb0138a4942b is the hash, but it's unknown to Virus Total. If I were on an x86 CPU, at this point we'd take the memory image, extract the EXE and see if we can confirm if it's what we think it is,an xmr miner running and using up CPU. 
+e83658008d6d9dc6fe5dbb0138a4942b is the hash, but it's unknown to Virus Total. If I were on an x86 CPU, at this point we'd take the memory image, extract the EXE and see if we can confirm if it's what we think it is,an xmr miner running and using up CPU.
 
 If we look at `top`, we can be pretty sure we're right.
 

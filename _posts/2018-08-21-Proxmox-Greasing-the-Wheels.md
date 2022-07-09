@@ -8,16 +8,15 @@ largeimage: /images/avatar.jpg
 
 ---
 
-I got distracted. I've done quite a bit of work on the incident response type lab I've been working on, but I also got interested in Docker and Docker Swarm. I've built that and it works so I figured I'd write that down first. This post will cover a few things I've done for myself to make all my projects easier. 
+I got distracted. I've done quite a bit of work on the incident response type lab I've been working on, but I also got interested in Docker and Docker Swarm. I've built that and it works so I figured I'd write that down first. This post will cover a few things I've done for myself to make all my projects easier.
 
-## SSH Jumpbox 
+## SSH Jumpbox
 
 I created an LXC container in a VLAN that has access to everything, its my jumpbox server. I use SSH key authentication to get into it, but I created a key on that system that I use to configure my systems when they're built. You want to give this more space than the default 8GB for a container since you may keep files and resources here
 
 It's handy to have a jumpbox server if you have multiple systems you'll access your cluster from. Copy your public key to the authorized_keys file on the jump host (using the console in proxmox so you don't have to open password auth to the jumpbox) and then every device can just have your jumpbox key on it. You can also use something like [DUO](https://duo.com/docs/duounix#install-pam_duo) to secure the jumpbox further.
 
 Once inside your jumpbox, you can move freely around your network.
-
 
 ## Local image store
 
@@ -27,12 +26,11 @@ You know how you have to download ISO's each time you want to install a new VM? 
 
 For ISOs you expect to use frequently, load those to the NAS share we created earlier attached to DD-WRT. This makes them quickly available to any VMs you install in Proxmox. From slowest to fastest, its Internet < HDD < ProxMox Nas < Clone an existing VM.
 
-For LXC templates, store those in your NAS too. If you want to refresh the availabe VMs, you need to run "pveam update" on your ProxMox hosts. That'll fetch new images you can create containers from. Again, store those on your NAS. 
+For LXC templates, store those in your NAS too. If you want to refresh the availabe VMs, you need to run "pveam update" on your ProxMox hosts. That'll fetch new images you can create containers from. Again, store those on your NAS.
 
 ## Apt-cacher-ng
 
-Once you have images and containers deployed, you should generally keep them updated unless you have a specific reason not to. Frequent updates take a long time and on metered connections can be expensive. To work aroudn this, install and use apt-cache-ng This service is super userful. I know it works for Ubuntu and for other distributions, but I've only used it for Ubuntu. You'll need to set up something on both the apt-cacher-ng server and tell your clients to use it. 
-
+Once you have images and containers deployed, you should generally keep them updated unless you have a specific reason not to. Frequent updates take a long time and on metered connections can be expensive. To work aroudn this, install and use apt-cache-ng This service is super userful. I know it works for Ubuntu and for other distributions, but I've only used it for Ubuntu. You'll need to set up something on both the apt-cacher-ng server and tell your clients to use it.
 
 ### Server Setup
 
@@ -54,9 +52,9 @@ PassThroughPattern: .* # this would allow CONNECT to everything
 PassThroughPattern: download\.docker\.com:443$
 ~~~
 
-Here, we're storing files in /var/cache/apt-cacher-ng, listing on all interfaces on port 3142, supporting Debian and Ubuntu archives, and I exclude https://download.docker.com. Since this is basically man-in-the-middling your apt updates, https doesn't like it. You need to exclude packages you upgrade through apt-transport-https or it will fai. 
+Here, we're storing files in /var/cache/apt-cacher-ng, listing on all interfaces on port 3142, supporting Debian and Ubuntu archives, and I exclude <https://download.docker.com>. Since this is basically man-in-the-middling your apt updates, https doesn't like it. You need to exclude packages you upgrade through apt-transport-https or it will fai.
 
-I created this [ansible role](https://github.com/remotephone/ansible-apt-cacherng) to install and configure it. 
+I created this [ansible role](https://github.com/remotephone/ansible-apt-cacherng) to install and configure it.
 
 ### Client Setup
 
@@ -68,13 +66,13 @@ Acquire::http::Proxy "http://apt-cacher-ng-server:3142";
 Acquire::HTTP::Proxy::download.docker.com "DIRECT";
 ~~~
 
-That's it! Updates are fast, do do-release-upgraded 3 ubuntu servers in just a few minutes since everything was cached locally. You can see spikes in traffic when I update each device. 
+That's it! Updates are fast, do do-release-upgraded 3 ubuntu servers in just a few minutes since everything was cached locally. You can see spikes in traffic when I update each device.
 
 ![Apt-cacher-ng network traffic]({{site.url}}/images/aptcache-network-io.png){: .center-image }
 
 ## Snapshot and Automate
 
-I have a few things I seem to do frequently. This includse set up basic packages, configure apt-cacher-ng, install docker, and other things like that. If you're doing something more than 3 times, automate it. 
+I have a few things I seem to do frequently. This includse set up basic packages, configure apt-cacher-ng, install docker, and other things like that. If you're doing something more than 3 times, automate it.
 
 I've written a few ansible roles and playbooks taht speed this process along for me. [Ansible](https://docs.ansible.com/ansible/latest/index.html) was the simplest automation language I could get into, but you can use whatever you're more comfortable with or what you use at work.  
 
@@ -90,13 +88,13 @@ echo "localhost ansible_host=127.0.0.1 ansible_user=root" >> /etc/ansible/hosts
 ansible-playbook main.yml
 ~~~
 
-This playbook actually covers the install steps from my last two posts in one quick playbook run! It's pretty amazing what you can make happen with ansible. I'll update it eventually so I can cover both hosts at once, but for now I just run it once on each one. 
+This playbook actually covers the install steps from my last two posts in one quick playbook run! It's pretty amazing what you can make happen with ansible. I'll update it eventually so I can cover both hosts at once, but for now I just run it once on each one.
 
 ### Ansible Bootstrapping
 
 Some LXC containers are so minimalist they don't even have python installed for you to get your ansible playbooks running. I ran into an Ansible bootstrap script some time ago and have adapted it to a role.
 
-~~~ 
+~~~
 ---
 
 - name: install python 2
@@ -106,7 +104,7 @@ Some LXC containers are so minimalist they don't even have python installed for 
   setup:
 ~~~
 
-Running this role against a host uses raw commands to set up python-minimal which ansible can use to run the rest of what it needs to do and complete more involved tasks. Once that's run it gathers "facts" about the host. Facts are what ansible uses to know details about the host it interacts with. These can include things like the hostname, free disk space, memory, and all sorts of other things. 
+Running this role against a host uses raw commands to set up python-minimal which ansible can use to run the rest of what it needs to do and complete more involved tasks. Once that's run it gathers "facts" about the host. Facts are what ansible uses to know details about the host it interacts with. These can include things like the hostname, free disk space, memory, and all sorts of other things.
 
 ## Snapshots
 
@@ -114,7 +112,7 @@ If you build a VM or install a new OS, snapshot it. It's easy to do that and the
 
 ![backup VM]({{site.url}}/images/snapshotbackup.png){: .center-image }
 
-then you can restore or create a new one off a backup. 
+then you can restore or create a new one off a backup.
 
 ## That's it
 

