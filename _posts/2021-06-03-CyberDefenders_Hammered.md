@@ -10,9 +10,9 @@ largeimage: /images/avatar.jpg
 
 # Hammered Walthrough
 
-Back again with another Cyberdefenders.org challenge, this time it's [Hammered](https://cyberdefenders.org/labs/42). Gonna do this a little different once since my previous post about Mac forensics was fine, but it felt more like "do this, do that, this is the answer" and didn't give good insight into my process.
+Back again with another Cyberdefenders.org challenge, this time it's [Hammered](https://cyberdefenders.org/labs/42). Gonna do this a little different once since my previous post about Mac forensics was fine, but it felt more like "do this, do that, this is the answer" and didn't give good insight into my process. 
 
-Based of the description, we have a honeypot that may or may not have been compromised.
+Based of the description, we have a honeypot that may or may not have been compromised. 
 
 ~~~
 This challenge takes you into the world of virtual systems and confusing log data. In this challenge, figure out what happened to this webserver honeypot using the logs from a possibly compromised server.
@@ -26,7 +26,7 @@ What I'll do this time is download the content, set up an analysis environment, 
 
 Download the content, unzip it, and you'll see a bunch of text documents, with auth.log and kern.log making up the bulk of the content. For analyzing text files, I will do some quick exploration with grep and then often go straight into Splunk if the file is big enough. Splunk is a log aggregation and data analysis platform, extensible and flexible. They also provide a very convenient [docker container](https://hub.docker.com/r/splunk/splunk/) to get started.
 
-These logs ended up being enough to handle without going there, some I'm just going to grep and awk and sort my way through them.
+These logs ended up being enough to handle without going there, some I'm just going to grep and awk and sort my way through them. 
 
 I am working in Windows Subsystem For Linux 2, so first I move the download to a working directory, install p7zip-full (a full featured archive manager), and extract the file. I removed some typos for brevity's sake.
 
@@ -121,15 +121,15 @@ May  2 23:07:16 app-1 kernel: : [  140.364171] scsi3 : SCSI emulation for USB Ma
 May  2 23:07:16 app-1 kernel: : [  140.366121] usbcore: registered new interface driver usb-storage
 ~~~
 
-It looks like this is someone collecting the logs we're looking at. Neat, but not relevant I don't think.
+It looks like this is someone collecting the logs we're looking at. Neat, but not relevant I don't think. 
 
-I'm also creating a folder called `worked` so I can move files when I'm done with them and not retrace my steps. I might create other folders later to help me organzie my work as I go depending on what I need.
+I'm also creating a folder called `worked` so I can move files when I'm done with them and not retrace my steps. I might create other folders later to help me organzie my work as I go depending on what I need. 
 
 Going through dpkg.log, it looks like things were pretty normal until 4/24/2010 when someone installed a gnome desktop environment. Then we see nmap, exim, some interesting python-packages, (python urlgrabber, python-libxml2, python-rpm, etc) and yum??? `term.log` shows exim installed and starting, the output of t he packages being installed, and other bits we've seen elsewhere.
 
 ## Getting Juicy
 
-In daemon.log, we have some interesting bits. This message shows up a few times, but tells us mysql isn't following good practices.
+In daemon.log, we have some interesting bits. This message shows up a few times, but tells us mysql isn't following good practices. 
 
 ```
 May  2 23:05:54 app-1 /etc/mysql/debian-start[4770]: Checking for insecure root accounts.
@@ -168,16 +168,17 @@ Apr 28 07:34:27 app-1 /etc/mysql/debian-start[5032]: Uptime: 3  Threads: 1  Ques
 Apr 28 09:35:28 app-1 mysqld_safe[6494]: ended
 ~~~
 
-It doesn't look like we have any audit logs for the system, but we can typically see privileged command execution in auth.log. You'll see users sudoing to execute commands and that might give us an idea of interesting things. One interesting section is this
+
+It doesn't look like we have any audit logs for the system, but we can typically see privileged command execution in auth.log. You'll see users sudoing to execute commands and that might give us an idea of interesting things. One interesting section is this 
 
 ~~~
 Apr 19 18:15:10 app-1 sudo:     user3 : TTY=pts/0 ; PWD=/opt/software/web/templates/input ; USER=root ; COMMAND=/bin/su
 Apr 19 23:02:37 app-1 sudo:     root : TTY=pts/2 ; PWD=/root ; USER=root ; COMMAND=/usr/bin/apt-get install build-essential
 Apr 19 23:21:08 app-1 sudo:      dhg : user NOT in sudoers ; TTY=pts/1 ; PWD=/home/dhg/psybnc-linux/psybnc ; USER=root ; COMMAND=alien lsb-build-4.0.9-2.src.rpm
 Apr 19 23:24:30 app-1 sudo:      dhg : user NOT in sudoers ; TTY=pts/1 ; PWD=/home/dhg/psybnc-linux/psybnc ; USER=root ; COMMAND=root
-~~~
+~~~ 
 
-[Alien](https://wiki.debian.org/Alien) is a tool to run rpms (and other typically non-compatible packages) on a debian based system. In this case, we see [psybnc](https://servermania.com/kb/articles/how-to-install-and-setup-psybnc/) and [eggdrop](https://www.eggheads.org/) as two interseting packages under the dhg user, both IRC related.
+[Alien](https://wiki.debian.org/Alien) is a tool to run rpms (and other typically non-compatible packages) on a debian based system. In this case, we see [psybnc](https://servermania.com/kb/articles/how-to-install-and-setup-psybnc/) and [eggdrop](https://www.eggheads.org/) as two interseting packages under the dhg user, both IRC related. 
 
 Focusing on SSH logs in auth.log, we can filter out failed logins with something like this `grep sshd worked/auth.log | grep -vE "Failed|error|Invalid|failure|unknown"` and see what's left. To look at accepted logins, we can do quick stats on them with something like this:
 
@@ -239,8 +240,7 @@ Apr 25 10:41:44 app-1 useradd[9596]: new user: name=fido, UID=0, GID=1004, home=
 Apr 26 04:43:15 app-1 useradd[20115]: new user: name=wind3str0y, UID=1004, GID=1005, home=/home/wind3str0y, shell=/bin/bash
 ~~~
 
-Packet was created with UID and GID 0, very suspicious. dhg was created next, so let's look around those times, 22:38:00 on April 19.
-
+Packet was created with UID and GID 0, very suspicious. dhg was created next, so let's look around those times, 22:38:00 on April 19. 
 ~~~
 ┌─(~/working)────────────────────────────────────────────────────────────────────────────────────────────(computer@computer:pts/2)─┐
 └─(23:01:12)──> grep Accepted worked/auth.log | grep root                                                            ──(Thu,Jun03)─┘
@@ -258,9 +258,10 @@ Apr 19 23:02:25 app-1 sshd[2210]: Accepted password for root from 190.166.87.164
 Apr 20 06:13:03 app-1 sshd[26712]: Accepted password for root from 121.11.66.70 port 33828 ssh2
 ~~~
 
+
 ### WWW logs
 
-Digging though these, there's really not a lot. I checked the subnet from the error logs, didn't see it doing much of anything interesting in the logs.
+Digging though these, there's really not a lot. I checked the subnet from the error logs, didn't see it doing much of anything interesting in the logs. 
 
 ~~~
 193.109.122.56 - - [20/Apr/2010:00:00:01 -0700] "CONNECT 72.51.18.254:6677 HTTP/1.0" 301 - "-" "pxyscand/2.1" oFs91QoAAQ4AAAQFlmcAAAAL 1213441
@@ -299,11 +300,11 @@ So the story so far seems this was booted up, an app was running on the system p
 
 ## Questions
 
-### Which service did the attackers use to gain access to the system? 
+### Which service did the attackers use to gain access to the system?	
 
 `ssh` is the answer here, see above.
 
-### What is the operating system version of the targeted system? (one word) 
+### What is the operating system version of the targeted system? (one word)	
 
 I've seen the Ubuntu string, so a simple grep in messages gets us the answer, `4.2.4-1ubuntu3`
 
@@ -313,11 +314,11 @@ I've seen the Ubuntu string, so a simple grep in messages gets us the answer, `4
 Apr 28 07:34:22 app-1 kernel: : [    0.000000] Linux version 2.6.24-26-server (buildd@crested) (gcc version 4.2.4 (Ubuntu 4.2.4-1ubuntu3)) #1 SMP Tue Dec 1 18:26:43 UTC 2009 (Ubuntu 2.6.24-26.64-server)
 ~~~
 
-### What is the name of the compromised account? 
+### What is the name of the compromised account?	
 
 It seems to be root, based off the logs and timestamps above.
 
-### Consider that each unique IP represents a different attacker. How many attackers were able to get access to the system? 
+### Consider that each unique IP represents a different attacker. How many attackers were able to get access to the system?	
 
 Their answer was 6, but I had to guess. I don't know if that's right?? I used the following syntax and got 17 unique IPs back, excluding the one local IP.
 
@@ -347,15 +348,15 @@ Their answer was 6, but I had to guess. I don't know if that's right?? I used th
 18
 ~~~
 
-### Which attacker's IP address successfully logged into the system the most number of times? 
+### Which attacker's IP address successfully logged into the system the most number of times?	
 
 We can count them with a command like this `grep sshd worked/auth.log| grep Accepted | grep root | awk '{print $11}'  | sort | uniq -c | sort -n`. This gives us 219.150.161.20.
 
-### How many requests were sent to the Apache Server? 
+### How many requests were sent to the Apache Server?	
 
 The answer is 365, which is the count of lines in www-access.log, but I think it should also include www-media.log at least, no?
 
-### How many rules have been added to the firewall? 
+### How many rules have been added to the firewall?	
 
 6 rules were added.  My command gives 8, but that includes duplicates.
 
@@ -375,14 +376,14 @@ The answer is 365, which is the count of lines in www-access.log, but I think it
 8
 ~~~
 
-### One of the downloaded files to the target system is a scanning tool. Provide the tool name 
+
+### One of the downloaded files to the target system is a scanning tool. Provide the tool name.	
 
 We saw `nmap` above in the installed packages file, dpkg.log. Easy
 
-### When was the last login from the attacker with IP 219.150.161.20? Format: MM/DD/YYYY HH:MM:SS AM 
+### When was the last login from the attacker with IP 219.150.161.20? Format: MM/DD/YYYY HH:MM:SS AM	
 
 Grep and convert the time to the requested format, badabing badaboom
-
 ~~~
 ┌─(~/working)─────────────────────────────────────────────────────────────────────────────────────────────────────────(computer@computer:pts/2)─┐
 └─(23:20:36)──> grep 219.150.161.20 worked/auth.log | grep Accepted                                                               ──(Thu,Jun03)─┘
@@ -392,11 +393,11 @@ Apr 19 05:55:20 app-1 sshd[12996]: Accepted password for root from 219.150.161.2
 Apr 19 05:56:05 app-1 sshd[13218]: Accepted password for root from 219.150.161.20 port 36585 ssh2
 ~~~
 
-### The database displayed two warning messages, provide the most important and dangerous one 
+### The database displayed two warning messages, provide the most important and dangerous one.	
 
 We saw this earlier poking around and know it's the mysql user alert, `mysql.user contains 2 root accounts without password!`
 
-### Multiple accounts were created on the target system. Which one was created on Apr 26 04:43:15? 
+### Multiple accounts were created on the target system. Which one was created on Apr 26 04:43:15?	
 
 Easiest way for this one is just grep the time string, it should be unique enough to give us the answer.
 
@@ -407,12 +408,14 @@ Apr 26 04:43:15 app-1 groupadd[20114]: new group: name=wind3str0y, GID=1005
 Apr 26 04:43:15 app-1 useradd[20115]: new user: name=wind3str0y, UID=1004, GID=1005, home=/home/wind3str0y, shell=/bin/bash
 ~~~
 
-### Few attackers were using a proxy to run their scans. What is the corresponding user-agent used by this proxy? 
+### Few attackers were using a proxy to run their scans. What is the corresponding user-agent used by this proxy?	
 
 We saw this in the logs too. We review the notes above and see its `pxyscand/2.1`.
 
+
+
 ## OK All done
 
-That was an interesting one. Not sure what was up with that one answer where we got different results, but otherwise interesting to look at. Honestly, I expected something wacky in the logs and thought a root brute force login would be too simple, but sometimes it really is just that simple. All together, to write this up and work the exercise, it took me a little under 2 hours. I think I would have been quicker if I went straight to the questions, but there's some value in just poking around not knowing what you're looking for.
+That was an interesting one. Not sure what was up with that one answer where we got different results, but otherwise interesting to look at. Honestly, I expected something wacky in the logs and thought a root brute force login would be too simple, but sometimes it really is just that simple. All together, to write this up and work the exercise, it took me a little under 2 hours. I think I would have been quicker if I went straight to the questions, but there's some value in just poking around not knowing what you're looking for. 
 
-Thanks again to CyberDefenders and The Honeynet Project for putting this together.
+Thanks again to CyberDefenders and The Honeynet Project for putting this together. 

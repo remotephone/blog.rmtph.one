@@ -12,15 +12,17 @@ largeimage: /images/avatar.jpg
 
 # AWS As Your Home Away From Home Lab
 
-I don't need to tell you the clouds big business and you should know how to work in it. It makes sense to have a place to experiment and test things in, so hopefully, you'll read these posts and be well on your way to having an Organization you can build stuff and play around in. This will be the first of a few that should walk you through the choices I made in setting up my organization. I spend about 2-3 dollars a month, run a few lambdas and billing alerts that do fun things for me, and wrote this in hopes  you'll learn something from reading it.
+I don't need to tell you the clouds big business and you should know how to work in it. It makes sense to have a place to experiment and test things in, so hopefully, you'll read these posts and be well on your way to having an Organization you can build stuff and play around in. This will be the first of a few that should walk you through the choices I made in setting up my organization. I spend about 2-3 dollars a month, run a few lambdas and billing alerts that do fun things for me, and wrote this in hopes  you'll learn something from reading it. 
+
 
 ## How I Learned This Stuff
 
-I had a job at one time that was going head first into the cloud and figuring it out as they went. The security team was catching up to the speed things were moving out there and they asked for someone to take an interest and lead the way. I was that person and got thrown head first into learning cloud stuff. I took advantage of being in over my head at work and studying at home to catch up.
+I had a job at one time that was going head first into the cloud and figuring it out as they went. The security team was catching up to the speed things were moving out there and they asked for someone to take an interest and lead the way. I was that person and got thrown head first into learning cloud stuff. I took advantage of being in over my head at work and studying at home to catch up. 
 
-I used some training material from [acloud.guru](https://acloud.guru/) to learn fundamentals while jumped into work projects. The [AWS documentation](https://docs.aws.amazon.com/) is indispensible of course, but hard to dive right into. You'll find yourself in there a lot to answer specific questions, but to get pointed in a solid direction to start learning, you'll want to spend more time in repos like the [AWS Samples](https://github.com/aws-samples) repo. There's a ton of projects you can follow along with to understand how things are built well.
+I used some training material from [acloud.guru](https://acloud.guru/) to learn fundamentals while jumped into work projects. The [AWS documentation](https://docs.aws.amazon.com/) is indispensible of course, but hard to dive right into. You'll find yourself in there a lot to answer specific questions, but to get pointed in a solid direction to start learning, you'll want to spend more time in repos like the [AWS Samples](https://github.com/aws-samples) repo. There's a ton of projects you can follow along with to understand how things are built well. 
 
-I did a few certs throug A Cloud Guru and one thing they emphasize well is reading all the [white papers](https://aws.amazon.com/whitepapers). Reading the [Well Architected Framework](https://d1.awsstatic.com/whitepapers/architecture/AWS_Well-Architected_Framework.pdf?did=wp_card&trk=wp_card) paper is important, it gives you a perspective on the rest of things you'll learn and a good understqanding on how this stuff all fits in together. There's a bunch of specific ones you'll find interesting too, depending on your focus. The [Incident Response Guide](https://d1.awsstatic.com/whitepapers/aws_security_incident_response.pdf?did=wp_card&trk=wp_card) is excellent for incident responders and you can see how it fits into their more general guidance about architecting things well to begin with.
+I did a few certs throug A Cloud Guru and one thing they emphasize well is reading all the [white papers](https://aws.amazon.com/whitepapers). Reading the [Well Architected Framework](https://d1.awsstatic.com/whitepapers/architecture/AWS_Well-Architected_Framework.pdf?did=wp_card&trk=wp_card) paper is important, it gives you a perspective on the rest of things you'll learn and a good understqanding on how this stuff all fits in together. There's a bunch of specific ones you'll find interesting too, depending on your focus. The [Incident Response Guide](https://d1.awsstatic.com/whitepapers/aws_security_incident_response.pdf?did=wp_card&trk=wp_card) is excellent for incident responders and you can see how it fits into their more general guidance about architecting things well to begin with. 
+
 
 ## Target Audience
 
@@ -29,18 +31,20 @@ Folks hoping to follow along with this post should have some comfort with AWS se
 - IAM - Some overlap, but both great
   - [AWS re:Invent 2018: Become an IAM Policy Master in 60 Minutes or Less (SEC316-R1)](youtube.com/watch?v=YQsK4MtsELU&list=PLF4BbYDJBqjqyqGGLyoUze0MWw34ta4c4&index=25)
   - [AWS re:Invent 2017: IAM Policy Ninja (SID314)](https://www.youtube.com/watch?v=aISWoPf_XNE&t=3s)
-- S3
+- S3 
   - [AWS re:Invent 2016: Deep Dive on Amazon S3 (STG303)](https://www.youtube.com/watch?v=bMhWWkhydFQ)
 - Organizations
   - [AWS re:Inforce 2019: Managing Multi-Account AWS Environments Using AWS Organizations (FND314)](https://www.youtube.com/watch?v=fxo67UeeN1A)
 - SNS
   - [Quick Tips to use Amazon Simple Notification Service (SNS)](https://www.whizlabs.com/blog/aws-sns/)
 
-## Some Perspective
 
-Doing labs is great, chasing certs is great, and working at home is great, but there's nothing to compare to the scale companies work at. You won't get important experience and troubleshoot surprisingly common "edge cases" unless you throw yourself into these projects at work or as part of a service that serves a significant number of people and see how common these "edge cases" actually are. The basic features of the cloud are amazing, but they really start to make sense when you see them interact to serve requests from a large number of people.
+## Some Perspective 
 
-None of this should discourage you from building a lab and running services of your own, but you should understand that it makes a big difference to do this stuff at scale. If you get the basics out of the way in your lab, you'll be ready when the weird stuff hits you in production environments.
+Doing labs is great, chasing certs is great, and working at home is great, but there's nothing to compare to the scale companies work at. You won't get important experience and troubleshoot surprisingly common "edge cases" unless you throw yourself into these projects at work or as part of a service that serves a significant number of people and see how common these "edge cases" actually are. The basic features of the cloud are amazing, but they really start to make sense when you see them interact to serve requests from a large number of people. 
+
+None of this should discourage you from building a lab and running services of your own, but you should understand that it makes a big difference to do this stuff at scale. If you get the basics out of the way in your lab, you'll be ready when the weird stuff hits you in production environments. 
+
 
 ## Organizations Overview
 
@@ -52,7 +56,8 @@ We're going to build one. It's going to look like this:
 
 The Primary Account manages all the other accounts, the Active accounts have minimal Service Control Policies (SCP) set to restrict activity in the account, the Restricted accounts are test groups for SCPs (maybe restricting to a single region, service, or condition), and finally Inactive accounts are accounts I created but don't need so they're locked down entirely by SCPs.
 
-You'll need to sign up for an AWS account with an email address (eventually you'll need a few). This should not be the same email and AWS account you use to order underwear and  light bulbs. I recommend you set up a separate gmail or whatever account. The email address should tell you something about the purpose - blogpostdemo-master@gmail.com or whatever. Configure it to use hardware 2fa and a complex password. The hardware 2FA is going to come in handy because we're going to use it over and over. If you were a fancy organization with complex security needs, you'd manage this differently - we are not and you're welcome to go beyond the scope of these posts to set this up differently.
+You'll need to sign up for an AWS account with an email address (eventually you'll need a few). This should not be the same email and AWS account you use to order underwear and  light bulbs. I recommend you set up a separate gmail or whatever account. The email address should tell you something about the purpose - blogpostdemo-master@gmail.com or whatever. Configure it to use hardware 2fa and a complex password. The hardware 2FA is going to come in handy because we're going to use it over and over. If you were a fancy organization with complex security needs, you'd manage this differently - we are not and you're welcome to go beyond the scope of these posts to set this up differently. 
+
 
 ## Your Primary Account
 
@@ -66,21 +71,23 @@ This account will be the master account of your organization. Here are the guide
 - Single Admin IAM (Identity and Access Management) User protected with phone app 2FA
 - IAM User protected with 2FA IAM policy (more later)
 
-Other than that, I tend to keep services out of this account. Everything that runs here expands the attack surface. If you lose your root account, you lose your organization, so its absolutely critical you keep this secure. After using it for long enough, I feel like AWS is pretty secure, but the more holes you punch in it, the more likely something is to go wrong.
+Other than that, I tend to keep services out of this account. Everything that runs here expands the attack surface. If you lose your root account, you lose your organization, so its absolutely critical you keep this secure. After using it for long enough, I feel like AWS is pretty secure, but the more holes you punch in it, the more likely something is to go wrong. 
+
 
 ## A Note on 2FA and Your Options
 
 There's plenty of opinions on this and SIM swapping is a real threat for some carriers. Generally, most people are fine with SMS 2FA and any 2FA is better than none at all. I'm not going to pretend to resovle this argument or be an authority on it, but I can tell you what I do.
 
-I use hardware 2FA for my sensitive accounts because I'm cheap. I think its worth the ~20 dollars to buy a hardware key and protect my accounts because its so much cheaper than screwing up and getting an account compromised. The [Feitian keys](https://www.amazon.com/Feitian-ePass-NFC-FIDO-Security/dp/B01M1R5LRD) are nice, the [Yubikeys](https://www.amazon.com/Yubico-YubiKey-USB-Authentication-Security/dp/B07HBD71HL) are nicer but offer features I've been able to live with out.
+I use hardware 2FA for my sensitive accounts because I'm cheap. I think its worth the ~20 dollars to buy a hardware key and protect my accounts because its so much cheaper than screwing up and getting an account compromised. The [Feitian keys](https://www.amazon.com/Feitian-ePass-NFC-FIDO-Security/dp/B01M1R5LRD) are nice, the [Yubikeys](https://www.amazon.com/Yubico-YubiKey-USB-Authentication-Security/dp/B07HBD71HL) are nicer but offer features I've been able to live with out. 
 
-When I have the chance to add multiple 2FA methods (which I love) I disable SMS, enable hardware tokens and a phone or phone app login. I keep the hardware token safe at home as a backup and keep my phone with me. I've had my phone fail me and its a pain to recover a bunch of 2FA protected accounts.
+When I have the chance to add multiple 2FA methods (which I love) I disable SMS, enable hardware tokens and a phone or phone app login. I keep the hardware token safe at home as a backup and keep my phone with me. I've had my phone fail me and its a pain to recover a bunch of 2FA protected accounts. 
 
 AWS Accounts now support Hardware 2FA tokens for console logins, but not for CLI access. My strategy has been 2 protect my root accounts with hardware 2FA and my IAM Users with something like Google Authenticator. If I lose access to the authenticator app, I can use the root account to regain access. This is, typically, the only time I use the root account, but there are [other uses](https://docs.aws.amazon.com/general/latest/gr/aws_tasks-that-require-root.html).
 
+
 ## Protecting IAM Users with 2FA and Custom Policies
 
-IAM Users can easily protect console logins by configuring 2FA. If you provision AWS Access keys and Secret Keys though, those are not protected by anything else. Those keys, by default, are able to run with permissions granted to the IAM user by anyone with access to the keys. If you create a user with Full Admin permissions, they are only slightly less powerful than the root user, but still capable of causing plenty of damage.
+IAM Users can easily protect console logins by configuring 2FA. If you provision AWS Access keys and Secret Keys though, those are not protected by anything else. Those keys, by default, are able to run with permissions granted to the IAM user by anyone with access to the keys. If you create a user with Full Admin permissions, they are only slightly less powerful than the root user, but still capable of causing plenty of damage. 
 
 To help mitigate this, each of my accounts has a single IAM user with Full Admin Rights active at any single time, however, I use a custom policy to enforce 2FA on CLI commands. Each user has this policy attached:
 
@@ -103,9 +110,9 @@ To help mitigate this, each of my accounts has a single IAM user with Full Admin
 }
 ~~~
 
-The key statement is  `"aws:MultiFactorAuthPresent": "true"` which requires all requests to be authenticated with MFA. For console access, that means you used you 2nd factor to login. For CLI access, this means the only useful commands you can are STS GetSessionToken (and a handful of others). This uses long lived key and secret key to request temporary credentials that are then used to authenticate each API request.
+The key statement is  `"aws:MultiFactorAuthPresent": "true"` which requires all requests to be authenticated with MFA. For console access, that means you used you 2nd factor to login. For CLI access, this means the only useful commands you can are STS GetSessionToken (and a handful of others). This uses long lived key and secret key to request temporary credentials that are then used to authenticate each API request. 
 
-I wrote a [simple tool](https://github.com/remotephone/aws-learning/blob/master/aws-sts.py) that you can use to request temporary credentials. This automatically requests and updates your existing ~/.aws/credentials file so next time you authenticate, you are protected with MFA. This is what my credentials file looks like. After running an `aws configure`, I manually add the MFA token ARN to the file.
+I wrote a [simple tool](https://github.com/remotephone/aws-learning/blob/master/aws-sts.py) that you can use to request temporary credentials. This automatically requests and updates your existing ~/.aws/credentials file so next time you authenticate, you are protected with MFA. This is what my credentials file looks like. After running an `aws configure`, I manually add the MFA token ARN to the file. 
 
 ~~~
   1 [test]
@@ -144,7 +151,8 @@ $ aws s3api list-buckets --profile test-mfa
 ....
 ~~~
 
-Pretty sure since I put this together, other tools have come out that do similar things, but this works and I haven't had much of a need to look further into it. Maybe when it breaks I'll look at other options or rewrite it to be less clunky, but it works well enough for now. Tokens will expire 4 hours after creation unless you specify a different time.
+Pretty sure since I put this together, other tools have come out that do similar things, but this works and I haven't had much of a need to look further into it. Maybe when it breaks I'll look at other options or rewrite it to be less clunky, but it works well enough for now. Tokens will expire 4 hours after creation unless you specify a different time. 
+
 
 ## That's about enough
 

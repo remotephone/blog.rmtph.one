@@ -16,14 +16,14 @@ description: >-                        # used by seo meta and the atom feed
   My personal blog, mostly security focused.
 
 # Replace with the website url, e.g. 'https://username.github.io'
-url: 'https://blog.rmtph.one'
+url: 'https://remotephone.github.io'
 
 author: remotephone
                   # change to your full name
 
 avatar: /images/avatar.jpg   # support internet resources
 
-summary_large_image: https://blog.rmtph.one/images/avatar.jpg
+summary_large_image: https://remotephone.github.io/images/avatar.jpg
 
 title_image: /images/avatar.jpg
 
@@ -33,7 +33,7 @@ github:
 twitter:
   username: remotephone            # change to your twitter username
   card: summary
-  image: https://blog.rmtph.one/images/avatar.jpg
+  image: https://remotephone.github.io/images/avatar.jpg
 
 social:
   name: remotephone                  # it will shows as the copyright owner in Footer

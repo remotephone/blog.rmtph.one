@@ -8,11 +8,11 @@ largeimage: /images/avatar.jpg
 
 ---
 
-Well life catches up with you fast I guess. I haven't posted any updates because I was posting as I was building and I hit a roadblock. I'll first talk about that in case Google gets you here while you're running into the same problem and then give the pieces I did figure out.
+Well life catches up with you fast I guess. I haven't posted any updates because I was posting as I was building and I hit a roadblock. I'll first talk about that in case Google gets you here while you're running into the same problem and then give the pieces I did figure out. 
 
 ## Docker Swarm in Proxmox LXC Containers
 
-Docker swarm can run real easily in VM's. Install docker, create a swarm, add nodes to the swarm, toss some stuff in it, you're basically done. Within an LXC container, some restrictions are going to give you problems. For the pct.conf file, I ended up with this configuration that works.
+Docker swarm can run real easily in VM's. Install docker, create a swarm, add nodes to the swarm, toss some stuff in it, you're basically done. Within an LXC container, some restrictions are going to give you problems. For the pct.conf file, I ended up with this configuration that works. 
 
 ~~~
 arch: amd64
@@ -59,7 +59,7 @@ fa853d2b4f5e        none                null                local
 xwyi8zbxy488        traefik             overlay             swarm
 ~~~
 
-A significant number of networks were not being created. A `docker info` on the worker showed why.
+A significant number of networks were not being created. A `docker info` on the worker showed why. 
 
 ~~~
 <SNIP>
@@ -73,10 +73,10 @@ WARNING: bridge-nf-call-iptables is disabled
 WARNING: bridge-nf-call-ip6tables is disabled
 ~~~
 
-I have ipv6 disabled on my proxmox hosts, so the ipv4 bit is the one causing problems. Docker needs iptables to route traffic appropriately and manage your network traffic. The problem is with the linux kernel, not anything I was doing (which was frustrating to find out now). The problem is out of my area of expertise, but the br_netfilter kernel module doesn't handle namespaces correctly.
+I have ipv6 disabled on my proxmox hosts, so the ipv4 bit is the one causing problems. Docker needs iptables to route traffic appropriately and manage your network traffic. The problem is with the linux kernel, not anything I was doing (which was frustrating to find out now). The problem is out of my area of expertise, but the br_netfilter kernel module doesn't handle namespaces correctly. 
 
-This [issue in lxd](https://github.com/lxc/lxd/issues/3306) is where I finally found someone describing it and the fix. That leads you [here](https://github.com/lxc/lxd/issues/5193#issuecomment-433759048) and this discussion in [lkml](https://lkml.org/lkml/2018/11/7/680). The short of it is theres a proposed solution, some back and forth on it, and more work to do.
+This [issue in lxd](https://github.com/lxc/lxd/issues/3306) is where I finally found someone describing it and the fix. That leads you [here](https://github.com/lxc/lxd/issues/5193#issuecomment-433759048) and this discussion in [lkml](https://lkml.org/lkml/2018/11/7/680). The short of it is theres a proposed solution, some back and forth on it, and more work to do. 
 
 ## So what now?
 
-I have my swarm running VMs now. It works, traefik serves the traffic for all my hosts, I watch stuff with portainer, and just have a few services in there to do random things. I will continue to run it in my VM's until the changes are merged into the kernl and migrate to LXC from there. Fortunately, I can add nodes and remove them as I scale services up and down. I'll update this when the feature is available.
+I have my swarm running VMs now. It works, traefik serves the traffic for all my hosts, I watch stuff with portainer, and just have a few services in there to do random things. I will continue to run it in my VM's until the changes are merged into the kernl and migrate to LXC from there. Fortunately, I can add nodes and remove them as I scale services up and down. I'll update this when the feature is available. 

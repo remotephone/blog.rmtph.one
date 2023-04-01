@@ -11,9 +11,9 @@ largeimage: /images/avatar.jpg
 
 I've been using Ansible a little bit now and while it has a very easy learning curve, there's some finer points I had some trouble figuring out. I'm still not the best with it, but being barely functional can still help you move worlds with a single playbook.
 
-## Learning Ansible
+## Learning Ansible 
 
-Lots of ways to learn it, but these were some of the resources that were most useful.
+Lots of ways to learn it, but these were some of the resources that were most useful. 
 
 This [quick start video](https://www.ansible.com/resources/videos/quick-start-video) is a good intro.
 
@@ -22,6 +22,7 @@ Start writing some simple [playbooks](https://docs.ansible.com/ansible/latest/us
 - [Install some packages](https://docs.ansible.com/ansible/latest/modules/apt_module.html) (LXC is great to do this in since those containers can be blown away so easily)
 - Add some [users](https://docs.ansible.com/ansible/latest/modules/user_module.html) and [groups](https://docs.ansible.com/ansible/latest/modules/group_module.html)
 - [Copy](https://docs.ansible.com/ansible/latest/modules/copy_module.html) a file to a device
+
 
 This was a [fantastic introduction](https://github.com/leucos/ansible-tuto) to Ansible - work through tasks step by step to understand Ansible feature by feature. If you only do one, do this one.
 
@@ -50,7 +51,8 @@ roles/
      meta/
 ~~~
 
-I create empty directories and blank files and then fill them in as I go. This is really handy as it gives me reminders of what features (vars, handlers, etc) I don't always use that might make something I'm having trouble with easier.
+I create empty directories and blank files and then fill them in as I go. This is really handy as it gives me reminders of what features (vars, handlers, etc) I don't always use that might make something I'm having trouble with easier. 
+
 
 ## Using Ansible facts to rename Network Interfaces
 
@@ -75,8 +77,7 @@ SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="XX:XX:XX:XX:XX:XX", NAME="eno2"
 
 ~~~
 
-First, figure out what interfaces ansible knows about.
-
+First, figure out what interfaces ansible knows about. 
 ~~~
 {% raw %}
 
@@ -149,11 +150,11 @@ So now we have the name and set it as a fact, called second_nic. Then we take th
     second_mac: "{{ hostvars[inventory_hostname]['ansible_' + second_nic]['macaddress'] }}"
 {% endraw %}
 
-~~~
+~~~   
 
 The double curly braces are [jinja2 templating](https://docs.ansible.com/ansible/latest/user_guide/playbooks_templating.html), something else you should read about. It allows you to create outputs or inputs by applying parsing or processing logic to data. In the above case, we took all the host variables (hostvars), pulled the hostname, got the ansible_<Nic_name> (which is what anisble refers to the interface as), and request it's Mac address so we can set it to a new fact, second_mac.
 
-Now, using this last task, I create the file, "/etc/udev/rules.d/10-network.rules" that will contain the configuration the OS will read at startup to name the interface. The [lineinfile](https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html) module will find a line in a file by regex and replace it. If the file or line doesn't exist, its created with "create:yes".
+Now, using this last task, I create the file, "/etc/udev/rules.d/10-network.rules" that will contain the configuration the OS will read at startup to name the interface. The [lineinfile](https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html) module will find a line in a file by regex and replace it. If the file or line doesn't exist, its created with "create:yes". 
 
 ~~~
 {% raw %}
@@ -170,6 +171,7 @@ Now, using this last task, I create the file, "/etc/udev/rules.d/10-network.rule
 
 Badabing badaboom. Renamed network interface once you reboot the system.
 
+
 ## Wrapping up
 
-Ansible can be as simple or complicated as you want it to be. You don't have to be the best at it to get a lot of value out of it either. I consider myself barely functional but have written some very useful things and you can too. Get some practice in LXC containers so you can break things freely and test before breaking VMs.
+Ansible can be as simple or complicated as you want it to be. You don't have to be the best at it to get a lot of value out of it either. I consider myself barely functional but have written some very useful things and you can too. Get some practice in LXC containers so you can break things freely and test before breaking VMs. 

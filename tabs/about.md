@@ -8,4 +8,5 @@ Hi, I'm Jaime. I work in security and enjoy defensive security, incident respons
 
 ### Other interests and info
 
-I do plenty of things, most of which have nothing to do with the content of this blog. I hope to one day to have produced some original content here and reproduced some other's content I've had to modify or update to make work.
+I do plenty of things, most of which have nothing to do with the content of this blog. I hope to one day to have produced some original content here and reproduced some other's content I've had to modify or update to make work. 
+
