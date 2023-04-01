@@ -23,7 +23,7 @@ author: remotephone
 
 avatar: /images/avatar.jpg   # support internet resources
 
-summary_large_image: https://remotephone.github.io/images/avatar.jpg
+summary_large_image: https://blog.rmtph.one/images/avatar.jpg
 
 title_image: /images/avatar.jpg
 
@@ -33,7 +33,7 @@ github:
 twitter:
   username: remotephone            # change to your twitter username
   card: summary
-  image: https://remotephone.github.io/images/avatar.jpg
+  image: https://blog.rmtph.one/images/avatar.jpg
 
 social:
   name: remotephone                  # it will shows as the copyright owner in Footer
@@ -181,6 +181,9 @@ compress_html:
   blanklines: false
   ignore:
     envs: []
+
+gems:
+- jekyll-seo-tag
 
 exclude:
   - vendor        # Avoid Jekyll mistakenly read the vendor directory on Travis-CI's VM .
