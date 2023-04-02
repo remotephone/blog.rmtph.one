@@ -10,7 +10,7 @@ largeimage: /images/avatar.jpg
 
 # What I'm Doing Now
 
-I have a homelab of sorts, I previously wrote about it [here](https://remotephone.github.io/posts/Proxmox_Lab_on_a_Slightly_Larger_Budget_Part1/) and [here](https://remotephone.github.io/posts/Docker-Swarm-in-LXC_Part-1.5/). It's changed a little bit since I wrote those, but I still had a need (more of a want tbh) to be able to access everything remotely. This is a logical diagram of what my network looks like:
+I have a homelab of sorts, I previously wrote about it [here](https://blog.rmtph.one/posts/Proxmox_Lab_on_a_Slightly_Larger_Budget_Part1/) and [here](https://blog.rmtph.one/posts/Docker-Swarm-in-LXC_Part-1.5/). It's changed a little bit since I wrote those, but I still had a need (more of a want tbh) to be able to access everything remotely. This is a logical diagram of what my network looks like:
 
 ![network]({{site.url}}/images/homenet.png)
 
