@@ -4,6 +4,8 @@
 # © 2017-2019 Cotes Chung
 # MIT licensed
 
+# Import the theme
+theme: jekyll-theme-chirpy
 
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 #--------------------------
@@ -181,9 +183,6 @@ compress_html:
   blanklines: false
   ignore:
     envs: []
-
-gems:
-- jekyll-seo-tag
 
 exclude:
   - vendor        # Avoid Jekyll mistakenly read the vendor directory on Travis-CI's VM .
