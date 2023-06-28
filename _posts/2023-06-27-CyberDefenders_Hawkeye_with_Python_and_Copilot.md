@@ -2,7 +2,7 @@
 layout: post
 author: remotephone
 title:  "CyberDefenders - Hawkeye - Now with Python and Copilot"
-date:   2023-06-27 20:33:33 -0500
+date:   2023-06-27 19:45:33 -0500
 categories: [lab, workflow, networking, dfir, pcap]
 largeimage: /images/avatar.jpg
 
