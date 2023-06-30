@@ -10,7 +10,7 @@ largeimage: /images/avatar.jpg
 
 # Escape Room
 
-Here's another pcap analysis, at least partly. We'll run the script I created on Hawkeye and see what I need to do to it to get it further along.
+Here's another pcap analysis, at least partly. We'll run the script I created on Hawkeye and see what I need to do to it to get it further along. I'm still going to use Copilot heavily throughout this to keep things moving quickly, but I'll be verifying the output as I go, and I'll be doing some manual analysis as well.
 
 ## First results
 
@@ -176,7 +176,7 @@ I guessed here, [Hydra](https://www.kali.org/tools/hydra/) is the most common SS
 
 ## Question 4 - How many failed attempts were there?
 
-With Copilot's help, I quickly added some functionality to count community_id's per protocol
+With Copilot's help, I quickly added some functionality to count community_id's per protocol.
 
 Authentication logs would make this easy, but since we see a repeated number of login attempts we presume failed followed by a successful one, its likely a brutefroce attack.
 
@@ -200,7 +200,11 @@ We get a count of 54 unique SSH community_id's, so 53 failed attempts. But that 
 
 ## Question 5 - What credentials (username:password) were used to gain access? Refer to shadow.log and sudoers.log
 
-I used john the ripper to crack these hashes.
+I used john the ripper to crack these hashes. This had to happen on a separate system since I couldn't get it to run on macos in a docker container and I didn't really want to go through the trouble of installing it or finding a version that worked. It wasn't fast, but I just ran it in the background while doing other things.
+
+That gave me three passwords in about 30 minutes, and I used the username from the sudoers log.
+
+![Crackem]({{site.url}}/images/escaperoom_04.png){: .center-image }
 
 ## Question 7 - What is the tool used to download malicious files on the system?
 
