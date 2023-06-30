@@ -236,6 +236,35 @@ The bash script again gives us this answer. You know that ps.log is lying, so wh
 
 ## Question 14 - Inside the Main function, what is the function that causes requests to those servers?
 
+First, I ran strings on the binary. That gives a high level overview of what you  might be dealing with and maybe some easy answers. In this case, we see this:
+
+![strings]({{site.url}}/images/escaperoom_05.png){: .center-image }
+
+
+This site gives a good analysis of what might be going on here `https://malware.news/t/the-basics-of-packed-malware-manually-unpacking-upx-executables/35961` found with a google search of `strings !UPX`. This is UPX packed malware, used to obfuscate and complicate analyzing it and figuring out what it does. The most simply and direct way I found to unpack it was just use UPX itself and run `upx -d 1` on the binary. That gives us the following output and a new binary that we can analyze.
+
+```text
+                       Ultimate Packer for eXecutables
+                          Copyright (C) 1996 - 2023
+UPX 4.0.2       Markus Oberhumer, Laszlo Molnar & John Reiser   Jan 30th 2023
+
+        File size         Ratio      Format      Name
+   --------------------   ------   -----------   -----------
+[WARNING] bad b_info at 0x22a8
+
+[WARNING] ... recovery at 0x22a4
+
+     30222 <-     11164   36.94%   linux/amd64   1
+
+Unpacked 1 file.
+```
+
+Here's what stringsing it looks like now
+
+![strings unpacked]({{site.url}}/images/escaperoom_06.png){: .center-image }
+
+Great, we have something we can work with.
+
 Well I'm no malware analyzer, but I can download Ghidra and run it, so let's do that. It works without any modifications or problems on an M1 macos system, which is nice! I installed Amazon Corretto 17 from their site as my Java JDK since it is free and open source, and then downloaded the Ghidra release from their GitHub repo.
 
 I created a project and then imported the binary. I followed the prompts, let it analyze the binary, and then got an error when it tried to decompile it. Let's see what we get though. On the left, you can see the Symbol Tree where you can see the functions. I searched for `main` and found the function.
