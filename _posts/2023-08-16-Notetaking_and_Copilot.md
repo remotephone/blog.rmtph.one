@@ -69,7 +69,9 @@ It's also REALLY great for tables. Take [this example](https://yara.readthedocs.
 
 ![table to md table]({{ site.url }}/images/notes_copilot_09.png){: .center-image }
 
-Then you can copy the raw table and get a very neatly formatted markdown table like this. I manually edited the the header row to linkify it, but otherwise its how it came out of copilot. 
+Instead, copy paste the text and ask copilot to convert to raw markdown text. Being specific helps here as sometimes it just renders the markdown for you and you can't copy paste that either.
+
+Then you can copy the raw table and get a very neatly formatted markdown table like this. I manually edited the the header row to linkify it, but otherwise its how it came out of copilot.
 
 | [YARA keywords](https://yara.readthedocs.io/en/stable/writingrules.html#table-1) |            |            |            |            |            |            |
 |---------------|------------|------------|------------|------------|------------|------------|
