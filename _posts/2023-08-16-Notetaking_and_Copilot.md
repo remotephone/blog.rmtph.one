@@ -65,6 +65,23 @@ In this case, I just googled `nested json` and this [page from IBM](https://www.
 
 ![json to yaml]({{ site.url }}/images/notes_copilot_08.png){: .center-image }
 
+It's also REALLY great for tables. Take [this example](https://yara.readthedocs.io/en/stable/writingrules.html#table-1) from the yara rules documentation. There is a table here that's really nice, and you could link to it, but if you want to keep the text in your notes themselves, it doesn't copy paste well.
+
+![table to md table]({{ site.url }}/images/notes_copilot_09.png){: .center-image }
+
+Then you can copy the raw table and get a very neatly formatted markdown table like this. I manually edited the the header row to linkify it, but otherwise its how it came out of copilot. 
+
+| [YARA keywords](https://yara.readthedocs.io/en/stable/writingrules.html#table-1) |            |            |            |            |            |            |
+|---------------|------------|------------|------------|------------|------------|------------|
+| all           | and        | any        | ascii      | at         | base64     | base64wide |
+| condition     | contains  | endswith  | entrypoint | false      | filesize  | for        |
+| fullword      | global     | import     | icontains | iendswith | iequals   | in         |
+| include       | int16      | int16be    | int32      | int32be    | int8       | int8be     |
+| istartswith   | matches   | meta       | nocase     | none       | not        | of         |
+| or            | private    | rule       | startswith | strings    | them       | true       |
+| uint16        | uint16be  | uint32    | uint32be  | uint8      | uint8be   | wide       |
+| xor           | defined    |            |            |            |            |            |
+
 ## Conclusion
 
 So that was a quick and simple run down through how I use AI assistants like copilot to help me write notes. This is no replacement for actually learnign the content, its definitely no replacement for listening and taking your own notes, but when you know what you're going to write and its just a matter of getting the words out, prompts and autocompletes can help speed that up quite a bit.
