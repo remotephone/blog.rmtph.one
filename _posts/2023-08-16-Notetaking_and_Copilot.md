@@ -49,7 +49,7 @@ You can then go back and edit the names of the variables to something more meani
 
 You can also use comments in document to prompt the generation of the string like this
 
-![yara template]{{ site.url }}(/images/notes_copilot_07.png){: .center-image }
+![yara template]({{ site.url }}/images/notes_copilot_07.png){: .center-image }
 
 ## Repetitive strings
 
